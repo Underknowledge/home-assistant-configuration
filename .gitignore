@@ -35,6 +35,8 @@ google_calendars.yaml
 !/automations/telegram/media
 !/automations/telegram/menue
 
+!/lovelace
+/lovelace/009_devcard.yaml
 !/lovelace/001_dashboard.yaml
 !/lovelace/dashboard.jpg
 !/lovelace/050_schlafzimmer.yaml
@@ -70,3 +72,4 @@ google_calendars.yaml
 !scene
 
 !themes
+

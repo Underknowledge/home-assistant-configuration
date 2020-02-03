@@ -1,0 +1,231 @@
+icon: 'mdi:hotel'
+id: schlafzimmer
+path: schlafzimmer
+title: Schlafzimmer
+cards:
+
+  - !include views/1000_markdown_clock.yaml
+  - !include 001_dashboard/01_sz_pic.yaml
+  
+
+  - show_header_toggle: false
+    type: entities
+    entities:
+      - entity: switch.pc_relay
+        name: PC
+        type: custom:toggle-lock-entity-row
+      - entity: sensor.pc_wattage
+      - entity: automation.sz_pc_off
+
+
+
+
+#  - entities:
+#      - light.sz_yeelight
+#      - light.sz_lightstrip_plus
+#      - light.nachttisch
+#      - switch.schreibtisch
+#      - light.schreibtisch_bulb
+#      - switch.schalte_drucker
+#      - entity: scene.sz_max
+#        service: scene.turn_on
+#        tap_action: call-service
+#      - entity: scene.sz_arbeiten
+#        service: scene.turn_on
+#        tap_action: call-service
+#      - entity: scene.sz_allein
+#        service: scene.turn_on
+#        tap_action: call-service
+#      - entity: scene.sz_lesen
+#        service: scene.turn_on
+#        tap_action: call-service
+#      - entity: scene.sz_poppen
+#        service: scene.turn_on
+#        tap_action: call-service
+#      - entity: scene.sz_aus
+#        service: scene.turn_on
+#        tap_action: call-service
+#    show_header_toggle: true
+#    title: Schlafzimmer Lichter
+#    type: entities
+
+  - entities:
+      - entity: automation.wake_me_up1
+      - entity: automation.wake_me_up2
+      - entity: automation.wake_me_up3
+#      - entity: automation.aaa_test_datet
+      - entity: automation.wake_me_up2_music3min_before
+        name: Musik zum aufwachen
+      - entity: input_boolean.wecker_wochenende
+      - entity: input_datetime.zu_bett
+    show_header_toggle: true
+    title: Wecker
+    type: entities
+
+  - cards:
+      - entities:
+          - automation.wake_me_up1
+          - sensor.alarm_time1
+          - input_number.alarmhour1
+          - input_number.alarmminutes1
+   #       - entity: input_boolean.wecker_heizen
+          - entity: automation.wake_me_up2_music3min_before
+            name: Musik zum aufwachen
+        show_header_toggle: false
+        type: entities
+      - entities:
+          - automation.wake_me_up2
+          - sensor.alarm_time2
+          - input_number.alarmhour2
+          - input_number.alarmminutes2
+        show_header_toggle: false
+        type: entities
+      - entities:
+          - automation.wake_me_up3
+          - sensor.alarm_time3
+          - input_number.alarmhour3
+          - input_number.alarmminutes3
+        show_header_toggle: false
+        type: entities
+    type: vertical-stack
+
+
+
+  - entity: media_player.mini
+    type: media-control
+  - !include views/030_remote/gmusic.yaml
+
+
+  - type: entities
+    show_header_toggle: false
+    entities:
+
+      - entity: sensor.sz_d1_mini_temp_temperature_inside
+        name: Innen
+      - entity: sensor.sz_d1_mini_temp_humidity_inside
+        name: Luftfeuchtigkeit
+      - entity: sensor.yrwetter_temperature
+        name: YR
+      - entity: sensor.sz_d1_mini_temp_temperature_outside
+        name: Sensor
+
+
+
+      ########## 
+
+
+
+#     show_header_toggle: false
+#     title: Schlafzimmerfühler
+#     type: entities
+#   - card:
+#       entities:
+#       ###  - entity: switch.ac_pow_relay
+#         - entity: sensor.yrwetter_temperature
+# #        - card:
+# #            entities:
+# #              - entity: switch.ac_power
+# #              - entity: switch.ac_temp
+# #              - entity: switch.ac_mode
+# #              - entity: switch.ac_timer
+# #              - entity: switch.ac_sleep
+# #              - entity: switch.ac_fanspeed
+# #            type: entities
+# #          conditions:
+# #            - entity: switch.ac_power
+# #              state_not: unavailable
+# #          type: conditional
+# #        - entity: sensor.pow5short_current
+# #        - entity: sensor.pow5short_power
+#       type: entities
+#     conditions:
+#       - entity: switch.ac_pow_relay
+#         state_not: unavailable
+#     type: conditional
+
+
+
+
+
+#  - entities:
+#      - input_select.media_player
+#      - input_number.volume_radio
+#      - input_select.music
+#      - switch.google_music
+#      - input_select.radio_station
+#      - input_boolean.play_radio
+#      - media_player.mini
+#      - group.cca
+#      - group.music
+#    type: entities
+
+#  - entities:
+#      - entity: group.music
+#      - entity: group.cca
+#    type: entities
+
+
+####altaltalt  - card:
+####altaltalt      cards:
+####altaltalt        - entities:
+####altaltalt            - entity: switch.ac_pow_relay
+####altaltalt          type: entities
+####altaltalt        - card:
+####altaltalt            entities:
+####altaltalt              - entity: switch.ac_power
+####altaltalt              - entity: switch.ac_power
+####altaltalt              - entity: switch.ac_temp
+####altaltalt              - entity: switch.ac_mode
+####altaltalt              - entity: switch.ac_timer
+####altaltalt              - entity: switch.ac_sleep
+####altaltalt              - entity: switch.ac_fanspeed
+####altaltalt            type: entities
+####altaltalt          conditions:
+####altaltalt            - entity: switch.ac_power
+####altaltalt              state_not: unavailable
+####altaltalt          type: conditional
+####altaltalt        - entities:
+####altaltalt            - entity: sensor.pow5short_current
+####altaltalt            - entity: sensor.pow5short_power
+####altaltalt          type: entities
+####altaltalt      type: vertical-stack
+####altaltalt    conditions:
+####altaltalt      - entity: switch.ac_pow_relay
+####altaltalt        state_not: unavailable
+####altaltalt    type: conditional
+####altaltalt
+
+
+
+
+  - entities:
+      - entity: input_number.pomodoro_arbeit
+      - entity: input_number.pomodoro_pause
+      - entity: script.pomodorotimer
+      - entity: group.pomodoro_timer
+    type: entities
+
+
+
+
+#  - entity: script.ersatzbutton
+#    hold_action:
+#      action: none
+#    name: BUTON
+#    tap_action:
+#      action: call-service
+#      service: script.ersatzbutton
+#    theme: amoled
+#    type: entity-button
+
+
+
+#  - entity: script.ersatzbutton
+#    hold_action:
+#      action: none
+#    name: BUTON
+#    tap_action:
+#      action: call-service
+#      service: script.ersatzbutton
+#    theme: amoled
+#        type: entity-button

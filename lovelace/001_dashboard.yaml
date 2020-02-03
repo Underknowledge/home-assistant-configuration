@@ -1,0 +1,219 @@
+icon: "mdi:home-assistant"
+id: home-assistant
+path: home-assistant
+title: basis
+badges: []
+cards:
+  - content: |
+      ## {{ states('sensor.wochentag') }} ,{{ states('sensor.time') }}
+    paddingros: 22px
+    type: markdown
+
+  # only using this card in edge cases
+  #  - cards:
+  #      - !include 030_remote/ventilator.yaml
+  #      - card:
+  #          !include 030_remote/ac.yaml
+  #        conditions:
+  #          - entity: switch.ac_pow_relay
+  #            #state_not: off
+  #            state: 'on'
+  #        type: conditional
+  #    type: vertical-stack
+
+  - entities:
+      - entity: group.input_boolean_main_modes_card
+        name: Tageszeit
+        tap_action:
+          action: more-info
+      - entity: sensor.house_mode_state
+        name: Modus
+        tap_action:
+          action: more-info
+      - entity: group.input_boolean_modes_card
+        name: Special Modes
+        tap_action:
+          action: more-info
+      - entity: sensor.house_mode_special
+    type: glance
+
+  - type: custom:swipe-card
+    parameters:
+      spaceBetween: 8
+      scrollbar:
+        hide: false
+        draggable: true
+        snapOnRelease: true
+    cards:
+      - type: custom:mini-graph-card
+        name: LOAD
+        icon: mdi:server
+        show:
+          graph: line
+        entities:
+          - entity: sensor.load_1m
+            name: LOAD
+        color_thresholds:
+          - value: 0
+            color: "#ffffff"
+          - value: 0.1
+            color: "#ffffff"
+          - value: 0.2
+            color: "#d9f9b6"
+          - value: 0.3
+            color: "#7be55e"
+          - value: 0.6
+            color: "#00990f"
+          - value: 5
+            color: "#c60009"
+
+      - type: custom:mini-graph-card
+        name: INTERNET
+        icon: mdi:server
+        show:
+          graph: line
+        entities:
+          - entity: sensor.speedtest_download
+            name: Download
+          - entity: sensor.speedtest_upload
+            name: Upload
+          - entity: sensor.speedtest_ping
+            name: Ping
+
+      - type: custom:mini-graph-card
+        name: NETWORK
+        icon: mdi:server
+        show:
+          graph: line
+        entities:
+          - entity: sensor.network_throughput_in_enp3s0
+            name: Input
+            color: orange
+          - entity: sensor.network_throughput_out_enp3s0
+            name: Output
+            color: green
+
+  - entities:
+      - entity: sensor.yrwetter_temperature
+        name: Außentemp
+      #      - binary_sensor.schloss
+      #      - sensor.flower
+      - entity: script.tueroeffner
+      - entity: automation.tuerassistent
+      - entity: automation.ruhe_fur_das_weib
+
+      #      - entity: sensor.heizung_temperature
+      #        name: Temp
+      #      - entity: sensor.heizung_humidity
+      #        name: Luftfeuchtigkeit
+      - entity: sensor.gosund_4_wattage
+      - entity: sensor.load_1m
+      - entity: sensor.load_5m
+        tap_action:
+          action: call-service
+          service: automation.trigger
+          service_data:
+            entity_id: automation.timesensor_update
+      - entity: sensor.load_15m
+      - entity: sensor.disk_use_percent
+    type: glance
+
+  - entities:
+      - input_text.alexa_music
+      - input_select.alexa_media_content_type
+      - input_select.alexa_music_playlists
+      - input_select.alexa_audible
+      - input_select.alexa_kaenguru
+      - input_number.alexa_volume
+      - entity: media_player.echo_dot
+        full_row: true
+        type: "custom:slider-entity-row"
+      - input_text.alexa_tts
+      - name: Alexa.Amazon
+        type: weblink
+        url: "https://alexa.amazon.de/spa/index.html#cards"
+    show_header_toggle: false
+    title: Alexa TTS
+    type: entities
+
+  - entity: media_player.echo_dot
+    type: media-control
+
+  ##  - !include 001_dashboard/01_sz_glance.yaml
+  - !include 001_dashboard/01_sz_pic.yaml
+
+  ####  - !include 001_dashboard/02_wz_glance.yaml
+  - !include 001_dashboard/02_wz_pic.yaml
+
+  ##  - !include 001_dashboard/03_vr_glance.yaml
+  - !include 001_dashboard/03_vr_pic.yaml
+
+  #  - !include 001_dashboard/04_klo_glance.yaml
+  - !include 001_dashboard/04_klo_pic.yaml
+
+  ####  - !include 001_dashboard/05_bad_glance.yaml
+  - !include 001_dashboard/05_bad_pic.yaml
+
+  ####  - !include 001_dashboard/06_kueche_glance.yaml
+  - !include 001_dashboard/06_kueche_pic.yaml
+
+  - type: vertical-stack
+    cards:
+      #
+      #      - entity: climate.heizung
+      #        type: thermostat
+      #https://github.com/kalkih/mini-graph-card#using-the-card
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:decluttering-card
+            template: temp_graph
+            variables:
+              - temp_sensor: sz_d1_mini_temp_temperature_inside
+
+          - type: custom:decluttering-card
+            template: temp_graph
+            variables:
+              - temp_sensor: home_temperature
+
+      - entity: camera.weather
+        show_name: false
+        show_state: false
+        type: picture-entity
+
+  - type: picture-glance
+    camera_image: camera.front_door
+    camera_view: live
+    entities:
+      - entity: light.kommode
+      - entity: light.vorraum_white
+      - entity: automation.schicke_gifs_von_besuchern_v2
+
+  - type: picture-glance
+    camera_image: camera.china_rtsp
+    camera_view: live
+    entities:
+      - entity: light.kommode
+      - entity: light.vorraum_white
+      - entity: automation.schicke_gifs_von_besuchern_v2
+
+  - cards:
+      - entities:
+          - head:
+              label: Aus zur Uhrzeit
+              type: section
+            items:
+              - entity: automation.off_by_input_select
+              - entity: input_select.switch_time_input
+              - entity: automation.scene_by_input_select
+              - entity: input_select.scene_time_input
+              - entity: automation.script_by_input_select
+              - entity: input_select.script_time_input
+              - entity: sensor.switch_time_off
+              - entity: input_number.switch_time_hour
+              - entity: input_number.switch_time_minutes
+              - entity: group.turner
+            type: "custom:fold-entity-row"
+        show_header_toggle: false
+        type: entities
+    type: vertical-stack
