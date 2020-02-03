@@ -1,0 +1,14 @@
+
+alias: livingroom_tv_event_echo_playing_to_pause
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: event
+    event_type: event_tv_ready
+condition:
+  - condition: state
+    entity_id: 'media_player.echo_dot'
+    state: 'playing'
+action:
+- service: media_player.media_play_pause
+  entity_id: 'media_player.echo_dot'

@@ -1,0 +1,111 @@
+
+script:
+  music_shower_random:
+    sequence:
+
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.gmusic_player_playlist
+        option: "{% for item in state_attr('input_select.gmusic_player_playlist', 'options') | random  %}{{ item }}{% endfor %}"
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.gmusic_player_speakers
+        option: bad
+    - service: media_player.media_play
+      entity_id: media_player.gmusic_player
+    - delay: '00:00:01'
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.bad
+        volume_level: >-
+          {% if is_state('sensor.house_mode_state', 'tag') %}
+          0.9
+          {% else %}
+          0.2
+          {% endif %}
+
+
+  music_shower:
+    sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.gmusic_player_playlist
+        option: ".-. a mal wieder?"  #Morgen
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.gmusic_player_speakers
+        option: bad
+    - service: media_player.media_play
+      entity_id: media_player.gmusic_player
+    - delay: '00:00:01'
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.bad
+        volume_level: >-
+          {% if is_state('sensor.house_mode_state', 'tag') %}
+          0.9
+          {% else %}
+          0.2
+          {% endif %}
+
+
+
+
+
+# 15.12 will mal wieder
+# 1.15 1
+# on the Spotlight
+# 00-kontra_k-aus_dem_schatten_ins_licht-de-2015-noir
+# .new 0114
+# 0- Auto
+# Likes
+# ipod
+# -a5 Weich
+# -. mhmm 1
+# .--.-. plus neu
+# KENNENLERNRUNDEN
+# ???
+# .-. a mal wieder?
+# -- a ip bo
+# JUL 15 HART
+# Jun 15
+# All
+# New Playlist 1
+# .square bo
+# Rhyminsimon
+# Humorvoll
+# Oldscool
+# Nachdenklich
+# Raketig
+# Genetikk
+# Jul15 Kein Text Herlich
+# Spoken View Rundschau
+# 2016 Zahnarzt
+# Musikalische Wahrheit
+# .- Aaactuall
+# Mach n Klingel Ton draus
+# Run
+# Soul
+# November?
+# August 16 goody
+# 1! WTF!
+# 000 VA's
+# September 2016 nice
+# Runde Sache
+# 111 ändern
+# Kolle
+# Downbeat
+# 000 eine währende playlist
+# Faustkampf
+# Neugierde
+# A ip bo 1
+# Klingelton
+# SPORT
+
+# 01. Offline
+# ZM
+# Kostenlos
+# Morgen
+# Ich weine gleich
+# -a5 instumental backgr
+# .pls"

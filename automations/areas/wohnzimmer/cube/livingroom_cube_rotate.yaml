@@ -1,0 +1,23 @@
+alias: livingroom_cube_rotate
+initial_state: 'on'
+trigger:
+  platform: mqtt
+  topic: 'lights/tv_cube'
+condition:
+  condition: and
+  conditions:
+    - condition: template
+      value_template: "{{ trigger.payload_json.action in ['rotate_right', 'rotate_left'] }}"
+    - condition: template
+      value_template: "{{ trigger.payload_json.to_side in ['0'] }}"
+action:
+  - service: androidtv.adb_command
+    data_template:
+      entity_id: media_player.firetv_adb
+    #   command: "RIGHT"
+      command: >-
+        {% if trigger.payload_json.angle | float > 0 %}
+           RIGHT
+        {% else %}
+           LEFT
+        {% endif %}  

@@ -1,0 +1,38 @@
+
+binary_sensor:
+  - platform: "mqtt"
+    name: motion_sz
+    state_topic: "lights/motion_sz"
+    availability_topic: "lights/bridge/state"
+    payload_on: true
+    payload_off: false
+    value_template: "{{ value_json.occupancy }}"
+    device_class: "motion"
+    
+sensor:
+
+  - platform: "mqtt"
+    name: motion_sz_battery
+    state_topic: "lights/motion_sz"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+
+
+  - platform: "mqtt"
+    state_topic: "lights/ikea_dimmer"
+    name: "ikea_dimmer_battery"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "brightness"
+    icon: "mdi:brightness-5"
+    value_template: "{{ value_json.battery }}"
+
+  - platform: "mqtt"
+    name: "ikea_dimmer_battery"
+    state_topic: "lights/ikea_dimmer"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"

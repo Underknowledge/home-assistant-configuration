@@ -1,0 +1,34 @@
+alias: livingroom_cube_shake_menue
+initial_state: 'on'
+trigger:
+  platform: mqtt
+  topic: 'lights/tv_cube'
+condition:
+  condition: template
+  value_template: "{{ trigger.payload_json.action in ['shake'] }}"
+action:
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "MENU"
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "RIGHT"
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "ENTER"
+  - delay: "00:00:01"
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "RIGHT"
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "RIGHT"
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "ENTER"

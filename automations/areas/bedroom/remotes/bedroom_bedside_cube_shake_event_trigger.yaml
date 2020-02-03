@@ -1,0 +1,18 @@
+
+alias: bedroom_cube_shake
+hide_entity: true
+initial_state: 'on'
+trigger:
+- platform: mqtt
+  topic: 'lights/sz_cube_nachttisch'
+condition:
+  - condition: template
+    value_template: "{{ 'shake' == trigger.payload_json.action }}"
+   #    - condition: template
+   #      value_template: "{{ (trigger.payload_json.angle)  > 32  }}"
+ #      - condition: template
+ #        value_template: "{{ states.sensor.cube.state == 'rotate_right' }}"
+ #      - condition: template
+ #        value_template: "{{ state_attr('sensor.cube', 'angle') > 32 }}"
+action:
+- event: event_dash_sleepy

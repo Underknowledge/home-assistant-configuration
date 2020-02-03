@@ -1,0 +1,41 @@
+homeassistant:
+  customize:
+    input_boolean.boolean_morning_time:
+      friendly_name: Morgens
+
+
+    ########################################################################################
+  ####                                                                                    ####
+#####                               Mode      Morgens                                       #####
+  ####                                                                                    ####
+    ########################################################################################
+
+input_boolean:
+  boolean_morning_time:
+    initial: off
+
+group:
+  input_number_morning_time:
+    name: morning time
+    entities:
+      - input_number.morning_time_brightness_value
+      - input_number.morning_time_color_temp_value
+      - input_number.morning_time_transition_value
+
+
+input_number:
+  morning_time_brightness_value:
+    name: Morning Mode Brightness
+    min: 0
+    max: 255
+    step: 1
+  morning_time_color_temp_value:
+    name: Morning Mode Color Temp
+    min: 154
+    max: 500
+    step: 1
+  morning_time_transition_value:
+    name: Morning Mode Transition
+    min: 0
+    max: 10
+    step: 1

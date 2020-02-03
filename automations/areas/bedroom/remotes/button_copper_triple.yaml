@@ -1,0 +1,13 @@
+alias: sz_xiaomibutton_copper_triple
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/xiaomibutton_bett'
+condition:
+- condition: template
+  value_template: "{{ 'triple' == trigger.payload_json.click }}"
+action:
+
+- service: scene.turn_on
+  data:
+    entity_id: scene.sz_poppen

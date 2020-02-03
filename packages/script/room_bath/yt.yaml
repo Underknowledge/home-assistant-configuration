@@ -1,0 +1,40 @@
+
+script:
+
+  bad_manda:
+    sequence:
+    - service: media_extractor.play_media
+      entity_id: media_player.kffowi202_2
+      data_template:
+        media_content_id: "{{ state_attr('sensor.manda', 'url') }}"
+        media_content_type: video/youtube
+
+
+  bad_lefloid:
+    sequence:
+    - service: media_extractor.play_media
+      entity_id: media_player.kffowi202_2
+      data_template:
+        media_content_id: "{{ state_attr('sensor.lefloid', 'url') }}"
+        media_content_type: video/youtube
+
+  bad_franck:
+    sequence:
+    - service: media_extractor.play_media
+      entity_id: media_player.kffowi202_2
+      data_template:
+        media_content_id: "{{ state_attr('sensor.franck_nijhof', 'url') }}"
+        media_content_type: video/youtube
+
+
+  bad_solmecke:
+    sequence:
+    - service: media_extractor.play_media
+      entity_id: media_player.kffowi202_2
+      data_template:
+        media_content_id: "{{ state_attr('sensor.kanzlei_wbs', 'url') }}"
+        media_content_type: video/youtube
+
+
+
+

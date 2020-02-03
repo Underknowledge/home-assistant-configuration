@@ -1,0 +1,23 @@
+alias: house_state_day_time_on
+initial_state: 'on'
+trigger:
+  - platform: time
+    at: '07:50'
+condition:
+  - condition: state
+    entity_id: input_boolean.boolean_guest_mode
+    state: 'off'
+#      - condition: state
+#        entity_id: input_boolean.boolean_away_mode
+#        state: 'off'
+action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.boolean_morning_time, input_boolean.boolean_day_time, input_boolean.boolean_evening_time, input_boolean.boolean_night_time
+
+  - delay: '00:00:01'
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.boolean_day_time
+#      - service: script.turn_on
+#        entity_id: script.day_time

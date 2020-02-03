@@ -1,0 +1,19 @@
+alias: Failed Login Notification
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: persistent_notification.http_login
+condition:
+  - condition: template
+    value_template: "{{ trigger.to_state.state != 'None' }}"
+action:
+  - service: notify.w
+    data_template:
+      message: >-
+        {% set message = state_attr('persistent_notification.http_login', 'message') %}
+        {% if 'invalid authentication' in message|lower or 'login attempt' in message|lower %}
+          {{ message }}: http://www.ip-tracker.org/locator/ip-lookup.php?ip={{ message.split('from ')[1] }}. Host {{ states('sensor.external_ip') }} op5 {{ states('input_text.op5_ip') }}
+        {% else %}
+          {{ message }}
+        {% endif %}
+      title: "login Failed"

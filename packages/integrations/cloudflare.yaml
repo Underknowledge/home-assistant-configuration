@@ -1,0 +1,13 @@
+
+
+cloudflare:
+  email: !secret cloudflare_email
+  api_key: !secret cloudflare_api_key
+  zone: !secret cloudflare_zone
+  records:
+    - !secret cloudflare_url3
+#    - wordpress
+#    - dev03
+    - !secret cloudflare_url5
+#    - !secret cloudflare_url6
+#    - !secret cloudflare_url7

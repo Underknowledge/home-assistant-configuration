@@ -1,0 +1,15 @@
+alias: kueche_motion_aus
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_kueche
+    to: 'off'
+    for:
+      minutes: "{{ states('input_number.kitchen_movement')|int }}"
+action:
+- service: light.turn_off
+  entity_id: light.kuchenlicht
+- service: light.turn_off
+  entity_id: light.dunstabzug
+- service: switch.turn_off
+  entity_id: switch.kueche_panel_relay

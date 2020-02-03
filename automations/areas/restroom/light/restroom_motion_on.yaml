@@ -1,0 +1,20 @@
+alias: motion_klo_on
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.motion_klo
+#    condition:
+#      - condition: state
+#        entity_id: binary_sensor.motion_klo
+#        state: 'off'
+#        for:
+#          minutes: 5
+action:
+- service: scene.turn_on
+  data_template:
+    entity_id: "scene.klo_{{states('sensor.house_mode_state')|default(tag) }}"
+
+
+

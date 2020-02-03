@@ -1,0 +1,15 @@
+alias: 'telegram_pause_alexa'
+initial_state: on
+hide_entity: true
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/pause_alexa'
+action:
+  - service: media_player.media_play_pause
+    entity_id: media_player.echo_dot
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: " Alexa  {{ states('media_player.echo_dot')}} "

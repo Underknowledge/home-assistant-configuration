@@ -1,0 +1,12 @@
+alias: Telegram - Shopping liste
+initial_state: on
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/shop'
+action:
+  service: telegram_bot.send_message
+  data_template:
+    target: '{{ trigger.event.data.user_id }}'
+    message: !secret shoppinglist_url

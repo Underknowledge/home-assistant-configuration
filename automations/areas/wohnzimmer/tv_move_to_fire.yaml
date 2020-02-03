@@ -1,0 +1,46 @@
+alias: livingroom_tv_move_to_fire
+initial_state: 'on'
+hide_entity: true
+trigger:
+  # - platform: state
+  #   entity_id: switch.tv_relay
+  #   from: 'off'
+  #   to: 'on'
+  - platform: event
+    event_type: event_tv_turned_on
+condition:
+  - condition: state
+    entity_id: sensor.ir
+    state: 'E0E040BF'
+action:
+- delay: '00:00:17'
+- wait_template: "{{ is_state('binary_sensor.tv_running', 'on') }}"
+  continue_on_timeout: 'false'
+- delay: '00:00:30'
+- service: switch.turn_on
+  entity_id: switch.hdmi_3
+- delay: 
+    milliseconds: 40
+- service: switch.toggle
+  entity_id: switch.sende_av
+- delay: 
+    milliseconds: 40
+#    - service: switch.toggle
+#      entity_id: switch.sende_roterknopf
+#    - delay: '00:00:11'
+#
+#    - service: switch.turn_on
+#      entity_id: switch.sende_ok
+- service: switch.turn_on
+  entity_id: switch.sende_moveupdownon
+- delay:
+    milliseconds: 40
+- service: switch.turn_on
+  entity_id: switch.sende_moveupdownon
+- delay:
+    milliseconds: 40
+- service: switch.turn_on
+  entity_id: switch.sende_ok
+- delay:
+    seconds: 2
+- event: event_tv_ready

@@ -1,0 +1,633 @@
+automation:
+
+- initial_state: 'on'
+  alias: 'Tasker hook'
+  trigger:
+#     https://www.guidgenerator.com - two strings after each other.
+    - platform: webhook
+      webhook_id: !secret webhook_id
+    - platform: webhook
+      webhook_id: maybeitsawrongurl
+
+
+  action:
+    - event: tasker_webhook
+      event_data_template:
+        id: "{{ trigger.webhook_id }}"
+        named: "{{ trigger.json.tasker_caller.split(':')[1]   }}"
+        trigger: "{{ trigger.json.trigger }}"
+        trigger2: "{{ trigger.json.trigger2 }}"
+        trigger3: "{{ trigger.json.trigger3 }}"
+        nfc_present: "{{ trigger.json.nfc_present }}"
+        nfc_id: "{{ trigger.json.nfc_id }}"
+        nfc_payload: "{{ trigger.json.nfc_payload }}"
+        update_ot: "{{ trigger.json.update_ot }}"
+        who: "{{ trigger.json.who }}"
+        dev_id: "{{ trigger.json.dev_id }}"
+        device: "{{ trigger.json.device }}"
+        what: "{{ trigger.json.what }}"
+        when: "{{ trigger.json.when }}"
+
+        where_n: "{{ trigger.json.where_n }}"
+        lat_n: "{{ trigger.json.where_n.split(',')[0]  }}"
+        long_n: "{{ trigger.json.where_n.split(',')[1]  }}"
+        acc_n: "{{ trigger.json.acc_n }}"
+
+        g_status: "{{ trigger.json.g_status }}"
+        where_g: "{{ trigger.json.where_g }}"
+        lat_g: "{{ trigger.json.where_g.split(',')[0] }}"
+        long_g: "{{ trigger.json.where_g.split(',')[1] }}"
+
+        acc_g: "{{ trigger.json.acc_g }}"
+        alt_g: "{{ trigger.json.alt_g }}"
+        vel_g: "{{ trigger.json.vel_g }} "  
+
+        battery: "{{ trigger.json.battery }}"
+        ip: "{{ trigger.json.ip }}"
+        service: "{{ trigger.json.service }}"
+        entity: "{{ trigger.json.entity }}"
+        data: "{{ trigger.json.data }}"
+        service2: "{{ trigger.json.service2 }}"
+        entity2: "{{ trigger.json.entity2 }}"
+        data2: "{{ trigger.json.data2 }}"
+        ca_in_name: "{{ trigger.json.ca_in_name }}"
+        ca_in_num: "{{ trigger.json.ca_in_num }}"
+        ca_in_date: "{{ trigger.json.ca_in_date }}"
+        ca_in_time: "{{ trigger.json.ca_in_time }}"
+        ca_out_name: "{{ trigger.json.ca_out_name }}"
+        ca_out_num: "{{ trigger.json.ca_out_num }}"
+        ca_out_date: "{{ trigger.json.ca_out_date }}"
+        ca_out_time: "{{ trigger.json.ca_out_time }}"
+        l_app: "{{ trigger.json.l_app }}"
+        n_title: "{{ trigger.json.n_title }}"
+        screen: "{{ trigger.json.screen }}"
+        task_run: "{{ trigger.json.task_run }}"
+        uptime: "{{ trigger.json.uptime }}"
+        wifi: "{{ trigger.json.wifi }}"
+        wifissid: "{{ trigger.json.wifissid }}"
+        win: "{{ trigger.json.win }}"
+        tasker_caller: "{{ trigger.json.tasker_caller }}"
+        err: "{{ trigger.json.err }}"
+        errmsg: "{{ trigger.json.errmsg }}"
+
+
+# Location Speed (dynamic)
+# %LOCSPD
+# The speed in metres/second at the last GPS position fix or 0 if unavailable.
+# See note.
+# Location Fix Time Seconds (dynamic)
+# %LOCTMS
+# The time in seconds of the last GPS fix. To get age of fix, take this away from %TIMES.
+# This value is not set until an offset of the GPS time from the fixed time has been calculated (should be after the first GPS fix) because the value is meaningless until that point.
+# See note.
+# Location (Net) (dynamic)
+# %LOCN
+# The latitude and longitude of the last network location fix.
+# See note.
+# Location Accuracy (Net) (dynamic)
+# %LOCNACC
+# The accuracy in metres of the last network location fix.
+# See note.
+# Location Fix Time (Net) (dynamic)
+# %LOCNTMS
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv2 Owntracks EMULATION WIP '
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        update_ot: t
+  action:
+
+    - service: input_text.set_value
+      data_template:
+        entity_id: "input_text.{{ trigger.event.data.device }}_ip"
+        value: "{{ trigger.event.data.ip }}"
+
+#    - service: device_tracker.see
+#      data_template:
+#        dev_id: "{{ trigger.event.data.dev_id }}"
+#        gps: 
+#          - "{{ trigger.event.data.lat_n |float }}"
+#          - "{{ trigger.event.data.long_n |float }}"
+ #       gps_accuracy: "{{ trigger.event.data.acc_n |int }}"
+ #       battery: "{{ trigger.event.data.battery }}"
+
+
+
+
+#    - wait_template: "{{ is_state not ('trigger.event.data.acc_g', '%LOCACC') }}"
+#      timeout: '00:00:01'
+#      continue_on_timeout: 'false'
+
+
+#: >
+#            {% if is_state('device_tracker.paulus', 'home') %}
+#              Ha, Paulus is home!
+#            {% else %}
+#              Paulus is at {{ states('device_tracker.paulus') }}.
+#            {% endif %}
+
+    - service: device_tracker.see
+      data_template:
+        dev_id: "{{ trigger.event.data.dev_id }}"
+        gps: 
+         # if state_not where_g %LOC - trigger.event.data.lat_g
+          - "{{ trigger.event.data.lat_g |float }}"
+          - "{{ trigger.event.data.long_g |float }}"
+        gps_accuracy: "{{ trigger.event.data.acc_n |int }}"
+        battery: "{{ trigger.event.data.battery }}"
+
+
+# 
+
+# if acc_g =! %LOCACC use '%'  %lat_g else lat_n
+
+
+
+
+
+
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv3 template'
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        trigger: template
+  action:
+    - service_template: "{{ trigger.event.data.service }}"
+      data_template:
+        entity_id: "{{ trigger.event.data.entity }}"
+        value: "{{ trigger.event.data.data }}"
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv3 scene'
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        trigger: scene
+  action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "scene.{{ trigger.event.data.trigger2 }}"
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv3 switch'
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        trigger: switch
+
+        tasker_caller:  profile=enter:Türöffner
+
+
+  action:
+    - service_template: "switch.turn_{{ trigger.event.data.trigger2 }}"
+      data_template:
+        entity_id: "switch.{{ trigger.event.data.trigger3 }}"
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv2 door'
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        tasker_caller:  profile=enter:Türöffner
+
+  action:
+    - service: script.turn_on
+      entity_id: script.tueroeffner
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv2 anruf'
+  trigger:
+
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        update_ot: t
+  condition:
+    - condition: time
+      after: '07:30:00'
+      before: '21:59:00'
+    - condition: template
+      value_template: "{{ trigger.event.data.when == trigger.event.data.ca_in_time }}"
+    - condition: template
+#      value_template: "{{ trigger.event.data.wifissid == 'myssidname' }}"
+      value_template: "{{ trigger.event.data.wifissid == '3WebCube8020' }}"
+    - condition: template
+      value_template: "{{ trigger.event.data.device == 'op5' }}"
+      
+  action:
+    - service: notify.logfile
+      data_template:
+        message: |-
+           Ich bekomme '{{ trigger.event.data.ca_in_name }}'
+
+###    - event: tts_event_echo
+###      event_data:
+###        type: tts
+###        message: ringring
+###        # didnt worked  "{{ trigger.event.data.ca_in_name | title  }}"
+###        delay: '00:00:02'
+
+    - service: script.tts_evet
+      data:
+        volume: 0.9
+#        message: '{{ event.data.ca_in_name }}'
+        message: "anruf"
+        type: tts
+        delay: '00:00:02'
+
+
+
+#automation.tasker_lv2_anruf. 
+#Error rendering template for call_service at pos 1: 
+#UndefinedError: 'trigger' is undefined
+
+#  {{ trigger.event.data.ca_in_name }} 
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv2 notifylog NFC '
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        nfc_present: 'true'
+  action:
+    - service: notify.logfile
+      data_template:
+        message: |-
+          ///
+          {% if trigger.event.data.nfc_id == "044B01CA9C5884" %}
+            thisis1
+          {% elif trigger.event.data.nfc_id == "044F9A0A9D5881" %}
+            thisis2
+          {% endif %}
+          ///////////////////////////////////
+            NFC
+          
+          nfc_present  {{ trigger.event.data.nfc_present }}
+          nfc_id       {{ trigger.event.data.nfc_id }}
+          nfc_payload  {{ trigger.event.data.nfc_payload }}
+          ///////////////////////////////////
+          {% set map = {
+              "044F9A0A9D5881": "NFC MONITOR",
+              "044B01CA9C5884": "NFC MOUSEPAD",
+              "default": "unused"
+          }%}
+          {{ map[trigger.event.data.nfc_id] if trigger.event.data.nfc_id in map else map["default"] }}
+          /////////////////////////////////// 
+
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv2 notifylog NFC '
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        nfc_present: 'true'
+        nfc_id: 044F9A0A9D5881
+
+  action:
+    - service: notify.logfile
+      data_template:
+        message: |-
+          ///
+          ///////////////////////////////////
+            NFC MONITOR TRIGGERD
+          /////////////////////////////////// 
+          nfc_present  {{ trigger.event.data.nfc_present }}
+          nfc_id       {{ trigger.event.data.nfc_id }}
+          nfc_payload  {{ trigger.event.data.nfc_payload }}
+          ---
+          
+          
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv2 notifylog NFC '
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+        nfc_present: 'true'
+        nfc_id: '044B01CA9C5884'
+  action:
+    - service: notify.logfile
+      data_template:
+        message: |-
+          ///
+          ///////////////////////////////////
+            NFC MOUSEPAD TRIGGERD
+          /////////////////////////////////// 
+          nfc_present  {{ trigger.event.data.nfc_present }}
+          nfc_id       {{ trigger.event.data.nfc_id }}
+          nfc_payload  {{ trigger.event.data.nfc_payload }}
+          ---
+          
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv3  RK noti_log full'
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+ #       trigger: input_set
+        who: RK
+        update_ot: t
+        
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+ #       trigger: input_set
+        who: WB
+        update_ot: t
+
+  action:
+    - service: notify.logfile
+      data_template:
+        message: |-
+          ///
+          //////////////////////////////
+          event.data lv3  who RK+update_ot t
+          /////////////////////////////////// 
+          tasker_callerv2 {{ trigger.event.named }}
+          trigger      {{ trigger.event.data.trigger }}        
+
+          trigger2     {{ trigger.event.data.trigger2 }}  
+          update_ot    {{ trigger.event.data.update_ot }}       
+          who          {{ trigger.event.data.who }}
+          dev_id       {{ trigger.event.data.dev_id }}
+          device       {{ trigger.event.data.device }}
+          what         {{ trigger.event.data.what }}        
+          when         {{ trigger.event.data.when }}  
+
+          where_n      {{ trigger.event.data.where_n }}
+          lat_n        {{ trigger.event.data.lat_n }}
+          long_n       {{ trigger.event.data.long_n }}
+          acc_n        {{ trigger.event.data.acc_n }}
+     
+          g_status     {{ trigger.event.data.g_status }}
+          where_g      {{ trigger.event.data.where_g }}
+          lat_g        {{ trigger.event.data.lat_g }}
+          long_g       {{ trigger.event.data.long_g }}
+
+          acc_g        {{ trigger.event.data.acc_g }}
+          alt_g        {{ trigger.event.data.alt_g }}
+          vel_g        {{ trigger.event.data.vel_g }}  
+
+          battery      {{ trigger.event.data.battery }}  
+          ip           {{ trigger.event.data.ip }}       
+          service      {{ trigger.event.data.service }}          
+          entety       {{ trigger.event.data.entety }}          
+          data         {{ trigger.event.data.data }}
+          service2     {{ trigger.event.data.service2 }}          
+          entety2      {{ trigger.event.data.entety2 }}          
+          data2        {{ trigger.event.data.data2 }}
+          ca_in_name   {{ trigger.event.data.ca_in_name }}
+          ca_in_num    {{ trigger.event.data.ca_in_num }}
+          ca_in_date   {{ trigger.event.data.ca_in_date }}
+          ca_in_time   {{ trigger.event.data.ca_in_time }}
+          ca_out_name  {{ trigger.event.data.ca_out_name }}
+          ca_out_num   {{ trigger.event.data.ca_out_num }}
+          ca_out_date  {{ trigger.event.data.ca_out_date }}
+          ca_out_time  {{ trigger.event.data.ca_out_time }}
+
+          l_app          {{ trigger.event.data.l_app }}
+          n_title        {{ trigger.event.data.n_title }}
+          screen         {{ trigger.event.data.screen }}
+          task_run       {{ trigger.event.data.task_run }}
+          uptime         {{ trigger.event.data.uptime }}
+          wifi           {{ trigger.event.data.wifi }}
+          wifissid       {{ trigger.event.data.wifissid }}
+          win            {{ trigger.event.data.win }}
+          tasker_caller  {{ trigger.event.data.tasker_caller }}
+
+          err            {{ trigger.event.data.err }}
+          errmsg         {{ trigger.event.data.errmsg }}
+          
+          /////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////
+
+##########################################
+# belowcopy
+
+
+
+
+- initial_state: 'on'
+  alias: 'Tasker lv3  RK noti_log full'
+  trigger:
+
+    - platform: event
+      event_type: tasker_webhook
+      event_data:
+ #       trigger: input_set
+        who: WB
+        update_ot: t
+
+  action:
+    - service: notify.logfile2
+      data_template:
+        message: |-
+          ///
+          //////////////////////////////
+          event.data lv3  who RK+update_ot t
+          /////////////////////////////////// 
+          tasker_callerv2 {{ trigger.event.named }}
+          trigger      {{ trigger.event.data.trigger }}        
+
+          trigger2     {{ trigger.event.data.trigger2 }}  
+          update_ot    {{ trigger.event.data.update_ot }}       
+          who          {{ trigger.event.data.who }}
+          dev_id       {{ trigger.event.data.dev_id }}
+          device       {{ trigger.event.data.device }}
+          what         {{ trigger.event.data.what }}        
+          when         {{ trigger.event.data.when }}  
+
+          where_n      {{ trigger.event.data.where_n }}
+          lat_n        {{ trigger.event.data.lat_n }}
+          long_n       {{ trigger.event.data.long_n }}
+          acc_n        {{ trigger.event.data.acc_n }}
+     
+          g_status     {{ trigger.event.data.g_status }}
+          where_g      {{ trigger.event.data.where_g }}
+          lat_g        {{ trigger.event.data.lat_g }}
+          long_g       {{ trigger.event.data.long_g }}
+
+          acc_g        {{ trigger.event.data.acc_g }}
+          alt_g        {{ trigger.event.data.alt_g }}
+          vel_g        {{ trigger.event.data.vel_g }}  
+
+          battery      {{ trigger.event.data.battery }}  
+          ip           {{ trigger.event.data.ip }}       
+          service      {{ trigger.event.data.service }}          
+          entety       {{ trigger.event.data.entety }}          
+          data         {{ trigger.event.data.data }}
+          service2     {{ trigger.event.data.service2 }}          
+          entety2      {{ trigger.event.data.entety2 }}          
+          data2        {{ trigger.event.data.data2 }}
+          ca_in_name   {{ trigger.event.data.ca_in_name }}
+          ca_in_num    {{ trigger.event.data.ca_in_num }}
+          ca_in_date   {{ trigger.event.data.ca_in_date }}
+          ca_in_time   {{ trigger.event.data.ca_in_time }}
+          ca_out_name  {{ trigger.event.data.ca_out_name }}
+          ca_out_num   {{ trigger.event.data.ca_out_num }}
+          ca_out_date  {{ trigger.event.data.ca_out_date }}
+          ca_out_time  {{ trigger.event.data.ca_out_time }}
+
+          l_app          {{ trigger.event.data.l_app }}
+          n_title        {{ trigger.event.data.n_title }}
+          screen         {{ trigger.event.data.screen }}
+          task_run       {{ trigger.event.data.task_run }}
+          uptime         {{ trigger.event.data.uptime }}
+          wifi           {{ trigger.event.data.wifi }}
+          wifissid       {{ trigger.event.data.wifissid }}
+          win            {{ trigger.event.data.win }}
+          tasker_caller  {{ trigger.event.data.tasker_caller }}
+
+          err            {{ trigger.event.data.err }}
+          errmsg         {{ trigger.event.data.errmsg }}
+          
+          /////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////
+
+
+
+- initial_state: 'off'
+  alias: 'Tasker lv2 notify_log full'
+  trigger:
+    - platform: event
+      event_type: tasker_webhook
+#      event_data:
+#        update_ot: t
+  action:
+    - service: notify.logfile
+      data_template:
+        message: |-
+          ///
+          ///////////////////////////////////
+            WELCOME TO LV2 - the EVENT
+          /////////////////////////////////// 
+          trigger      {{ trigger.event.data.trigger }}          
+          trigger2     {{ trigger.event.data.trigger2 }}  
+          trigger3     {{ trigger.event.data.trigger3 }}  
+          nfc_present {{ trigger.event.data.nfc_present }}
+          nfc_id       {{ trigger.event.data.nfc_id }}
+          nfc_payload {{ trigger.event.data.nfc_payload }}
+          update_ot    {{ trigger.event.data.update_ot }}       
+          who          {{ trigger.event.data.who }}
+          dev_id       {{ trigger.event.data.dev_id }}
+          device       {{ trigger.event.data.device }}
+          what         {{ trigger.event.data.what }}        
+          when         {{ trigger.event.data.when }}  
+          
+          where_n      {{ trigger.event.data.where_n }}
+          lat_n        {{ trigger.event.data.lat_n }}
+          long_n       {{ trigger.event.data.long_n }}
+          acc_n        {{ trigger.event.data.acc_n }}
+     
+          g_status     {{ trigger.event.data.g_status }}
+          where_g      {{ trigger.event.data.where_g }}
+          lat_g        {{ trigger.event.data.lat_g }}
+          long_g       {{ trigger.event.data.long_g  }}
+
+          acc_g        {{ trigger.event.data.acc_g }}
+          alt_g        {{ trigger.event.data.alt_g }}
+          vel_g        {{ trigger.event.data.vel_g }}  
+
+          battery      {{ trigger.event.data.battery }}  
+          ip           {{ trigger.event.data.ip }}       
+          service      {{ trigger.event.data.service }}          
+          entety       {{ trigger.event.data.entety }}          
+          data         {{ trigger.event.data.data }}
+          service2     {{ trigger.event.data.service2 }}          
+          entety2      {{ trigger.event.data.entety2 }}          
+          data2        {{ trigger.event.data.data2 }}
+          ca_in_name   {{ trigger.event.data.ca_in_name }}
+          ca_in_num    {{ trigger.event.data.ca_in_num }}
+          ca_in_date   {{ trigger.event.data.ca_in_date }}
+          ca_in_time   {{ trigger.event.data.ca_in_time }}
+          ca_out_name  {{ trigger.event.data.ca_out_name }}
+          ca_out_num   {{ trigger.event.data.ca_out_num }}
+          ca_out_date  {{ trigger.event.data.ca_out_date }}
+          ca_out_time  {{ trigger.event.data.ca_out_time }}
+
+          l_app          {{ trigger.event.data.l_app }}
+          n_title        {{ trigger.event.data.n_title }}
+          screen         {{ trigger.event.data.screen }}
+          task_run       {{ trigger.event.data.task_run }}
+          uptime         {{ trigger.event.data.uptime }}
+          wifi           {{ trigger.event.data.wifi }}
+          wifissid       {{ trigger.event.data.wifissid }}
+          win            {{ trigger.event.data.win }}
+          tasker_caller  {{ trigger.event.data.tasker_caller }}
+          err            {{ trigger.event.data.err }}
+          errmsg         {{ trigger.event.data.errmsg }}
+
+          who          {{ trigger.event.data.who }}
+          /////////////////////////////////////////////////////////////////
+          ////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+input_text:
+  op5_ip:
+    name: 'op5_ip' 
+#    initial: N.a.
+  p9_ip:
+    name: 'p9_ip' 
+
+notify:
+- name: logfile
+  platform: file
+  filename: /config/notify.log
+  timestamp: true
+
+- name: logfile2
+  platform: file
+  filename: /config/notify2.log
+  timestamp: true
+
+
+
+
+
+

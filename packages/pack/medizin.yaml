@@ -1,0 +1,192 @@
+
+
+
+
+notify:
+  - name: vit_d3
+    platform: file
+    filename: /config/shell_scripts/vit_d3.txt
+sensor:
+  - platform: file
+    name: vit_d3_timestamp
+    file_path: /config/shell_scripts/vit_d3.txt
+    value_template: '{{value_json.timestamp}}'
+
+#updates via automation
+  - platform: template
+    sensors:
+      d3_tage:
+        friendly_name: "D3_tage"
+        unit_of_measurement: 'days'
+        value_template: "{{ (( as_timestamp(now()) - as_timestamp(strptime(states('sensor.vit_d3_timestamp'), '%d.%m.%Y')) ) / 86400 ) | round(2) }}"
+
+automation:
+
+#  - id: '1559810422215'
+#    alias: update motion sensor
+#    trigger:
+#      - platform: time_pattern
+#        seconds: '/10'
+#    action:
+#    - service: homeassistant.update_entity
+#      entity_id: sensor.last_motion_front_door_minutes
+
+
+  - alias: Vitamine genommen
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      - platform: event
+        event_type: event_dash_d3
+    action:
+      - service: notify.vit_d3
+        data_template:
+          message: "{{ { 'timestamp': now()|string } |tojson }}"
+
+  - alias: 'last_vit_d3_update'
+    trigger:
+      - platform: time_pattern
+        minutes: '/10'
+#        seconds: '/10'
+    action:
+
+      - service: homeassistant.update_entity
+        entity_id: sensor.d3_tage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  - alias: html_d3
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      - platform: time_pattern
+        minutes: '/15'
+  #      seconds: 00
+    condition:
+      condition: and
+      conditions:
+        - condition: numeric_state
+          entity_id: 'sensor.d3_tage'
+          above: '0.7'
+        - condition: time
+          after: '07:00:00'
+          before: '11:00:00'
+    action:
+      - service: notify.html_oneplus5
+        data:
+          message: 'Vitamine genommen? Du könntest auch gleich Colostrum nehmen! '
+          title: 'title'
+          data:
+            renotify: 0
+            tag: html_d3 # won’t create new notification if there already exists one with the same tag. Cind of useful here
+            vibrate:
+              - 100
+              - 500
+              - 100
+            actions:
+              - action: "triggerd3genommen"
+                title: "eingeworfen"
+              - action: "triggerhtmld3"
+                title: "Halbe Stunde nochmal"
+
+
+
+
+  - alias: triggerd3genommen
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: triggerd3genommen
+    action:
+      - service: automation.trigger
+        data:
+          entity_id: automation.vitamine_genommen
+
+  - alias: waitd3genommen
+    initial_state: 'on'
+
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: html5_notification.clicked
+      event_data:
+        action: triggerhtmld3
+    action:
+      - service: automation.turn_off
+        entity_id: automation.html_d3
+      - delay: '00:29:15'
+      - service: automation.trigger
+        data:
+          entity_id: automation.html_d3
+      - service: automation.turn_on
+        entity_id: automation.html_d3
+
+
+
+
+# updates  every minute thanks to entety sun
+#  - platform: template
+#    sensors:
+#      last_feed:
+#        friendly_name: "last feed"
+#        entity_id: sun.sun
+#        unit_of_measurement: 'days'
+#        value_template: "{{ (( as_timestamp(now()) - as_timestamp(strptime(states('sensor.filetest'), '%d.%m.%Y')) ) / 86400 ) | round(2) }}"
+
+
+#  - alias: 'Telegram bot filetest2'
+#    hide_entity: true
+#    trigger:
+#      platform: event
+#      event_type: telegram_command
+#      event_data:
+#        command: '/filetest2'
+#    action:
+#      - service: notify.file_test
+#        data_template:
+#          message: "{{ { 'timestamp': now()|string } |tojson }}"
+
+
+
+
+
+#  - alias: 'Telegram bot datetimeest'
+#    hide_entity: true
+#    trigger:
+#      platform: event
+#      event_type: telegram_command
+#      event_data:
+#        command: '/datetimetest'
+#    action:
+#      service: input_datetime.set_datetime
+#      entity_id: input_datetime.bedroom_alarm_clock_time
+#      data:
+#        time: '05:30:00'
+
+
+
+
+#  - platform: template
+#    sensors:
+#      last_feed_devided:
+#        friendly_name: "last_feed_days"
+#        entity_id: sun.sun
+#        unit_of_measurement: 'days'
+#        value_template: "{{ states.sensor.time_diffrence.state | float / 86400 }}"
+
+# [homeassistant.components.sensor.template] Could not render template last_feed_days, the state is unknown.

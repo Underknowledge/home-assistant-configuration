@@ -1,0 +1,24 @@
+
+alias: bedroom_schalter_eingang
+hide_entity: true
+initial_state: on
+trigger:
+- platform: mqtt
+  topic: 'lights/sz_schalter_eingang'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'left' == trigger.payload_json.click }}"
+    - condition: template
+      value_template: "{{ 'right' == trigger.payload_json.click }}"
+    - condition: template
+      value_template: "{{ 'both' == trigger.payload_json.click }}"
+action:
+- service: scene.turn_on
+  data_template:
+    entity_id: >-
+      {%- set scene_map = {'left':'scene.sz_max',
+                     'right':'scene.sz_lesen',
+                          'both':'scene.sz_aus'} -%}
+      {{ scene_map[trigger.payload_json.click] }}

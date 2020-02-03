@@ -1,0 +1,10 @@
+notify:
+  - platform: clickatell
+    name: sms_p
+    api_key: !secret clickatell_api
+    recipient: !secret clickatell_number1
+
+  - platform: clickatell
+    name: sms_r
+    api_key: !secret clickatell_api
+    recipient: !secret clickatell_number2

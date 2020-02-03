@@ -1,0 +1,25 @@
+alias: 'Telegram Media Menue'
+initial_state: on
+hide_entity: true
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/media'
+action:
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: 'Media Menue'
+      keyboard:
+#              - '/alarm, /vid, /shop'
+#              - '/siren, /guests, /menu'
+#              - '/cool, /warm'
+#          - '/tv_off, /tv_on'
+          - '/say Guten Morgen, /stopmedia'
+          - '/alexa_leiser, /pause_alexa, /alexa_lauter'
+          - '/start, /menu'
+      show_alert: true
+
+#todo:
+#  Alexa music / hörbuch /timer30min

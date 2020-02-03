@@ -1,0 +1,19 @@
+alias: motion_klo_aus
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.motion_klo
+    to: "off"
+    for:
+      minutes: "{{ states('input_number.klo_movement')|int }}"
+#    condition:
+#      - condition: state
+#        entity_id: binary_sensor.motion_klo
+#        state: 'off'
+#        for:
+#          minutes: 5
+action:
+- service: scene.turn_on
+  entity_id: scene.klo_aus

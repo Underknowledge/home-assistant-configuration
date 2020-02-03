@@ -1,0 +1,157 @@
+#          - entity: scene.sz_max
+#            tap_action: call-service
+#          - entity: scene.sz_arbeiten
+#            tap_action: call-service
+#          - entity: scene.sz_allein
+#            tap_action: call-service
+#          - entity: scene.sz_lesen
+#            tap_action: call-service
+#          - entity: scene.sz_poppen
+#            tap_action: call-service
+#          - entity: scene.sz_aus
+#            tap_action: call-service
+#
+
+- name: sz_max
+  entities:
+    switch.rf_c:
+      state: on
+    light.nachttisch:
+      state: on
+      brightness: 255
+#      transition: 1
+    switch.schreibtisch:
+      state: on
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 255
+      color_temp: 390
+#      transition: 3
+    light.sz_yeelight:
+      state: on
+      brightness: 255
+      color_temp: 390
+#      transition: 1
+
+- name: sz_pc
+  entities:
+    switch.pc_relay:
+      state: on
+
+
+- name: sz_arbeiten
+  entities:
+    switch.rf_c:
+      state: on
+    light.nachttisch:
+      state: on
+      brightness: 230
+#      transition: 1
+    switch.schreibtisch:
+      state: on
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 228
+      color_temp: 383
+#      transition: 3
+    light.sz_yeelight:
+      state: off
+#      brightness: 180
+#      color_temp: 390
+#      transition: 1
+
+- name: sz_allein
+  entities:
+    switch.rf_c:
+      state: off
+    light.nachttisch:
+      state: off
+    switch.schreibtisch:
+      state: off
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 218
+      color_temp: 450
+#      transition: 3
+    light.sz_yeelight:
+      state: on
+      brightness: 194
+      color_temp: 390
+#      transition: 1
+
+
+
+- name: sz_lesen
+  entities:
+    switch.rf_c:
+      state: off
+    light.nachttisch:
+      state: on
+      brightness: 240
+#      transition: 3
+    switch.schreibtisch:
+      state: off
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 40
+      color_temp: 490
+#      transition: 3
+    light.sz_yeelight:
+      state: off
+#      transition: 3
+
+
+
+
+- name: sz_poppen
+  entities:
+    switch.rf_c:
+      state: off
+    light.nachttisch:
+      state: on
+      brightness: 30
+#      transition: 3
+    switch.schreibtisch:
+      state: off
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 40
+      color_temp: 490
+#      transition: 3
+    light.sz_yeelight:
+      state: off
+#      transition: 3
+
+
+
+- name: sz_aus
+  entities:
+    light.nachttisch:
+      state: off
+#      transition: 3
+    switch.rf_c:
+      state: off
+    switch.rf_d:
+      state: off
+    light.sz_lightstrip_plus:
+      state: off
+#      transition: 3
+    light.schreibtisch_bulb:
+      state: off
+    switch.schreibtisch:
+      state: off
+    light.sz_yeelight:
+      state: off
+
+#      transition: 3
+
+
+
+
+
+
+###########################################
+###########################################
+###########################################
+###########################################
+###########################################

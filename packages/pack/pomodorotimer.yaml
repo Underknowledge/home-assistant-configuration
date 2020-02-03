@@ -1,0 +1,122 @@
+
+
+group:
+  pomodoro_timer:
+    control: hidden
+    name: Pomodoro Timer
+    entities:
+      - input_number.pomodoro_arbeit
+      - input_number.pomodoro_pause
+      - script.pomodoro_timer
+
+
+input_number:
+  pomodoro_arbeit:
+    name: minute
+    icon: mdi:timer
+    mode: box
+    initial: 25
+    min: 0
+    max: 55
+    step: 5
+
+  pomodoro_pause:
+    name: minute
+    icon: mdi:timer
+    mode: box
+    initial: 5
+    min: 0
+    max: 30
+    step: 5
+    
+
+    
+script:
+  pomodorotimer:
+    alias: Pomodoro Timer
+    sequence:
+
+#      - service: media_player.play_media
+#        data:
+#          entity_id: media_player.echo_dot
+#          media_content_id: "musik zum Lesen"
+#          media_content_type: "AMAZON_MUSIC"
+#
+#      - service: media_player.volume_set
+#        data_template:
+#          entity_id: media_player.echo_dot
+#          volume_level: 0.5
+
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Pomodoro timer.  START. .  runde 1 . . .  {{ states.input_number.pomodoro_arbeit.state | int }} Minuten aktiv arbeiten"
+      - service: switch.turn_on
+        entity_id: switch.rf_c
+      - delay: "00:{{ states.input_number.pomodoro_arbeit.state | int }}:02"
+
+      - service: switch.turn_off
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Geschafft! die erste PAUSE für {{ states.input_number.pomodoro_pause.state | int }} Minuten PAUSE"
+      - delay: "00:{{ states.input_number.pomodoro_pause.state | int }}:10"
+
+
+
+      - service: switch.turn_on
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Zurück an die Arbeit . .  runde 2 . . .{{ states.input_number.pomodoro_arbeit.state | int }} Minuten konzentriertes arbeiten!"
+      - delay: "00:{{ states.input_number.pomodoro_arbeit.state | int }}:10"
+
+      - service: switch.turn_off
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Geschafft! die zweite PAUSE für {{ states.input_number.pomodoro_pause.state | int }} Minuten PAUSE"
+      - delay: "00:{{ states.input_number.pomodoro_pause.state | int }}:10"
+
+
+
+
+      - service: switch.turn_on
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Zurück an die Arbeit . .  runde 3 . . .{{ states.input_number.pomodoro_arbeit.state | int }} Minuten konzentriertes arbeiten!"
+      - delay: "00:{{ states.input_number.pomodoro_arbeit.state | int }}:10"
+
+      - service: switch.turn_off
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Geschafft! die dritte PAUSE für {{ states.input_number.pomodoro_pause.state | int }} Minuten PAUSE"
+      - delay: "00:{{ states.input_number.pomodoro_pause.state | int }}:10"
+
+
+
+      - service: switch.turn_on
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Zurück an die Arbeit . .  runde 4 . . .{{ states.input_number.pomodoro_arbeit.state | int }} Minuten konzentriertes arbeiten!"
+      - delay: "00:{{ states.input_number.pomodoro_arbeit.state | int }}:10"
+
+      - service: switch.turn_off
+        entity_id: switch.rf_c
+      - service: media_player.alexa_tts
+        data_template:
+          entity_id: media_player.echo_dot
+          message: "Geschafft! Doppelte Pause für {{ states.input_number.pomodoro_pause.state|int  + states.input_number.pomodoro_pause.state|int  }} Minuten "
+      - delay: "00:{{ states.input_number.pomodoro_pause.state|int  + states.input_number.pomodoro_pause.state|int  }}:02"
+
+      - service: script.turn_on
+        entity_id: script.pomodorotimer

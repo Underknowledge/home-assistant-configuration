@@ -1,0 +1,276 @@
+#####################################################################
+#    @package          :     alexa_music
+#    @description      :     alexa_music settings
+#    https://github.com/rrubin0/homeassistant-config/blob/master/packages/alexa_tts.yaml
+#####################################################################
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+    package.node_anchors:
+      customize: &customize
+        package: 'alexa_music'
+
+#      hidden: &hidden
+#        <<: *customize
+#        hidden: true
+
+
+    ################################################
+    ## Input Text
+    ################################################
+    input_text.alexa_music:
+      icon: mdi:textbox
+
+
+    ################################################
+    ## Input Select
+    ################################################
+    input_select.alexa_music:
+      icon: mdi:format-list-bulleted
+
+
+
+
+#####################################################################
+### Input Text
+#####################################################################
+input_text:
+  alexa_music:
+    name: Alexa music
+    initial: Wähle
+
+
+#####################################################################
+### Input Select
+#####################################################################
+input_select:
+  alexa_music:
+    name: Alexa
+    options:
+      - Living Room
+      - None
+
+  alexa_music_playlists:
+    name: Alexa music playlists
+    options:
+      - zufallswiedergabe playlist frühstück
+#      - entspannte musik
+#      - Filmmusik
+      - Filmmusik zum Lesen
+      - entspannter Pop
+      - Playlist Trip-hop
+      - Prinz Pi
+      - None
+    initial: None
+    icon: mdi:target
+
+
+  alexa_audible:
+    name: Audible
+    options:
+#      - Audible Menschen lesen von Joe Navarro      #nope
+      - Audible 1984
+      - Audible Homo Deus
+      - Audible Eine kurze Geschichte der Menschheit
+      - Audible 21 Lektionen für das 21. Jahrhundert
+      - Audible neunzehnhundertvierundachtzig von George Orwell
+      - None
+    initial: None
+    icon: mdi:target
+
+
+  alexa_kaenguru:
+    name: Mark Uwe
+    options:
+      - Audible Die Känguru-Chroniken                        #
+      - Audible Die Känguru-Offenbarung
+      - Audible Das Känguru-Manifest
+      - Audible Die Känguru Apokryphen
+      - Audible QualityLand Helle Edition
+      - None
+    initial: None
+    icon: mdi:target
+
+
+  alexa_media_content_type:
+    name: content
+    options:
+      - AMAZON_MUSIC
+      - music
+      - DEEZER
+      - TUNEIN
+    initial: AMAZON_MUSIC
+    icon: mdi:play-protected-content
+
+
+##################################################################### Entspannter Jazz-Sender
+### Automation
+#####################################################################
+automation:
+  ## Announce what is typed as input
+
+# input_text.alexa_music Line 37
+
+
+  - alias: Alexa MUSIC input TEXT
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_text.alexa_music
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.echo_dot
+          volume_level: '{{ states.input_number.alexa_volume.state }}'
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.echo_dot
+          media_content_id: "{{  states.input_text.alexa_music.state }}"
+          
+          media_content_type: "{{ states.input_select.alexa_media_content_type.state }}"
+#          media_content_type: "AMAZON_MUSIC"
+
+
+      - delay: '00:00:01'
+      - service: automation.turn_off
+        entity_id: automation.alexa_music_input_text
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.alexa_music
+          value: ""
+      - delay: '00:00:01'
+      - service: automation.turn_on
+        entity_id: automation.alexa_music_input_text
+
+#      automation.turn_off
+#      id "Alexa MUSIC input TEXT"
+#      input_text_alexa_music
+#      zu  "Wähle"
+#      automation.turn_on
+#      id "Alexa MUSIC input TEXT"
+#      - service: input_text.select_option
+#        data:
+#          entity_id: input_select.alexa_music
+#          option: None
+
+####
+####
+
+  - alias: Alexa alexa_music_playlists
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.alexa_music_playlists
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.echo_dot
+          volume_level: '{{ states.input_number.alexa_volume.state }}'
+
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.echo_dot
+          media_content_id: "{{  states.input_select.alexa_music_playlists.state }}"
+          media_content_type: "AMAZON_MUSIC"
+
+      - delay: '00:00:02'
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.alexa_music
+          option: None
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.alexa_music_playlists
+          option: None
+
+
+  - alias: Alexa Audible
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.alexa_audible
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.echo_dot
+          volume_level: '{{ states.input_number.alexa_volume.state }}'
+
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.echo_dot
+          media_content_id: "{{  states.input_select.alexa_audible.state }}"
+          media_content_type: "AMAZON_MUSIC"
+
+      - delay: '00:00:02'
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.alexa_music
+#          option: None
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.alexa_audible
+          option: None
+
+
+
+  - alias: Alexa Känguru
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.alexa_kaenguru
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.echo_dot
+          volume_level: '{{ states.input_number.alexa_volume.state }}'
+
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.echo_dot
+          media_content_id: "{{  states.input_select.alexa_kaenguru.state }}"
+          media_content_type: "AMAZON_MUSIC"
+      - delay: '00:00:02'
+#      - service: input_select.select_option
+#        data:
+#          entity_id: input_select.alexa_music
+#          option: None
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.alexa_kaenguru
+          option: None
+
+
+
+
+
+
+
+
+
+
+#script:
+#  alexa_play:
+#    alias: Alexa Play Test
+#    sequence:
+#      - service: media_player.play_media
+#        data:
+#          entity_id: media_player.echo_dot
+#          media_content_id : "the Ballad of John Henry"
+#          media_content_type: "AMAZON_MUSIC"
+
+# For LovelaceUI
+#title: Home-Assistant
+#views:
+#  - title: ALEXA MUSIC
+#    icon: mdi:home-assistant
+#    cards:
+#
+#      - type: entities
+#        title: Alexa TTS
+#        show_header_toggle: false
+#        entities:
+#          - input_number.alexa_volume
+#          - input_text.alexa_tts
+#          - input_select.alexa

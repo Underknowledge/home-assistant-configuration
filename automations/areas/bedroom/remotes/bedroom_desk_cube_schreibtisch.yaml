@@ -1,0 +1,17 @@
+alias: bedroom_pc_cube_testslide
+hide_entity: true
+initial_state: 'on'
+trigger:
+
+  - platform: mqtt
+    topic: 'lights/sz_cube_pc'
+condition:
+  - condition: template
+    value_template: "{{ 'shake' == trigger.payload_json.action }}"
+  - condition: template
+    value_template: "{{ 0 == trigger.payload_json.side }}"
+action:
+  - service: switch.turn_off
+    entity_id: switch.schreibtisch, switch.rf_c
+#  - service: switch.turn_off
+#    entity_id: switch.rf_c

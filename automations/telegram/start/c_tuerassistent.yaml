@@ -1,0 +1,18 @@
+alias: 'Telegram bot türassistent'
+initial_state: on
+hide_entity: true
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/tuerassistent'
+action:
+  - service: automation.toggle
+    data:
+      entity_id: automation.tuerassistent
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: " {% if is_state('automation.tuerassistent', 'on') %} der Türassistent ist AN {% else %}der Türassistent ist nun aus.{% endif %}"
+
+ # "der Türassistent ist nun  {{ states('automation.tuerassistent')}}, "

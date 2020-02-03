@@ -1,0 +1,26 @@
+alias: 'telegram_stopmedia'
+initial_state: on
+hide_entity: true
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/stopmedia'
+action:
+  - service: media_player.media_pause
+    entity_id: media_player.echo_dot
+  - service: media_player.media_pause
+    entity_id: media_player.alle
+  - service: media_player.media_pause
+    entity_id: media_player.mini
+  - service: media_player.media_pause
+    entity_id: media_player.bad
+  - service: media_player.media_pause
+    entity_id: media_player.kuche
+  - service: media_player.media_pause
+    entity_id: media_player.wohnzimmer
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: " Echo, Gmini, cca Bad, Küche und Wohnzimmer Pausiert "
+

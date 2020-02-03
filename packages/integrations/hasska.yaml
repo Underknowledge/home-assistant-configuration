@@ -1,0 +1,193 @@
+alexa:
+  smart_home:
+    filter:
+      include_entities:
+        # SCRIPTS
+ #       - script.shell_host_reboot
+        - script.chilled_cow_study
+        - script.r_comes_home
+#        - lock.tur
+#        - lock.door
+      # SPECIAL
+        - switch.intercom_relay
+        - switch.tv_relay
+        - switch.ac_pow_relay
+        - automation.ruhe_fur_das_weib
+        # LICHTER
+    # Klo
+#        - group.toilette_lichter
+        - light.klo_mq
+    # Vorraum
+#        - group.vorraum_lichter
+        - light.vorraum_white
+        - light.vorraum_lightstrip_mq
+        - light.kommode
+    # bad
+ #       - group.bad_lichter
+        - light.bad_ambiance
+        - light.badkuche
+    # küche
+#        - group.kuchen_lichter
+        - light.kuchenlicht
+        - light.dunstabzug
+
+    # Wohnzimmer
+        - switch.tv_relay
+
+#        - group.wohnzimmer_lichter
+        - switch.vitrine_relay
+        - light.wz_main
+        - switch.couch
+        - light.einhorn_mq
+        - switch.stehlampe
+    # Schlafzimmer
+#        - group.schlafzimmer_lichter
+        - light.sz_yeelight
+        - light.sz_lightstrip_plus
+        - light.nachttisch
+        - switch.schreibtisch
+        - light.schreibtisch_bulb
+        - switch.schalte_drucker
+
+        # SZENEN
+    # Klo
+#        -
+    # Vorraum
+#        -
+    # bad
+#        -
+    # küche
+        - scene.kueche_abend
+    # Wohnzimmer
+        - scene.wz_chill
+        - scene.kochen
+    # Schlafzimmer
+        - scene.sz_aus
+        - scene.sz_poppen
+
+#      include_domains:
+#        - switch
+#        - light
+#        - scene
+#        - script
+    entity_config:
+      # SCRIPT
+#      script.shell_host_reboot:
+#        name: Houston wir haben ein problem
+#        description: Falls Probleme auftauchen könnte das helfen
+      script.r_comes_home:
+        name: R Home
+        description: tts und Automatisierung an 
+      script.chilled_cow_study:
+        name: gemütliche Kuh
+        description: lässt den youtube live stream von chilled cow starten
+
+
+  #    script.tv_toggle:
+  #      name: Fernseher
+  #      description: Das Script um den Fernsehr an zu schalten
+      switch.ac_pow_relay:
+        name: Klimaanlage
+        description: POW Schalter für die AC
+  #      display_categories: TELEVISION
+      automation.ruhe_fur_das_weib:
+        name: Ruhe für das Weib
+        description: Automatisierung um Die Musik auszumachen sobald sich die Türe öffnet
+#
+#      lock.door:
+#        name: Türe
+#        description: Der Türöffner mit e
+#        display_categories: DOOR
+
+    # Klo
+      group.toilette_lichter:
+        name: Klo
+        description: Gruppe Toilette
+#        display_categories: DOOR
+      light.klo_mq:
+        description: Klo Glühbirne
+
+    # Vorraum
+#      group.vorraum_lichter:
+#        description: Gruppe Vorraum
+      light.vorraum_white:
+        description: Vorraum Glühbirne
+      light.vorraum_lightstrip_mq:
+        description: Vorraum Lightstrip
+      light.kommode:
+        description: Vorraum Osram Switch
+    # bad:
+#      group.bad_lichter:
+#        description: Gruppe Bad
+      light.bad_ambiance:
+        description: Bad Glühbirne
+      light.badkuche:
+        description: Bad Lightstrip
+    # küche:
+#      group.kuchen_lichter:
+#        description: Gruppe Küche
+      light.kuchenlicht:
+        description: Küche Glühbirne
+      light.dunstabzug:
+        description: Küche Tasmota
+    # Wohnzimmer:
+      switch.tv_relay:
+        name: Fernseher
+        description: Gosund Schalter für tv
+
+#      group.wohnzimmer_lichter:
+#        description: Gruppe Wohnzimmer
+      switch.vitrine_relay:
+        description: Wohnzimmer Osram Switch
+      light.wz_main:
+        name: 7
+        description: Wohnzimmerlicht
+      switch.couch:
+        description: Wohnzimmer Osram Switch
+      light.einhorn_mq:
+        description: Wohnzimmer Glühbirne
+      switch.stehlampe:
+        description: Wohnzimmer Osram Switch
+    # Schlafzimmer:
+#      group.schlafzimmer_lichter:
+#        description: Gruppe Schlafzimmer
+      light.sz_yeelight:
+        description: Schlafzimmer Glühbirne
+      light.sz_lightstrip_plus:
+        description: Schlafzimmer Lightstrip
+      light.nachttisch:
+        description: Schlafzimmer Glühbirne
+      switch.schreibtisch:
+        description: Schlafzimmer EspHome
+      light.schreibtisch_bulb:
+        description: Schlafzimmer Tasmota
+      switch.schalte_drucker:
+        name: Drucker
+        description: Schlafzimmer Drucker
+
+
+        # SZENEN
+    # Klo
+
+    # Vorraum
+
+    # bad
+
+    # küche
+
+      scene.kueche_abend:
+        name: Küche kueche_abend
+        description: Szene für die Küche
+    # Wohnzimmer
+      scene.wz_chill:
+        name: gemütlich
+        description: Szene für das Wohnzimmer
+
+    #    - scene.kochen
+    # Schlafzimmer
+      scene.sz_aus:
+        name: Schlafzimmer aus
+        description: Szene für das Schlafzimmer
+      scene.sz_poppen:
+        name: Poppen
+        description: Szene für das Schlafzimmer

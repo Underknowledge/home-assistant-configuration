@@ -1,0 +1,185 @@
+
+sensor:
+  - platform: template
+    sensors:
+      motion_vr:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_vr.last_changed) }}
+      motion_klo:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_klo.last_changed) }}
+      motion_bad:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_bad.last_changed) }}
+      motion_wz:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_wz.last_changed) }}
+      motion_kueche:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_kueche.last_changed) }}
+      motion_sz2:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_sz.last_changed) }}
+      motion_vr_wz:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_vr_wz.last_changed) }}
+      badkueche:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.badkueche.last_changed) }}
+      kuhlschrank:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.kuhlschrank.last_changed) }}
+      mija_door:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.mija_door.last_changed) }}
+      
+      motion_sz:
+        value_template: >
+          {%- macro formatvalue(name, value, sep='') -%}
+            {%- set name = '{}'.format(name) if value > 1 else name -%}
+            {{ '{}{}{}'.format(value, name, sep) if value >= 1 else '' }}
+          {%- endmacro -%}
+          {%- macro buildTimestamp(timeStamp) -%}
+            {%- set time = ((as_timestamp(now()) - as_timestamp(timeStamp))) -%}
+            {%- set minutes = formatvalue('',((time % 3600) // 60) | int,'m') -%}
+            {%- set hours = formatvalue('',((time % 86400) // 3600) | int,'h') -%}
+            {%- set days = formatvalue('day',(time // 86400) | int, ', ') -%}
+            {{ '*' if time < 1 else days+hours+minutes }}
+          {%- endmacro -%}
+          {{ buildTimestamp(states.binary_sensor.motion_sz.last_changed) }}
+
+
+
+automation:
+  - alias: 'timesensor_update'
+    trigger:
+      - platform: time_pattern
+        minutes: '/5'
+#      - platform: time_pattern
+#        seconds: '/15'
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.motion_vr, sensor.motion_klo, sensor.motion_vr, sensor.motion_bad
+      - service: homeassistant.update_entity
+        entity_id: sensor.motion_wz, sensor.motion_kueche, sensor.motion_sz
+      - service: homeassistant.update_entity
+        entity_id: sensor.motion_vr_wz,sensor.badkueche, sensor.kuhlschrank, sensor.mija_door 
+
+
+
+
+
+
+
+
+

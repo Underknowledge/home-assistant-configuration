@@ -1,0 +1,6 @@
+# https://www.home-assistant.io/components/speedtestdotnet/
+# The speedtestdotnet component uses the Speedtest.net web service to measure network bandwidth performance.
+
+speedtestdotnet:
+  scan_interval:
+    hours: 2

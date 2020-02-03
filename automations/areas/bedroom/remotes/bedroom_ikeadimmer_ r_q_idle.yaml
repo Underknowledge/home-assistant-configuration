@@ -1,0 +1,43 @@
+alias: ikeadimmer_rotate_r_q_idle
+initial_state: on
+trigger:
+  - platform: mqtt
+    topic: 'lights/ikea_dimmer'
+condition:
+#      - condition: state
+#        entity_id: 'media_player.echo_dot'
+#        state: 'idle'
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: 'media_player.echo_dot'
+        state: 'idle'
+      - condition: state
+        entity_id: 'media_player.echo_dot'
+        state: 'paused'
+      - condition: state
+        entity_id: 'media_player.echo_dot'
+        state: 'standby'
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ 'rotate_right_quick' == trigger.payload_json.action }}"
+action:
+  #- service: media_player.media_next_track
+  #  data_template:
+  #    entity_id: "{{ dict((states|selectattr('entity_id', 'in', state_attr('group.media_player_template', 'entity_id'))|list)|groupby('state'))['playing']|map(attribute='entity_id')|list|join(', ') }}" 
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.echo_dot
+      media_content_id: "Flow"
+      media_content_type: "DEEZER"
+  - service: media_player.volume_set
+    data_template:
+      entity_id: "media_player.echo_dot"
+      volume_level: >-
+        {% if is_state('sensor.house_mode_state', 'tag') %}
+        0.7
+        {% else %}
+        0.4
+        {% endif %}
+  - delay: '00:00:02'

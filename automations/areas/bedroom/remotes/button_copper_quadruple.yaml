@@ -1,0 +1,13 @@
+alias: sz_xiaomibutton_copper_quadruple
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/xiaomibutton_bett'
+condition:
+- condition: template
+  value_template: "{{ 'quadruple' == trigger.payload_json.click }}"
+action:
+
+- service: scene.turn_on
+  data:
+    entity_id: scene.sz_lesen

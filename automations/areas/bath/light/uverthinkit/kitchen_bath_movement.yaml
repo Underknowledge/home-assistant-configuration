@@ -1,0 +1,28 @@
+alias: bathkitchen_movement_badkueche_aus
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.badkueche
+    to: 'off'
+    for:
+      minutes: 5
+  - platform: state
+    entity_id: light.badkuche
+    to: 'on'
+    for:
+      minutes: 45
+  - platform: state
+    entity_id: light.badkuche
+    to: 'on'
+    for:
+      minutes: 90
+condition:
+  - condition: state
+    entity_id: sensor.bad_mode_state
+    state: 'Bad normal'
+  - condition: state
+    entity_id: binary_sensor.badkueche
+    state: 'off'
+action:
+- service: light.turn_off
+  entity_id: light.badkuche

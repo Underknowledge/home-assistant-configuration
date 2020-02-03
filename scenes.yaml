@@ -1,0 +1,198 @@
+- name: bad_move_morgens
+  id: bad_move_morgens
+  entities:
+    light.bad_ambiance:
+      state: true
+      brightness: 255
+      color_temp: 150
+    light.bad_yeelight:
+      state: 'on'
+      brightness: 204
+      color_temp: 312
+- name: bad_move_tag
+  id: bad_move_tag
+  entities:
+    light.bad_ambiance:
+      state: true
+      brightness: 220
+      color_temp: 454
+    light.bad_yeelight:
+      state: 'on'
+      brightness: 204
+      color_temp: 312
+- id: bad_move_abend
+  name: bad_move_abend
+  entities:
+    light.bad_ambiance:
+      brightness: 32
+      color_temp: 500
+      friendly_name: bad_ambiance
+      max_mireds: 500
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+- name: bad_move_nacht
+  id: bad_move_nacht
+  entities:
+    light.bad_ambiance:
+      state: true
+      brightness: 10
+      color_temp: 454
+    light.bad_yeelight:
+      state: 'off'
+- id: bad_dimmer_on
+  name: bad_dimmer_on
+  entities:
+    light.bad_ambiance:
+      brightness: 255
+      color_temp: 387
+      friendly_name: bad_ambiance
+      max_mireds: 500
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.bad_yeelight:
+      brightness: 204
+      color_temp: 297
+      effect_list:
+      - Slow Temp
+      - Stop
+      - fire
+      - fire2
+      - dumb
+      friendly_name: Bad Yeelight
+      max_mireds: 370
+      min_mireds: 153
+      state: 'on'
+      supported_features: 47
+    light.badkuche:
+      brightness: 255
+      color_temp: 368
+      friendly_name: badkuche
+      hs_color:
+      - 38.382
+      - 53.333
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 205
+      - 119
+      state: 'on'
+      supported_features: 59
+      xy_color:
+      - 0.46
+      - 0.408
+- id: bad_dimmer_off
+  name: bad_dimmer_off
+  entities:
+    light.bad_ambiance:
+      friendly_name: bad_ambiance
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 43
+    light.bad_yeelight:
+      brightness: 204
+      color_temp: 312
+      effect_list:
+      - Slow Temp
+      - Stop
+      - fire
+      - fire2
+      - dumb
+      friendly_name: Bad Yeelight
+      max_mireds: 370
+      min_mireds: 153
+      state: 'off'
+      supported_features: 47
+    light.badkuche:
+      friendly_name: badkuche
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 59
+- id: bad_dimmer_up
+  name: bad_dimmer_up
+  entities:
+    light.bad_ambiance:
+      brightness: 255
+      color_temp: 280
+      friendly_name: bad_ambiance
+      max_mireds: 500
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.bad_yeelight:
+      brightness: 204
+      color_temp: 276
+      effect_list:
+      - Slow Temp
+      - Stop
+      - fire
+      - fire2
+      - dumb
+      friendly_name: Bad Yeelight
+      max_mireds: 370
+      min_mireds: 153
+      state: 'on'
+      supported_features: 47
+    light.badkuche:
+      brightness: 255
+      color_temp: 254
+      friendly_name: badkuche
+      hs_color:
+      - 42
+      - 27.451
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 233
+      - 184
+      state: 'on'
+      supported_features: 59
+      xy_color:
+      - 0.386
+      - 0.378
+- id: bad_dimmer_down
+  name: bad_dimmer_down
+  entities:
+    light.bad_ambiance:
+      brightness: 66
+      color_temp: 500
+      friendly_name: bad_ambiance
+      max_mireds: 500
+      min_mireds: 153
+      state: 'on'
+      supported_features: 43
+    light.bad_yeelight:
+      effect_list:
+      - Slow Temp
+      - Stop
+      - fire
+      - fire2
+      - dumb
+      friendly_name: Bad Yeelight
+      max_mireds: 370
+      min_mireds: 153
+      state: 'off'
+      supported_features: 47
+    light.badkuche:
+      brightness: 105
+      color_temp: 500
+      friendly_name: badkuche
+      hs_color:
+      - 35.426
+      - 73.725
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 178
+      - 67
+      state: 'on'
+      supported_features: 59
+      xy_color:
+      - 0.525
+      - 0.413

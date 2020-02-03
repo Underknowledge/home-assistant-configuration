@@ -1,0 +1,23 @@
+
+# https://www.home-assistant.io/components/sensor.mqtt/
+sensor:
+  - platform: mqtt
+    name: "IR"
+    state_topic: sonoff223/tele/RESULT
+    value_template: '{{ value_json["IrReceived"].Data }}'
+    expire_after: 5
+    qos: 1
+
+
+
+# EOL?
+# script:
+#   tv_toggle:
+#     sequence:
+#     - service: switch.toggle
+#       entity_id: switch.tv_relay
+#     - service: switch.toggle
+#       entity_id: switch.sende_moveupdownon
+
+
+

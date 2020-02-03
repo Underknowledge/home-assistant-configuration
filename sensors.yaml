@@ -1,0 +1,50 @@
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'time_date'
+
+
+- platform: yr
+  name: 'yrWetter'
+  forecast: 24
+  monitored_conditions:
+    - temperature
+    - symbol
+    - precipitation
+#    - windSpeed
+#    - pressure
+#    - windDirection
+#    - humidity
+#    - fog
+#    - cloudiness
+#    - lowClouds
+#    - mediumClouds
+#    - highClouds
+#    - dewpointTemperature
+
+
+- platform: template
+  sensors:
+    wochentag:
+      value_template: "{{ ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Sammstag','Sonntag'][now().weekday()] }}"
+      entity_id: sensor.date
+
+# Weather prediction
+#- platform: yr
+
+- platform: systemmonitor
+  resources:
+#    - type: network_in
+#      arg: 'Local Area Connection'
+#    - type: processor_use
+#    - type: memory_use_percent
+#    - type: swap_use_percent
+#    - type: last_boot
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
+    - type: disk_use_percent
+      arg: '/'

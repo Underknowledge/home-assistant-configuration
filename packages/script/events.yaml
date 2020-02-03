@@ -1,0 +1,87 @@
+
+script:
+  tts_evet:
+    alias: "tts_evet"
+#      - service: script.tts_evet
+#        data:
+#          volume: 0.5
+#          message: 'Your husband coming home!'
+#          delay: '00:00:05'
+    sequence:
+
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.tts_volume
+        value: "{{ state_attr('media_player.echo_dot', 'volume_level') | default('0.6', true)  | float }}"
+        
+# Error while executing automation automation.tasker_lv2_anruf. 
+# Invalid data for call_service at pos 2: expected float for dictionary value @ data['volume_level']
+
+    - service: notify.alexa_media
+      data_template:
+      # the ,  ,  are helping with the timing I just need an half a seccond delay that the volume is set up to the desired level.
+##        message: ",   ,   {{ trigger.event.data.message }}"
+        message: "{{ message }}"
+        #message: ",   ,   {{ message }}"
+        data:
+          type: "{{ type }}"
+        #  type: announce
+        #  https://github.com/keatontaylor/alexa_media_player/wiki/Notification-Component
+        target:
+        - media_player.echo_dot
+
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.echo_dot
+        volume_level: "{{ volume | float }}"
+
+    - delay:  "{{ delay }}"
+
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.echo_dot
+        volume_level: "{{ states('input_number.tts_volume') | default('0.6', true)  | float }}"
+
+
+
+
+
+
+automation:
+
+  #    - event: tts_event_echo
+  #      event_data:
+  #        type: tts
+  #        message: Whatever you want to say
+  #        delay: '00:00:03'
+  
+- initial_state: 'on'
+  alias: 'tts evet'
+  trigger:
+    - platform: event
+      event_type: tts_event_echo
+  action:
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.tts_volume
+        value: "{{ state_attr('media_player.echo_dot', 'volume_level') | default('0.6', true) | float }}"
+    - service: notify.alexa_media
+      data_template:
+      # the ,  ,  are helping with the timing I just need an half a seccond delay
+        message: ",   ,   {{ trigger.event.data.message }}"
+        data:
+          type: "{{ trigger.event.data.type }}"
+        #  type: announce
+        #  https://github.com/keatontaylor/alexa_media_player/wiki/Notification-Component
+        target:
+        - media_player.echo_dot
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.echo_dot
+        volume_level: '{{ 0.9 | float }}'
+    - delay:  "{{ trigger.event.data.delay }}"
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.echo_dot
+        volume_level: "{{ states('input_number.tts_volume')| float }}"
+

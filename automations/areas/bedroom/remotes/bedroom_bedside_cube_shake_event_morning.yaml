@@ -1,0 +1,19 @@
+
+
+alias: Dashevent_sleepy_bett_lights_on
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: event
+    event_type: event_dash_sleepy
+condition:
+  - condition: state
+    entity_id: 'group.schlafzimmer'
+    state: 'on'
+  - condition: time
+    after: '04:00:00'
+    before: '19:00:00'
+action:
+- service: script.turn_on
+  entity_id: script.dash_snooze_lights
+   #

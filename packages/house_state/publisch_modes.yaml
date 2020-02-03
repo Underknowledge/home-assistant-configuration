@@ -1,0 +1,151 @@
+homeassistant:
+  customize:
+    package.node_anchors:
+      customize: &customize
+        package: 'modes_house'
+
+automation:
+
+  - alias: sensor_state_housemode
+    initial_state: 'on'
+    trigger:
+      - platform: time_pattern
+        minutes: 1
+      - platform: homeassistant
+        event: start
+      - platform: state
+        entity_id: sensor.house_mode_state
+
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "mode/house/daytime"
+          payload_template: "{{ states('sensor.house_mode_state') }}"
+
+  - alias: sensor_state_bath
+    initial_state: 'on'
+    trigger:
+      - platform: time_pattern
+        minutes: 1
+      - platform: homeassistant
+        event: start
+      - platform: state
+        entity_id: sensor.bad_mode_state
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "mode/house/bath"
+          payload_template: "{{ states('sensor.bad_mode_state') }}"
+
+  - alias: sensor_state_special
+    initial_state: 'on'
+    trigger:
+      - platform: time_pattern
+        minutes: 1
+      - platform: homeassistant
+        event: start
+      - platform: state
+        entity_id: sensor.house_mode_special
+
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "mode/house/visitors"
+          payload_template: "{{ states('sensor.house_mode_special') }}"
+
+
+group:
+  input_boolean_main_modes_card:
+    name: House Mode
+    control: hidden
+    entities:
+      - input_boolean.boolean_morning_time
+      - input_boolean.boolean_day_time
+      - input_boolean.boolean_evening_time
+      - input_boolean.boolean_night_time
+
+  input_boolean_modes_card:
+    name: Special Mode
+    control: hidden
+    entities:
+      - input_boolean.boolean_movie_mode
+      - input_boolean.boolean_guest_mode
+
+
+
+# wrong names beside automate_movie_time_2
+  # automation_modes_card:
+  #   name: automation_modes_card
+  #   control: hidden
+  #   entities:
+  #     - automation.morning_time_turn_on
+  #     - automation.day_time_turn_on
+  #     - automation.evening_time_turn_on
+  #     - automation.night_time_turn_on
+  #     - automation.automate_movie_time
+  #     - automation.automate_movie_time_2
+  #     - automation.automate_movie_time_off
+  #     - automation.guest_mode_turn_on
+
+
+
+
+sensor:
+  - platform: template
+    sensors:
+      house_mode_state:
+        value_template: >-
+          {% if states('input_boolean.boolean_morning_time') == 'on' %}
+              morgens
+          {% elif states('input_boolean.boolean_night_time') == 'on' %}
+              nacht
+          {% elif states('input_boolean.boolean_day_time') == 'on' %}
+              tag
+          {% elif states('input_boolean.boolean_evening_time') == 'on' %}
+              abend
+          {% else %}
+              nacht
+          {% endif %}
+
+        icon_template: >-
+          {% if states('input_boolean.boolean_morning_time') == 'on' %}
+              mdi:weather-sunset-up
+          {% elif states('input_boolean.boolean_night_time') == 'on' %}
+              mdi:weather-sunset-down
+          {% elif states('input_boolean.boolean_day_time') == 'on' %}
+              mdi:weather-sunny
+          {% elif states('input_boolean.boolean_evening_time') == 'on' %}
+              mdi:weather-sunset
+          {% else %}
+              mdi:weather-sunset-down
+          {% endif %}
+
+
+## {{ states('input_number.' + states('sensor.house_mode_state_eng') + '_time_brightness_value') |int }}
+  - platform: template
+    sensors:
+      house_mode_state_eng:
+        value_template: >-
+          {% if states('input_boolean.boolean_morning_time') == 'on' %}
+              morning
+          {% elif states('input_boolean.boolean_night_time') == 'on' %}
+              night
+          {% elif states('input_boolean.boolean_day_time') == 'on' %}
+              day
+          {% elif states('input_boolean.boolean_evening_time') == 'on' %}
+              evening
+          {% else %}
+              night
+          {% endif %}
+        icon_template: >-
+          {% if states('input_boolean.boolean_morning_time') == 'on' %}
+              mdi:weather-sunset-up
+          {% elif states('input_boolean.boolean_night_time') == 'on' %}
+              mdi:weather-sunset-down
+          {% elif states('input_boolean.boolean_day_time') == 'on' %}
+              mdi:weather-sunny
+          {% elif states('input_boolean.boolean_evening_time') == 'on' %}
+              mdi:weather-sunset
+          {% else %}
+              mdi:weather-sunset-down
+          {% endif %}

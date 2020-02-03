@@ -1,0 +1,8 @@
+
+media_player:
+  - platform: samsungtv
+    host: !secret samsung_tv_ip
+    port: 8001
+    name: Samsung TV
+    timeout: 30
+    mac: !secret samsung_tv_mac

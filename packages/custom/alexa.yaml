@@ -1,0 +1,12 @@
+# https://github.com/keatontaylor/alexa_media_player/issues
+alexa_media:
+  accounts:
+    - email: !secret amazon_user
+      password: !secret amazon_password
+      url: amazon.de
+
+
+
+notify:
+  - platform: alexa_media
+    name: alexa_tts

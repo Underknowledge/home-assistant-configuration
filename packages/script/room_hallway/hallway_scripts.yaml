@@ -1,0 +1,29 @@
+
+
+script:
+  verlassen:
+    alias: Verlassen aka szene aus
+    sequence:
+    - service: scene.turn_on
+      entity_id: scene.aus_aus
+      
+    - service: switch.turn_off
+      entity_id: switch.tv_relay
+
+    - service: media_player.media_pause
+      data_template:
+        entity_id: "{{ dict((states|selectattr('entity_id', 'in', state_attr('group.media_player_template', 'entity_id'))|list)|groupby('state'))['playing']|map(attribute='entity_id')|list|join(', ') }}" 
+
+#    - service: media_player.media_pause
+
+  tueroeffner:
+    alias: 'Türöffner'
+    sequence:
+    - data:
+        entity_id: switch.intercom_relay
+      service: switch.turn_on
+    - delay:
+        seconds: 4
+    - data:
+        entity_id: switch.intercom_relay
+      service: switch.turn_off  

@@ -1,0 +1,37 @@
+
+
+light:
+- platform: mqtt
+  name: "Dunstabzug"
+  state_topic: "stat/sonoff0/POWER"
+  command_topic: "cmnd/sonoff0/POWER"
+  availability_topic: "tele/sonoff0/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+
+
+
+- platform: "mqtt"
+  name: Kuchenlicht
+  state_topic: "lights/Kuchenlicht"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  schema: "json"
+  command_topic: "lights/Kuchenlicht/set"
+  device:
+    identifiers:
+      - 0x00178801023603a4_light_zigbee2mqtt
+
+group:
+  kitchen:
+    name: Küche
+    view: true
+    entities:
+      - light.badkuche
+      - light.kuchenlicht

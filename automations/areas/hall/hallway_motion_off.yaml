@@ -1,0 +1,20 @@
+alias: motion_vr_aus
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_vr
+    to: 'off'
+    for:
+      minutes: "{{ states('input_number.hallway_movement')|int }}"
+#    condition:
+#      - condition: or
+#        conditions:
+#        - condition: state
+#          entity_id: sensor.house_mode_special
+#          state: 'normal'
+#        - condition: state
+#          entity_id: sensor.house_mode_special
+#          state: 'Movie Time'
+action:
+- service: light.turn_off
+  entity_id: light.vorraum_white, light.vorraum_lightstrip_mq

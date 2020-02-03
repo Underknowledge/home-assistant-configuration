@@ -1,0 +1,13 @@
+
+
+alias: hallway_klingel_telegram
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: switch.intercom_relay
+    to: 'on'
+action:
+- data:
+    message: "Öffner ist an gagangen config/packages/vr/frontdoor.yaml"
+    title: "der Türöffner "
+  service: notify.w

@@ -1,0 +1,217 @@
+
+automation:
+  - alias: Off by input select
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.switch_time_off.state }}'
+    action:
+      - service: switch.turn_off
+        data_template:
+          entity_id: "{{ states.input_select.switch_time_input.state }}"
+
+  - alias: script by input select
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.switch_time_off.state }}'
+    action:
+      - service: script.turn_on
+        data_template:
+          entity_id: "{{ states.input_select.script_time_input.state }}"
+
+  - alias: scene by input select
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.switch_time_off.state }}'
+    action:
+    - service: scene.turn_on
+      data_template:
+        entity_id: "{{ states.input_select.scene_time_input.state }}"
+
+
+
+#  - alias: populate_list_scene_time_input
+#    initial_state: on
+#    trigger:
+#      platform: homeassistant
+#      event: start
+#    action:
+#    - delay: '00:00:10'
+#    - service: input_select.set_options
+#      data_template:
+#        entity_id: input_select.scene_time_input
+#        options: "[ {% for state in states.scene -%} {{ state.entity_id }}, {% endfor %}]"
+
+#  https://community.home-assistant.io/t/get-entities-as-input-select-use-entity-from-input-select/27679/4
+#    TOLL!
+# {% for state in states.scene -%}
+#  - {{ state.entity_id }}
+#  {% endfor %}
+#
+
+sensor:
+- platform: template
+  sensors:
+    switch_time_off:
+      friendly_name: 'switch_time_off'
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.switch_time_hour") | int, states("input_number.switch_time_minutes") | int) }}'
+
+input_number:
+  switch_time_hour:
+    name: stunde
+    icon: mdi:timer
+    initial: 20
+    min: 0
+    max: 23
+    step: 1
+
+  switch_time_minutes:
+    name: minute
+    icon: mdi:timer
+    initial: 30
+    min: 0
+    max: 59
+    step: 1
+
+group:
+  turner:
+    name: Automatisiert zu uhrzeit
+    entities:
+      - automation.off_by_input_select
+      - input_select.switch_time_input
+      - automation.script_by_input_select
+      - input_select.script_time_input
+      - automation.scene_by_input_select
+      - input_select.scene_time_input
+      - sensor.switch_time_off
+      - input_number.switch_time_hour
+      - input_number.switch_time_minutes
+
+
+
+input_select:
+  switch_time_input:
+    name: Switch zum ausschalten
+    options:
+      - switch.tv_relay
+      - switch.ac_pow_relay
+      - light.kommode
+      - switch.stehlampe
+      - switch.d1switch1
+      - switch.d1switch2
+      - None
+    initial: None
+  script_time_input:
+    name: Script zum starten
+    options:
+      - None
+      - script.media_stop_smoth
+      - script.get_off_the_tv
+      - script.media_stop_hard
+  scene_time_input:
+    name: scene zum starten
+    options:
+      - None
+      - scene.aus_aus
+      - scene.wz_aus
+      - scene.wz_chill
+      - scene.aus_aus_nighty
+      - scene.bad_abend
+      - scene.bad_an
+      - scene.bad_aus
+      - scene.bad_nacht
+      - scene.baden
+      - scene.duschen
+      - scene.klo_aus
+      - scene.klo_nacht
+      - scene.klo_tag
+      - scene.kochen
+      - scene.kueche_abend
+      - scene.kueche_aus
+      - scene.schminken
+      - scene.sz_allein
+      - scene.sz_arbeiten
+      - scene.sz_aufwachen1
+      - scene.sz_aufwachen2
+      - scene.sz_aus
+      - scene.sz_lesen
+      - scene.sz_max
+      - scene.sz_pc
+      - scene.sz_poppen
+      - scene.vr_abend
+      - scene.vr_aus
+      - scene.vr_aus_ausserkommode
+      - scene.vr_hell
+      - scene.vr_morgens
+      - scene.vr_nacht
+      - scene.vr_tag
+      - scene.vr_welcome
+      - scene.wz_aus
+      - scene.wz_chill
+      - scene.wz_fruehstueck
+      - scene.wz_hell
+      - scene.wz_stehlampen
+      - scene.wz_tv_an
+      - scene.zaehneputzen
+
+
+script:
+
+  media_stop_smoth:
+    alias: media_stop
+    sequence:
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.echo_dot
+        volume_level: "{{  state_attr('media_player.echo_dot', 'volume_level') | float - 0.2 }}"
+    - delay: '00:02:00'
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.echo_dot
+        volume_level: "{{  state_attr('media_player.echo_dot', 'volume_level') | float - 0.2 }}"
+    - delay: '00:02:00'
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.echo_dot
+        volume_level: "{{  state_attr('media_player.echo_dot', 'volume_level') | float - 0.2 }}"
+    - delay: '00:02:00'
+    - service: media_player.media_play_pause
+      entity_id: media_player.echo_dot
+
+  media_stop_hard:
+    alias: media_stop_hard
+    sequence:
+    - service: media_player.media_play_pause
+      entity_id: media_player.echo_dot
+
+  get_off_the_tv:
+    alias: get_off_the_tv
+    sequence:
+    - service: switch.turn_off
+      entity_id: switch.sende_sende_lauterleiser
+    - delay: '00:05:00'
+    - service: switch.turn_off
+      entity_id: switch.sende_sende_lauterleiser
+    - delay: '00:05:00'
+    - service: switch.turn_off
+      entity_id: switch.sende_sende_lauterleiser
+    - delay: '00:05:00'
+    - service: switch.turn_off
+      entity_id: switch.sende_aus
+    - delay: '00:05:00'
+    - service: switch.turn_off
+      entity_id: switch.tv_relay
+
+
+#script:
+#  switch_time_off:
+#    alias: AC aus by time
+#    sequence:
+#    - service: switch.turn_off
+#      entity_id: switch.ac_power
+#    - delay:  '00:00:30'
+#    - service: switch.turn_off
+#      entity_id: switch.ac_pow_relay
+#

@@ -1,0 +1,185 @@
+
+- name: bad_an
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 254
+      color_temp: 343
+    light.bad_ambiance:
+      state: on
+      brightness: 254
+      color_temp: 343
+    light.bad_yeelight:
+      state: on
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+#      brightness: 240
+
+
+- name: bad_2
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 254
+      color_temp: 471
+    light.bad_ambiance:
+      state: on
+      brightness: 254
+      color_temp: 226
+    light.bad_yeelight:
+      state: on
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+#      brightness: 240
+
+
+
+- name: duschen
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 254
+      color_temp: 348
+    light.bad_ambiance:
+      state: on
+      brightness: 254
+      color_temp: 386
+    light.bad_yeelight:
+      state: off
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+#      brightness: 240
+
+
+
+- name: baden
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 254
+      color_temp: 500
+    light.bad_ambiance:
+      state: on
+      brightness: 150
+      color_temp: 500
+    light.bad_yeelight:
+      state: on
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+
+      #####################
+
+
+
+- name: zaehneputzen
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 115
+      color_temp: 433
+    light.bad_ambiance:
+      state: on
+      brightness: 90
+      color_temp: 454
+    light.bad_yeelight:
+      state: off
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+
+
+
+#    light.tablet_screen:
+#      state: on
+#      brightness: 120
+
+- name: bad_abend
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 115
+      color_temp: 400
+    light.bad_ambiance:
+      state: on
+      brightness: 90
+      color_temp: 454
+    light.bad_yeelight:
+      state: off
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+
+
+#    light.tablet_screen:
+#      state: on
+#      brightness: 120
+
+
+- name: bad_nacht
+  entities:
+    light.badkuche:
+      state: on
+      brightness: 40
+      color_temp: 433
+    light.bad_ambiance:
+      state: off
+    light.bad_yeelight:
+      state: on
+#      brightness: 240
+#      brightness: 100
+#      color_temp: 433
+
+
+
+- name: bad_aus
+  entities:
+    light.badkuche:
+      state: off
+    light.bad_ambiance:
+      state: off
+    light.bad_yeelight:
+      state: off
+#      brightness: 240
+    input_boolean.boolean_shower_mode_l:
+      state: off
+    input_boolean.boolean_shower_mode_r:
+      state: off
+    input_boolean.boolean_shower_mode:
+      state: off
+    input_boolean.boolean_schmink_mode:
+      state: off
+    input_boolean.boolean_zaehneputzen:
+      state: off
+    input_boolean.boolean_baden:
+      state: off
+
+
+
+- name: bad_ambiance_morgens
+  entities:
+    light.bad_ambiance:
+      state: on
+      brightness: 255
+      color_temp: 150
+- name: bad_ambiance_tag
+  entities:
+    light.bad_ambiance:
+      state: on
+      brightness: 220
+      color_temp: 454
+- name: bad_ambiance_abend
+  entities:
+    light.bad_ambiance:
+      state: on
+      brightness: 110
+      color_temp: 454
+- name: bad_ambiance_nacht
+  entities:
+    light.bad_ambiance:
+      state: on
+      brightness: 10
+      color_temp: 454

@@ -1,0 +1,18 @@
+alias: restroom_yellow_single_licht_an_aus
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/xiaomi_button_a9'
+condition:
+- condition: template
+  value_template: "{{ 'single' == trigger.payload_json.click }}"
+action:
+- service: scene.turn_on
+  data_template:
+    entity_id: >-
+      {% if is_state("light.restroom_lights", "off") %}
+      scene.klo_tag
+      {% else %}
+      scene.klo_aus_instant
+      {% endif %}
+

@@ -1,0 +1,14 @@
+alias: V UP-hold
+hide_entity: true
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/dimmer_bad'
+condition:
+  condition: template
+  value_template: "{{ 'up-hold' == trigger.payload_json.action }}"
+action:
+- service: scene.turn_on
+  entity_id: scene.schminken
+
+  

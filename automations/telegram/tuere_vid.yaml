@@ -1,0 +1,23 @@
+alias: schicke gifs von besuchern v2
+initial_state: on
+trigger:
+  platform: state
+  entity_id: binary_sensor.mija_door
+  from: 'off'
+  to: 'on'
+action:
+#    - service: image_processing.scan
+#      data:
+#        entity_id: image_processing.tensorflow_locallest
+- service: shell_command.ipcam_sh
+- wait_template: "{{ is_state('sensor.cam_done', '1') }}"
+  timeout: '00:00:40'
+  continue_on_timeout: 'true'
+- service: telegram_bot.send_video
+  data_template:
+    file: /config/ffmpeg/{{ states('sensor.cam_file')}}
+- service: telegram_bot.send_message
+  data_template:
+    target: '420283533'
+    message: " Stand: {{ states('sensor.cam_file')}} Es ist {{now().strftime('%H:%M:%S %Y-%m-%d')}} /vid um es noch mal zu senden."
+

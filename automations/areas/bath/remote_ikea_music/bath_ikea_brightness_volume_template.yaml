@@ -1,0 +1,29 @@
+
+# arrow_left_click, arrow_right_click, arrow_right_hold, toggle
+---
+alias: bath_ikea_volume
+initial_state: 'on'
+trigger:
+- platform: mqtt
+  topic: 'lights/ikea_musik'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'brightness_down_click' == trigger.payload_json.action }}"
+    - condition: template
+      value_template: "{{ 'brightness_up_click' == trigger.payload_json.action }}"
+action:
+- service: media_player.volume_set
+  data_template:
+    entity_id: media_player.bad
+    volume_level: >
+                {%- set volume = state_attr('media_player.bad','volume_level') | round(2) %}
+                {% if 'up' in trigger.payload_json.action %}
+                {{ volume + 0.1 if volume + 0.1 <= 1.0 else 1.0 }}
+                {% elif 'down' in trigger.payload_json.action %}
+                {{ volume - 0.1 if volume - 0.1 >= 0.0 else 0.0 }}
+                {% else %}
+                {{ volume }}
+                {% endif %}
+

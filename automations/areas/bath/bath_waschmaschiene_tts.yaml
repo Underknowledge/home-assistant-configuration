@@ -1,0 +1,19 @@
+initial_state: 'on'
+alias: 'bath_TTS Waschmaschiene event fertig'
+trigger:
+  - platform: state 
+    entity_id: binary_sensor.waschmaschine_running
+    from: 'on'
+    to: 'off'
+condition:
+  - condition: time
+    after: '08:00:00'
+    before: '21:30:00'
+action:
+  # /config/packages/events.yaml
+ #    - delay: '00:03:30'
+  - event: tts_event_echo
+    event_data:
+      type: tts
+      message: Die Waschmaschiene Ist gerade fertig geworden!. Hänge doch die Wäsche gleich auf! 
+      delay: '00:00:05'

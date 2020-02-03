@@ -1,0 +1,8 @@
+
+
+binary_sensor:
+  - platform: workday
+    country: AT 
+    add_holidays:
+      - '2018-12-26'
+      - '2018-12-31'

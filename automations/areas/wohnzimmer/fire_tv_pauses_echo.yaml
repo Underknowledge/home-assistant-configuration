@@ -1,0 +1,23 @@
+alias: 'fire_tv_pauses_echo'
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: media_player.chromecast_wz
+    from: 'idle'
+    to: 'playing'
+  - platform: state
+    entity_id: media_player.chromecast_wz
+    from: 'off'
+    to: 'playing'
+condition:
+  - condition: state
+    entity_id: media_player.echo_dot
+    state: 'playing'
+action:
+  - service: media_player.media_pause
+    entity_id: media_player.echo_dot
+  - wait_template: "{{ is_state('media_player.chromecast_wz', 'paused') or is_state('media_player.chromecast_wz', 'idle') }}"
+    timeout: '01:30:00'
+    continue_on_timeout: false
+  - service: media_player.media_play
+    entity_id: media_player.echo_dot

@@ -1,0 +1,31 @@
+alias: bath_ikea_toggle
+initial_state: 'on'
+trigger:
+- platform: mqtt
+  topic: 'lights/ikea_musik'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'toggle' == trigger.payload_json.action }}"
+#    - condition: template
+#      value_template: "{{ 'brightness_down_hold' == trigger.payload_json.action }}"
+#    - condition: template
+#      value_template: "{{ 'brightness_down_releas' == trigger.payload_json.action }}"
+
+# arrow_left_click, arrow_right_click, arrow_right_hold, toggle
+
+#       {% set map = {
+#              "brightness_down_click": "state_attr('media_player.bad', 'volume_level')|round(2)|float - 0.1 | float",
+#              "brightness_up_click": "state_attr('media_player.bad', 'volume_level')|round(2)|float + 0.1 | float",
+#              "default": "unused"
+#          }%}
+#          {{ map[trigger.payload_json.action] if trigger.payload_json.action in map else map["default"] }}
+action:
+
+- service: media_player.toggle
+  data:
+    entity_id: media_player.gmusic_player
+#- service: media_player.toggle
+#  data:
+#    entity_id: media_player.gmusic_player

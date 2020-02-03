@@ -1,0 +1,9 @@
+homeassistant:
+  customize:
+    input_boolean.boolean_guest_mode:
+      friendly_name: Gäste
+      
+input_boolean:
+  boolean_guest_mode:
+    initial: off
+    # SENSOR IN MOVIE MODE

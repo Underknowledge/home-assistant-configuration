@@ -1,0 +1,45 @@
+
+homeassistant:
+  customize:
+    input_boolean.boolean_movie_mode:
+      friendly_name: Film schauen
+
+
+input_boolean:
+  boolean_movie_mode:
+    initial: off
+
+
+
+script:
+  movie_mode:
+    sequence:
+#      - service: input_boolean.turn_off
+#        data:
+#          entity_id: group.input_boolean_main_modes_card
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.boolean_movie_mode
+
+
+sensor:
+
+  - platform: template
+    sensors:
+      house_mode_special:
+        value_template: >-
+          {% if states('input_boolean.boolean_guest_mode') == 'on' %}
+              Gäste
+          {% elif states('input_boolean.boolean_movie_mode') == 'on' %}
+              Movie Time
+          {% else %}
+              normal
+          {% endif %}
+        icon_template: >-
+          {% if states('input_boolean.boolean_guest_mode') == 'on' %}
+              mdi:account-alert-outline
+          {% elif states('input_boolean.boolean_movie_mode') == 'on' %}
+              mdi:television
+          {% else %}
+              mdi:emoticon-outline
+          {% endif %}

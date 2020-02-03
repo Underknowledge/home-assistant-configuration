@@ -1,0 +1,22 @@
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_api_key
+    parse_mode: html
+    allowed_chat_ids:
+      - !secret telegram_w_chat
+      - !secret telegram_b_chat
+      - !secret telegram_HOMEBOT_chat
+      - !secret telegram_ChatID_HOMEBOT
+      
+notify:
+- name: w
+  platform: telegram
+  chat_id: !secret telegram_w_chat
+- name: b
+  platform: telegram
+  chat_id: !secret telegram_b_chat
+
+
+
+shell_command:
+  unban: rm /config/ip_bans.yaml

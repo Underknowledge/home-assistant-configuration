@@ -1,0 +1,18 @@
+
+alias: 'telegram_alexa_leiser'
+initial_state: on
+hide_entity: true
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/alexa_leiser'
+action:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.echo_dot
+      volume_level: '{{ states.media_player.echo_dot.attributes.volume_level - 0.1 }}'
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: " Lautstärke bei  {{ states.media_player.echo_dot.attributes.volume_level }}' "

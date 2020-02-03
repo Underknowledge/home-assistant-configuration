@@ -1,0 +1,42 @@
+
+
+
+yeelight:
+  devices:
+    10.0.2.30:
+      name: Bad Yeelight
+      use_music_mode: true
+    10.0.2.61:
+      name: sz_yeelight
+      use_music_mode: true
+      
+
+  custom_effects:
+    - name: fire
+      flow_params:
+        count: 0
+        transitions:
+          - TemperatureTransition: [1900, 1000, 80]
+          - TemperatureTransition: [1900, 2000, 60]
+          - SleepTransition:       [1000]
+    - name: fire2
+      flow_params:
+        count: 0
+        transitions:
+          - TemperatureTransition: [1700 , 1200, 11]
+          - SleepTransition:       [700]
+          - TemperatureTransition: [1800 , 1000, 27]
+          - SleepTransition:       [1100]
+          - TemperatureTransition: [1700 , 1200, 9]
+          - TemperatureTransition: [1900 , 1500, 30]
+          - TemperatureTransition: [1750 , 1000, 15]
+          - SleepTransition:       [1020]
+          - TemperatureTransition: [2100 , 2000, 20]
+          - SleepTransition:       [900]
+    - name: dumb
+      flow_params:
+        count: 0
+        transitions:
+          - TemperatureTransition: [1900, 50, 1900]
+          - TemperatureTransition: [50, 2000, 60]
+          - SleepTransition:       [3000]

@@ -1,0 +1,113 @@
+
+- name: wz_tv_an
+  entities:
+    switch.tv_relay:
+      state: on
+    switch.sende_aus:
+      state: on
+
+
+- name: wz_hell
+  entities:
+    switch.vitrine_relay:
+      state: on
+    light.kommode:
+      state: on
+    light.vorraum_white:
+      state: on
+      brightness: 254
+    light.wz_main:
+      state: on
+      brightness: 254
+      color_temp: 320
+#      transition: 5
+    switch.stehlampe:
+      state: on
+    light.einhorn_mq:
+      state: on
+      brightness: 254
+#      transition: 10
+    switch.couch:
+      state: on
+
+
+
+- name: wz_chill
+  entities:
+    switch.vitrine_relay:
+      state: on
+    light.kommode:
+      state: on
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: on
+    light.einhorn_mq:
+      state: on
+      brightness: 154
+#      transition: 10
+    switch.couch:
+      state: on
+
+- name: wz_fruehstueck
+  entities:
+    switch.vitrine_relay:
+      state: off
+    light.kommode:
+      state: on
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: on
+    light.einhorn_mq:
+      state: on
+    switch.couch:
+      state: off
+
+
+- name: wz_stehlampen
+  entities:
+    switch.vitrine_relay:
+      state: off
+    light.kommode:
+      state: on
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: on
+    light.einhorn_mq:
+      state: off
+    switch.couch:
+      state: off
+
+- name: wz_smooth
+  entities:
+    switch.vitrine_relay:
+      state: off
+    light.kommode:
+      state: on
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: off
+    light.einhorn_mq:
+      state: off
+      brightness: 40
+    switch.couch:
+      state: off
+
+
+- name: wz_aus
+  entities:
+    switch.vitrine_relay:
+      state: off
+    light.kommode:
+      state: off
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: off
+    light.einhorn_mq:
+      state: off
+    switch.couch:
+      state: off

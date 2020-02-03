@@ -1,0 +1,72 @@
+### HomeAssistant ###
+*
+# including folders
+#      $find . -type d
+!*.yaml
+!.gitignore
+!*.md
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+google_calendars.yaml
+
+!/automations
+!/automations/system
+!/automations/house
+!/automations/areas
+!/automations/areas/bath
+!/automations/areas/bath/remote_flic
+!/automations/areas/bath/remote_ikea_music
+!/automations/areas/bath/remote_hue_dimmer_bad
+!/automations/areas/bath/light
+!/automations/areas/bath/light/uverthinkit
+!/automations/areas/hall
+!/automations/areas/restroom
+!/automations/areas/restroom/light
+!/automations/areas/wohnzimmer
+!/automations/areas/wohnzimmer/ir
+!/automations/areas/wohnzimmer/alexa
+!/automations/areas/wohnzimmer/cube
+!/automations/areas/bedroom
+!/automations/areas/bedroom/remotes
+!/automations/areas/kitchen
+!/automations/telegram
+!/automations/telegram/start
+!/automations/telegram/media
+!/automations/telegram/menue
+
+!/lovelace/001_dashboard.yaml
+!/lovelace/dashboard.jpg
+!/lovelace/050_schlafzimmer.yaml
+# Sorry folks, I have to get the personal data out first :P
+# !/lovelace/001_dashboard
+# !/lovelace/views
+# !/lovelace/views/070_wz
+# !/lovelace/views/030_remote
+# !/lovelace/views/100_bad
+# !/lovelace/views/plugs
+# !/lovelace/settings
+
+
+!packages
+!packages/custom
+!packages/house_state
+!packages/integrations
+!packages/pack
+!packages/script
+!packages/script/room_toilet
+!packages/script/room_hallway
+!packages/script/room_bath
+!packages/script/room_kitchen
+!packages/script/room_bedroom
+!packages/script/room_livingroom
+!packages/setup
+!packages/setup/lights
+!packages/setup/sensor_zigbee
+
+# !ffmpeg
+!ffmpeg/done.txt.dummy
+!ffmpeg/file.txt.dummy
+!scene
+
+!themes

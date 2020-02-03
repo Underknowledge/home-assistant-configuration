@@ -1,0 +1,68 @@
+
+- name: klo_morgens
+  entities:
+    light.klo_mq:
+      state: on
+      brightness: 200
+     
+    light.vorraum_lightstrip_mq:
+      state: off
+
+
+
+- name: klo_tag
+  entities:
+    light.klo_mq:
+      state: on
+      brightness: 235
+#      transition: 3
+    light.vorraum_lightstrip_mq:
+      state: off
+#      transition: 1
+
+
+- name: klo_abend
+  entities:
+    light.klo_mq:
+      state: on
+      brightness: 30
+#      brightness: 10
+    light.vorraum_lightstrip_mq:
+      state: on
+      brightness: 40
+      xy_color: [0.581,0.393]
+#      transition: 3
+
+- name: klo_nacht
+  entities:
+    light.klo_mq:
+      state: off
+#      brightness: 10
+    light.vorraum_lightstrip_mq:
+      state: on
+      brightness: 20
+      xy_color: [0.581,0.393]
+#      transition: 3
+
+
+
+- name: klo_aus
+  entities:
+    light.klo_mq:
+      state: off
+#      transition: 15
+    light.vorraum_lightstrip_mq:
+      state: off
+#      transition: 15
+
+            
+              
+- name: klo_aus_instant
+  entities:
+    light.klo_mq:
+      state: off
+#      transition: 0
+    light.vorraum_lightstrip_mq:
+      state: off
+#      transition: 0              
+#     

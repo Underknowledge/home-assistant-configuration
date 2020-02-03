@@ -1,0 +1,15 @@
+alias: V OFF
+hide_entity: true
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/dimmer_bad'
+condition:
+  condition: template
+  value_template: "{{ 'off-press' == trigger.payload_json.action }}"
+action:
+- service: scene.turn_on
+  entity_id: scene.bad_aus
+- service: homeassistant.turn_off
+  entity_id: input_boolean.boolean_zaehneputzen, input_boolean.boolean_shower_mode_l, input_boolean.boolean_shower_mode_r, input_boolean.boolean_shower_mode, input_boolean.boolean_schmink_mode, input_boolean.boolean_baden
+  #group.input_boolean_bath_card

@@ -1,0 +1,11 @@
+alias: livingroom_cube_fall
+initial_state: 'on'
+trigger:
+  platform: mqtt
+  topic: 'lights/tv_cube'
+condition:
+  condition: template
+  value_template: "{{ trigger.payload_json.action in ['fall'] }}"
+action:
+  - service: scene.turn_on
+    entity_id: scene.wz_chill

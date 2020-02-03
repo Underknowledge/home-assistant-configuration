@@ -1,0 +1,6 @@
+device_tracker:
+  - platform: unifi_direct
+    host: !secret unify_host
+    username: !secret unify_username
+    password: !secret unify_password
+    

@@ -1,0 +1,55 @@
+
+- name: kochen
+  entities:
+    light.dunstabzug:
+      state: on
+    light.kuchenlicht:
+      state: on
+      brightness: 254
+      color_temp: 200
+    light.badkuche:
+      state: on
+      brightness: 254
+      color_temp: 374
+    switch.kueche_panel_relay:
+      state: off
+
+
+- name: kochen_abend
+  entities:
+    light.dunstabzug:
+      state: on
+    light.kuchenlicht:
+      state: on
+      brightness: 80
+      color_temp: 400
+    light.badkuche:
+      state: on
+      brightness: 100
+      color_temp: 374
+
+
+- name: kueche_abend
+  entities:
+    light.dunstabzug:
+      state: off
+    light.kuchenlicht:
+      state: on
+      brightness: 80
+      color_temp: 400
+    light.badkuche:
+      state: on
+      brightness: 100
+      color_temp: 374
+
+
+- name: kueche_aus
+  entities:
+    light.badkuche:
+      state: off
+    light.kuchenlicht:
+      state: off
+    light.dunstabzug:
+      state: off
+    switch.kueche_panel_relay:
+      state: off

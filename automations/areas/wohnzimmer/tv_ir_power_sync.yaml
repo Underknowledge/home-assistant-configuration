@@ -1,0 +1,24 @@
+---
+alias: livingroom_tv_IR_
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.tv_running
+  - platform: state
+    entity_id:
+      - sensor.ir
+action:
+#- service: switch.turn_on
+#  entity_id: switch.tv_relay, switch.gosund_11_relay
+- service_template: >
+    {% if is_state("binary_sensor.tv_running", "on") -%}
+      switch.turn_on
+    {%- else -%}
+      switch.turn_off
+    {%- endif %}
+  data:
+    entity_id: switch.gosund_11_relay
+
+

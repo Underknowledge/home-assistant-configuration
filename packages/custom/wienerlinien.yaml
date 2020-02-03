@@ -1,0 +1,47 @@
+# Sensors for the WienerLienien stops 
+# to find out the stop ID's check out https://till.mabe.at/rbl/
+# Thanks to @thomasloven for the sed | tr magic L#23
+
+# there is also a coustom component from Ludeeus - check: 
+# https://github.com/custom-components/wienerlinien
+
+  # - platform: wienerlinien
+  #   apikey: !secret wienerlinienapikey
+  #   firstnext: first
+  #   stops:
+  #     - '4120' 
+
+  # - platform: wienerlinien
+  #   apikey: !secret wienerlinienapikey
+  #   firstnext: next
+  #   stops:
+  #     - '4120'
+  
+# https://www.data.gv.at/katalog/dataset/add66f20-d033-4eee-b9a0-47019828e698
+# data.wien.gv.at' Lizenz (CC BY 3.0 AT)
+# the comand is as following:
+# curl -s 'http://www.wienerlinien.at/ogd_realtime/monitor?rbl=******STOP-HERE******&sender=*****API-KEY-HERE*****' | jq '.data.monitors' | jq '.[].lines' | jq '.[].towards, .[].departures.departure' | sed -n '1!p' | jq '.[]' | jq '(.departureTime.countdown)' | tr '\n', ',' | sed -e 's/^/[/' -e 's/,$/]/' | jq '{next: .[0], seccond: .[1], third: .[2], fourth: .[3]}'"
+
+
+sensor:
+
+  - platform: command_line
+    name: !secret wienerlinien_name_W_I #A
+    command: !secret wienerlinien_curl_W_I
+    scan_interval: 65
+    value_template: '{{ value_json.next }}, {{ value_json.seccond }}, {{ value_json.third }}'
+    json_attributes: 
+      - next
+      - seccond
+      - third
+      - fourth
+
+  - platform: command_line
+    name: !secret wienerlinien_name_H_O #U
+    command: !secret wienerlinien_curl_H_O
+    scan_interval: 60
+    value_template: '{{ value_json.next }}, {{ value_json.seccond }}'
+    json_attributes: 
+      - next
+      - seccond
+

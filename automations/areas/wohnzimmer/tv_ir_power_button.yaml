@@ -1,0 +1,24 @@
+alias: livingroom_tv_IR_0I
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.ir
+    to: 'E0E040BF' #onoff
+condition:
+  - condition: state
+    entity_id: binary_sensor.tv_running
+    state: 'off'
+action:
+- service: switch.turn_on
+  entity_id: switch.tv_relay, switch.gosund_11_relay
+- event: event_tv_turned_on
+- delay: '00:00:03'
+- service: switch.toggle
+  entity_id: switch.sende_aus
+
+# - delay: '00:00:03'
+# 
+# - service: switch.toggle
+#   entity_id: switch.sende_moveupdownon

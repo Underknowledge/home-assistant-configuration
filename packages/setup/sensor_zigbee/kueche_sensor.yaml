@@ -1,0 +1,71 @@
+
+binary_sensor:
+  - platform: "mqtt"
+    name: motion_kueche
+    state_topic: "lights/motion_kueche"
+    availability_topic: "lights/bridge/state"
+    payload_on: true
+    payload_off: false
+    value_template: "{{ value_json.occupancy }}"
+    device_class: "motion"
+    
+
+  - platform: "mqtt"
+    name: ex_kuehlschrank
+    state_topic: "lights/fridge"
+    availability_topic: "lights/bridge/state"
+    payload_on: false
+    payload_off: true
+    value_template: "{{ value_json.contact }}"
+    device_class: "door"
+    device:
+      identifiers:
+        - 0x00158d0002432000_sensor_zigbee2mqtt
+  
+
+sensor:
+
+
+
+  - platform: "mqtt"
+    name: motion_kueche_battery
+#    Bewegung Klo
+    state_topic: "lights/motion_kueche"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+
+
+
+
+
+
+
+
+
+
+#VIBRATE
+
+  - platform: "mqtt"
+    state_topic: "lights/vibrate"
+    availability_topic: "lights/bridge/state"
+    icon: "mdi:gesture-double-tap"
+    value_template: "{{ value_json.action }}"
+    expire_after: 1
+
+
+  - platform: "mqtt"
+    state_topic: "lights/vibrate"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+
+  - platform: "mqtt"
+    state_topic: "lights/vibrate"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"

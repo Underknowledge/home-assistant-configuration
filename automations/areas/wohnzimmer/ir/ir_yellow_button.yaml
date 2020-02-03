@@ -1,0 +1,31 @@
+
+
+alias: livingroom_tv_IR_Gelb
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.ir
+    to: 'E0E0A857' #gleb
+action:
+- service: scene.turn_on
+  entity_id: scene.wz_chill
+
+
+#  - alias: IR2
+#    initial_state: 'on'
+#    hide_entity: true
+#    trigger:
+#      - platform: state
+#        entity_id:
+#          - sensor.ir
+#        to: 'E0E0A857' #gleb
+#    action:
+#    - service: scene.turn_on
+#      entity_id: scene.wz_chill
+#    - service: automation.turn_off
+#      entity_id: automation.motion_komode_off
+#    - delay: '01:03:00'
+#    - service: automation.turn_on
+#      entity_id: automation.motion_kommode_on

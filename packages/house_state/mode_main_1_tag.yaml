@@ -1,0 +1,40 @@
+homeassistant:
+  customize:
+    input_boolean.boolean_day_time:
+      friendly_name: Tag
+  ########################################################################################
+ ####                                                                                  ####
+#####                               Mode      Tag                                     #####
+ ####                                                                                  ####
+  ########################################################################################
+
+input_boolean:
+  boolean_day_time:
+    initial: off
+
+input_number:
+  day_time_brightness_value:
+    name: Day Mode Brightness
+    min: 0
+    max: 255
+    step: 1
+  day_time_color_temp_value:
+    name: Day Mode Color Temp
+    min: 154
+    max: 500
+    step: 1
+  day_time_transition_value:
+    name: Day Mode Transition
+    min: 1
+    max: 10
+    step: 1
+
+group:
+  input_number_day_time:
+    name: day time
+    entities:
+      - input_number.day_time_brightness_value
+      - input_number.day_time_color_temp_value
+      - input_number.day_time_transition_value
+
+

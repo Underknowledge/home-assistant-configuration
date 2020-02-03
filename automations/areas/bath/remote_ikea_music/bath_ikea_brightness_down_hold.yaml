@@ -1,0 +1,20 @@
+# depends on /scenes/bad
+# depends on /packages/house_state/mode_shower_mode.yaml
+    # brightness_down_hold
+    # brightness_down_release
+---
+alias: bath_ikea_brightness_down_hold
+initial_state: 'on'
+trigger:
+- platform: mqtt
+  topic: 'lights/ikea_musik'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'brightness_down_hold' == trigger.payload_json.action }}"
+action:
+- service: scene.turn_on
+  entity_id: scene.duschen
+- service: input_boolean.turn_on
+  entity_id: input_boolean.boolean_shower_mode

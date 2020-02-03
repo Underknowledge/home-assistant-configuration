@@ -1,0 +1,20 @@
+
+alias: sz_vibration
+hide_entity: true
+initial_state: 'on'
+trigger:
+- platform: mqtt
+  topic: 'lights/vibration_sensor'
+condition:
+  - condition: template
+    value_template: "{{ 'vibration' == trigger.payload_json.action }}"
+  - condition: time
+    after: '17:00:00'
+    before: '01:30:00'
+action:
+- service: input_datetime.set_datetime
+  data_template:
+    entity_id: input_datetime.zu_bett
+    time: "{{ states('sensor.time') }}:00"
+- service: scene.turn_on
+  entity_id: scene.sz_aus

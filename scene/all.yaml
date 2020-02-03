@@ -1,0 +1,84 @@
+
+- name: aus_aus
+  id: aus_aus
+  entities:
+    light.klo_mq:
+      state: off
+    light.vorraum_lightstrip_mq:
+      state: off
+    light.vorraum_white:
+      state: off
+    light.kommode:
+      state: off
+    switch.vitrine_relay:
+      state: off
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: off
+    light.einhorn_mq:
+      state: off
+    switch.couch:
+      state: off
+    light.kuchenlicht:
+      state: off
+    switch.kueche_panel_relay:
+      state: off
+    light.badkuche:
+      state: off
+    light.bad_ambiance:
+      state: off
+    light.yeelight_ct2_7c49eb15215b:
+      state: off
+    light.bad_yeelight:
+      state: off
+    light.sz_lightstrip_plus:
+      state: off
+    light.schreibtisch_bulb:
+      state: off
+    switch.schreibtisch:
+      state: off
+    light.nachttisch:
+      state: off
+    light.sz_yeelight:
+      state: off
+    switch.rf_d:
+      state: off
+    switch.rf_c:
+      state: off
+
+
+
+- name: aus_aus_nighty
+  id: aus_aus_nighty
+  entities:
+    light.klo_mq:
+      state: off
+    light.vorraum_lightstrip_mq:
+      state: off
+    light.vorraum_white:
+      state: off
+    light.kommode:
+      state: off
+    light.bad_ambiance:
+      state: off
+    light.yeelight_ct2_7c49eb15215b:
+      state: off
+    light.badkuche:
+      state: off
+    light.kuchenlicht:
+      state: off
+    switch.kueche_panel_relay:
+      state: off
+    switch.vitrine_relay:
+      state: off
+    light.wz_main:
+      state: off
+    switch.stehlampe:
+      state: off
+    light.einhorn_mq:
+      state: off
+    switch.couch:
+      state: off
+    switch.rf_c:
+      state: off

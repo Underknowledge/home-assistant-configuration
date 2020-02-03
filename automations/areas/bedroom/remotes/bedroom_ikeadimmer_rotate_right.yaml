@@ -1,0 +1,34 @@
+alias: ikeadimmer_rotate_r
+initial_state: on
+trigger:
+  - platform: mqtt
+    topic: 'lights/ikea_dimmer'
+condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: 'media_player.echo_dot'
+        state: 'playing'
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ 'rotate_right' == trigger.payload_json.action }}"
+      - condition: template
+        value_template: "{{ 'rotate_right_quick' == trigger.payload_json.action }}"
+#  - condition: template
+#    value_template: "{{ trigger.from_state.state != trigger.to_state.state }}"
+action:
+  - service: media_player.media_next_track
+    data_template:
+      entity_id: |
+        {% for state in states.media_player -%}
+        {% if state.state_with_unit == 'playing' %}
+        {{ (state.entity_id|lower) }}
+        {% endif %}
+        {% endfor %}
+#      entity_id: "{{ dict((states|selectattr('entity_id', 'in', state_attr('group.media_player_template', 'entity_id'))|list)|groupby('state'))['playing']|map(attribute='entity_id')|list|join(', ') }}" 
+ #    - delay: '00:00:01'
+ #    - service: media_player.media_next_track
+ #      data_template:
+ #        entity_id: "{{ dict((states|selectattr('entity_id', 'in', state_attr('group.media_player_template', 'entity_id'))|list)|groupby('state'))['playing']|map(attribute='entity_id')|list|join(', ') }}" 
+  - delay: '00:00:05'

@@ -1,0 +1,17 @@
+alias: ikeadimmer_left_quick
+initial_state: on
+trigger:
+  - platform: mqtt
+    topic: 'lights/ikea_dimmer'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'rotate_left_quick' == trigger.payload_json.action }}"
+action:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.echo_dot
+      media_content_id: "daumen runter"
+      media_content_type: "DEEZER"
+  - delay: '00:00:02'

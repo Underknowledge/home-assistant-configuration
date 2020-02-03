@@ -1,0 +1,192 @@
+#####################################################################
+#    @package          :     alexa_tts
+#    @description      :     alexa_tts settings
+#####################################################################
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+    package.node_anchors:
+      customize: &customize
+        package: 'alexa_tts'
+
+
+
+    ################################################
+    ## Input Text
+    ################################################
+    input_text.alexa_tts:
+      icon: mdi:textbox
+
+
+    ################################################
+    ## Input Select
+    ################################################
+    input_select.alexa:
+      icon: mdi:format-list-bulleted
+
+
+    ################################################
+    ## Input Number
+    ################################################
+    input_number.alexa_volume:
+      icon: mdi:volume-high
+
+
+#####################################################################
+### Input Text
+#####################################################################
+input_text:
+  alexa_tts:
+    name: Alexa TTS
+    initial: TTS
+
+
+#####################################################################
+### Input Number
+#####################################################################
+input_number:
+  alexa_volume:
+    name: Alexa Volume
+    initial: 0.6
+#    initial:
+#      data_template: "{{state_attr ('media_player.echo_dot', 'volume_level' ) | float *10  }}"
+# "{{ state_attr('media_player.echo_dot', 'volume_level') | default('0.6', true)  }}
+# "{{ state_attr('media_player.echo_dot', 'volume_level')|float (1) *10  }}"
+    min: 0
+    max: 1
+    step: 0.01
+
+
+# Dienst input_number/set_value aufgerufen.
+
+# media_player.echo_dot
+#   "volume_level": 0.6,
+
+
+## ///////////////////////////////////////////////////////////////////////////////////////////////
+
+#####################################################################
+### Automation
+#####################################################################
+automation:
+
+
+
+
+
+
+  - alias: alexa_lautstarke_set
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_number.alexa_volume
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.echo_dot
+          volume_level: '{{ states.input_number.alexa_volume.state }}'
+          #             '{{ states.input_number.alexa_volume.state | float /100 }}'
+      - delay: '00:00:02'
+
+
+#  - alias: alexa_lautstarke_sync
+#    initial_state: 'on'
+#    trigger:
+#      - platform: numeric_state
+#        entity_id: media_player.echo_dot
+#        value_template: '{{ state.attributes.volume_level }}'
+#        above: 0.0
+#        below: 0.4
+#      - platform: numeric_state
+#        entity_id: media_player.echo_dot
+#        value_template: '{{ state.attributes.volume_level }}'
+#        above: 0.4
+#        below: 0.8
+#      - platform: numeric_state
+#        entity_id: media_player.echo_dot
+#        value_template: '{{ state.attributes.volume_level }}'
+#        above: 0.8
+#        below: 1
+#    action:
+#      - service: automation.turn_off
+#        entity_id: automation.alexa_lautstarke_set
+#
+#      - service: input_number.set_value
+#        data_template:
+#          entity_id: input_number.alexa_volume
+#          value: "{{ state_attr('media_player.echo_dot', 'volume_level') | default('0.6', true)  }}"
+#      - service: automation.turn_on
+#        entity_id: automation.alexa_lautstarke_set
+#      - delay: '00:00:02'
+
+
+
+  ## Announce what is typed as input
+  - alias: Alexa TTS
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_text.alexa_tts
+
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.echo_dot
+          volume_level: '{{ states.input_number.alexa_volume.state }}'
+      - service: notify.alexa_tts
+        data:
+          target: 
+            - media_player.echo_dot
+          data:
+            type: tts
+            #type: announce
+            #method: all
+          message:  "{{ states.input_text.alexa_tts.state }}"
+      - delay: '00:00:03'
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.alexa_tts
+          value: ''
+
+
+  alexa_joke:
+    alias: 'joke test'
+    sequence:
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.echo_dot
+        media_content_type: sequence
+        media_content_id: Alexa.Joke.Play
+
+
+#
+# {
+# "entity_id": "media_player.computer_room_dot",
+# "media_content_id": "Blank (Silent Track)",
+# "media_content_type": "AMAZON_MUSIC"
+# }
+
+#  - data_template:
+#      entity_id: media_player.upstairs
+#      message: -> 'Hello Remco. Goodmorning. The temperature outside is {{ states("sensor.weather_temperature")
+#        }} degrees. There will be {% if states("sensor.weather_precipitation") ==   '0.0'  -%}
+#        no rain today. {%- else -%} {{states("sensor.weather_precipitation")}} milimeter
+#        of rain today, bring an umbrella. {%- endif %} Your first calendar item is;
+#        {{ states("sensor.next_appoint_remco_message") }}, at {{ states("sensor.next_appoint_remco_tijd")
+#        }}. Your Travel time to work is approximatly {{ states("sensor.waze_travel_time")
+#        }} minutes if you take {{ states.sensor.waze_travel_time.attributes.route
+#        }}. Have a nice day'
+#    service: media_player.alexa_tts
+#  - wait_template: '{{ is_state(''sensor.broadlink_s1c_living_room_door'', ''open'')
+#      }}'
+#    timeout: 00:30:00
+#  - delay: 00:00:05
+#  - data_template:
+#      entity_id: media_player.downstairs
+#      message: -> 'Hello Remco. Your Travel time to work is approximatly {{ states("sensor.waze_travel_time")
+#        }} minutes if you take {{ states.sensor.waze_travel_time.attributes.route
+#        }}. Have a nice day.'
+#    service: media_player.alexa_tts
+ros

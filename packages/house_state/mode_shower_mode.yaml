@@ -1,0 +1,238 @@
+
+homeassistant:
+  customize:
+    input_boolean.boolean_shower_mode_l:
+      friendly_name: Duschen
+    input_boolean.boolean_shower_mode_r:
+      friendly_name: Duschen
+    input_boolean.boolean_schmink_mode:
+      friendly_name: Schminken
+    input_boolean.boolean_zaehneputzen:
+      friendly_name: Zähneputzen
+    input_boolean.boolean_baden:
+      friendly_name: Baden
+
+
+input_boolean:
+  boolean_shower_mode_l:
+    initial: off
+  boolean_shower_mode_r:
+    initial: off
+  boolean_shower_mode:
+    initial: off
+  boolean_schmink_mode:
+    initial: off
+  boolean_zaehneputzen:
+    initial: off
+  boolean_baden:
+    initial: off
+
+
+
+# https://community.home-assistant.io/t/trigger-if-humidity-changed-about-5-in-time-period-5min/41761/25
+# set up wrong, not a hell useful
+binary_sensor: 
+  - platform: trend
+    sensors:
+      bathroom_humidity_rising:
+        entity_id: sensor.bad_d1_mini_humidity
+        friendly_name: Bathroom Humidity Rising
+        sample_duration: 7200
+        min_gradient: 4.08
+      bathroom_humidity_falling:
+        entity_id: sensor.bad_d1_mini_humidity
+        friendly_name: Bathroom Humidity Falling
+        sample_duration: 7200
+        min_gradient: -4.04
+
+  - platform: template
+    sensors:
+      boolean_shower_mode_template: 
+        friendly_name: "Duschen template"
+        value_template: "{{ states('sensor.bad_d1_mini_humidity') |float > 90}}"
+        
+
+
+sensor:
+  - platform: template
+    sensors:
+      bad_mode_state:
+        value_template: >-
+          {% if states('input_boolean.boolean_zaehneputzen') == 'on' %}
+              Zähneputzen
+          {% elif states('input_boolean.boolean_schmink_mode') == 'on' %}
+              Schminkt
+          {% elif states('input_boolean.boolean_shower_mode_l') == 'on' %}
+              Duschen
+          {% elif states('input_boolean.boolean_shower_mode_r') == 'on' %}
+              Duschen
+          {% elif states('binary_sensor.boolean_shower_mode_template') == 'on' %}
+              Duschen
+          {% elif states('input_boolean.boolean_shower_mode') == 'on' %}
+              Duschen
+          {% elif states('input_boolean.boolean_baden') == 'on' %}
+              Baden
+          {% else %}
+              Bad normal
+          {% endif %}
+        icon_template: >-
+          {% if states('input_boolean.boolean_zaehneputzen') == 'on' %}
+              mdi:tooth-outline
+          {% elif states('input_boolean.boolean_schmink_mode') == 'on' %}
+              mdi:brush
+          {% elif states('input_boolean.boolean_shower_mode_l') == 'on' %}
+              mdi:shower-head
+          {% elif states('input_boolean.boolean_shower_mode_r') == 'on' %}
+              mdi:shower-head
+          {% elif states('binary_sensor.boolean_shower_mode_template') == 'on' %}
+              mdi:android-studio
+          {% elif states('input_boolean.boolean_shower_mode') == 'on' %}
+              mdi:shower-head
+          {% elif states('input_boolean.boolean_baden') == 'on' %}
+              mdi:shower
+          {% else %}
+              mdi:emoticon-outline
+          {% endif %}
+
+
+
+
+
+
+
+
+group:
+  input_boolean_bath_card:
+    name: Bad Mode
+    control: hidden
+    entities:
+      - input_boolean.boolean_zaehneputzen
+      - input_boolean.boolean_shower_mode_l
+      - input_boolean.boolean_shower_mode_r
+      - input_boolean.boolean_shower_mode
+      - input_boolean.boolean_schmink_mode
+      - input_boolean.boolean_baden
+
+
+#automation:
+
+
+
+# unbenutzt  - alias:  Bad Automate shower mode_r
+# unbenutzt    initial_state: 'on'
+# unbenutzt    trigger:
+# unbenutzt      - platform: state
+# unbenutzt        entity_id: input_boolean.boolean_shower_mode_r
+# unbenutzt        to: 'on'
+# unbenutzt    action:
+# unbenutzt      - service: scene.turn_on
+# unbenutzt        entity_id: scene.duschen
+# unbenutzt      - service: input_boolean.turn_on
+# unbenutzt        entity_id: input_boolean.boolean_shower_mode
+# unbenutzt      - delay: '00:20:00'
+# unbenutzt      - service: input_boolean.turn_off
+# unbenutzt        entity_id: input_boolean.boolean_shower_mode_r
+# unbenutzt
+
+
+#alt  - alias:  Bad Automate shower mode_l
+#alt    initial_state: 'on'
+#alt    trigger:
+#alt      - platform: state
+#alt        entity_id: input_boolean.boolean_shower_mode_l
+#alt        to: 'on'
+#alt    condition:
+#alt      - condition: state
+#alt        entity_id: 'input_boolean.boolean_shower_mode_r'
+#alt        state: 'on'
+#alt    action:
+#alt      - service: scene.turn_on
+#alt        entity_id: scene.duschen
+#alt
+#alt      - service: input_boolean.turn_on
+#alt        entity_id: input_boolean.boolean_shower_mode
+#alt
+#alt
+#alt
+#alt      - service: input_select.select_option
+#alt        data:
+#alt          entity_id: input_select.music
+#alt          option: "Runde Sache"
+#alt      - service: input_number.set_value
+#alt        data:
+#alt          entity_id: input_number.volume_radio
+#alt          value: 0.9
+#alt      - service: input_select.select_option
+#alt        data:
+#alt          entity_id: input_select.media_player
+#alt          option: "bad"
+#alt      - delay: '00:00:01'
+#alt      - service: switch.turn_on
+#alt        entity_id: switch.google_music
+#alt
+
+
+
+
+
+
+
+
+
+
+
+#  - alias: Bad Automate modes off
+#    initial_state: 'on'
+#    trigger:
+#      - platform: state
+#        entity_id: scene.bad_aus
+#        to: 'on'
+#    action:
+
+
+
+#  - alias: Automate Movie time off
+#    initial_state: 'on'
+#    trigger:
+#      - platform: state
+#        entity_id: switch.tv_relay
+#        to: 'off'
+##      - platform: state
+##        entity_id: sensor.remote_entertainment
+##        to: 'Netflix'
+#    action:
+#      - service: input_boolean.turn_off
+#        entity_id: input_boolean.boolean_shower_mode
+
+
+
+script:
+  bad_and_modes_off:
+    sequence:
+
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.boolean_zaehneputzen
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.boolean_schmink_mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.boolean_shower_mode_l
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.boolean_shower_mode_r
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.boolean_shower_mode
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.boolean_baden
+#      - service: input_boolean.turn_off
+#        entity_id: input_boolean.
+      - service: scene.turn_on
+        entity_id: scene.bad_aus
+
+
+
+#      - service: input_boolean.turn_off
+#        data:
+##          entity_id: group.input_boolean_main_modes_card
+#      - service: input_boolean.turn_on
+#        data:
+#          entity_id: input_boolean.boolean_shower_mode
+#

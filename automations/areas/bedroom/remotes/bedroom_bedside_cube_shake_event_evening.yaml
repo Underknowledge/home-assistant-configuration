@@ -1,0 +1,57 @@
+alias: Dashevent_sleepy_bett_lights_off
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: event
+    event_type: event_dash_sleepy
+condition:
+  - condition: state
+    entity_id: 'group.schlafzimmer'
+    state: 'off'
+  - condition: time
+    after: '20:00:00'
+    before: '03:00:00'
+  - condition: and
+    conditions:
+      - condition: state
+        entity_id: 'group.schlafzimmer'
+        state: 'off'
+action:
+- service: script.turn_on
+  entity_id: script.dash_snooze_lights
+- service: input_number.set_value
+  data_template:
+    entity_id: input_number.alarmhour1
+    value: "{{ (( as_timestamp(now()) + (28800))|timestamp_custom('%H', true)) }}" # (7,7 std 27720)
+- service: input_number.set_value
+  data_template:
+    entity_id: input_number.alarmminutes1
+    value: "{{ (( as_timestamp(now()) + (28800))|timestamp_custom('%M', true)) }}"
+- service: input_number.set_value
+  data_template:
+    entity_id: input_number.alarmhour2
+    value: "{{ (( as_timestamp(now()) + (29880))|timestamp_custom('%H', true)) }}" # (8 std 28800)
+- service: input_number.set_value
+  data_template:
+    entity_id: input_number.alarmminutes2
+    value: "{{ (( as_timestamp(now()) + (29880))|timestamp_custom('%M', true)) }}"
+- service: input_number.set_value
+  data_template:
+    entity_id: input_number.alarmhour3
+    value: "{{ (( as_timestamp(now()) + (29980))|timestamp_custom('%H', true)) }}" # (8,3 std 29880)
+- service: input_number.set_value
+  data_template:
+    entity_id: input_number.alarmminutes3
+    value: "{{ (( as_timestamp(now()) + (29980))|timestamp_custom('%M', true)) }}"
+- service: automation.turn_on
+  entity_id: automation.wake_me_up1
+- service: automation.turn_on
+  entity_id: automation.wake_me_up2
+- service: automation.turn_on
+  entity_id: automation.wake_me_up3
+- service: input_boolean.turn_on
+  entity_id: input_boolean.wecker_heizen
+- service: input_datetime.set_datetime
+  data_template:
+    entity_id: input_datetime.zu_bett
+    time: "{{ states('sensor.time') }}:00"

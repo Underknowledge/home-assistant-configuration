@@ -1,0 +1,41 @@
+
+light:
+- platform: "mqtt"
+  name: Klo MQ
+  state_topic: "lights/Klo MQ"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  schema: "json"
+  command_topic: "lights/Klo MQ/set"
+  device:
+    identifiers:
+      - 0x00178801024405cc_light_zigbee2mqtt
+
+
+
+- platform: "mqtt"
+  name: Vorraum lightstrip MQ
+  state_topic: "lights/Vorraum lightstrip MQ"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  xy: true
+  schema: "json"
+  command_topic: "lights/Vorraum lightstrip MQ/set"
+  device:
+    identifiers:
+      - 0x0017880100cbb469_light_zigbee2mqtt
+
+
+
+
+
+
+
+
+group:
+  restroom:
+    name: Toilette
+    view: true
+    entities:
+      - light.vorraum_lightstrip_mq
+      - light.klo_mq

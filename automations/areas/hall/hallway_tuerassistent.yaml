@@ -1,0 +1,21 @@
+alias: tuerassistent
+initial_state: 'off'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.intercom_klingel
+    to: 'on'
+action:
+#    - data_template:
+#        entity_id: media_player.echo_dot
+#        message: "Es Klingelte, Ich werde die türe öffnen "
+#      service: media_player.alexa_tts
+- delay:
+    seconds: 2
+- data:
+    entity_id: switch.intercom_relay
+  service: switch.turn_on
+- delay:
+    seconds: 3
+- data:
+    entity_id: switch.intercom_relay
+  service: switch.turn_off

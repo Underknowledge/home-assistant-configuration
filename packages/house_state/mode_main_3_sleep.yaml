@@ -1,0 +1,44 @@
+homeassistant:
+  customize:
+    input_boolean.boolean_night_time:
+      friendly_name: Nacht
+
+
+
+  ########################################################################################
+ ####                                                                                  ####
+#####                               Mode    Nacht                                      #####
+ ####                                                                                  ####
+  ########################################################################################
+
+
+
+input_boolean:
+  boolean_night_time:
+    initial: off
+
+input_number:
+  night_time_brightness_value:
+    name: Night Mode Brightness
+    min: 0
+    max: 255
+    step: 1
+  night_time_color_temp_value:
+    name: Night Mode Color Temp
+    min: 154
+    max: 500
+    step: 1
+  night_time_transition_value:
+    name: Night Mode Transition
+    min: 1
+    max: 90
+    step: 1
+
+
+group:
+  input_number_night_time:
+    name: night time
+    entities:
+      - input_number.night_time_brightness_value
+      - input_number.night_time_color_temp_value
+      - input_number.night_time_transition_value

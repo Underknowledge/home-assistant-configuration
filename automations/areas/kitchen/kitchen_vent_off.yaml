@@ -1,0 +1,13 @@
+
+
+alias: Kitchen Dunstabzug off
+initial_state: 'on'
+hide_entity: false
+trigger:
+  - entity_id: light.kuchenlicht
+    from: 'on'
+    platform: state
+    to: 'off'
+action:
+- service: light.turn_off
+  entity_id: light.dunstabzug

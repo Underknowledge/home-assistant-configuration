@@ -1,0 +1,30 @@
+#      entity_id: script.verlassen
+#      entity_id: script.1533836298336
+---
+alias: z2m_vr_servicetemplate
+initial_state: on
+trigger:
+- platform: mqtt
+  topic: 'lights/xiaomibutton_vr'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'single' == trigger.payload_json.click }}"
+    - condition: template
+      value_template: "{{ 'double' == trigger.payload_json.click }}"
+    - condition: template
+      value_template: "{{ 'long' == trigger.payload_json.click }}"
+action:
+- data_template:
+    entity_id: >-
+      {%- set scene_map = {'single':'scene.vr_hell',
+                     'double':'script.verlassen',
+                             'long':'script.verlassen'} -%}
+      {{ scene_map[trigger.payload_json.click] }}
+  service_template: >-
+    {%- set service_map = {'single':'scene.turn_on',
+                   'double':'script.turn_on',
+                           'long':'script.turn_on'} -%}
+    {{ service_map[trigger.payload_json.click] }}
+...

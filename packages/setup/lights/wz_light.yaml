@@ -1,0 +1,94 @@
+light:
+
+- platform: "mqtt"
+  name: Einhorn MQ
+  state_topic: "lights/Einhorn MQ"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  schema: "json"
+  command_topic: "lights/Einhorn MQ/set"
+  device:
+    identifiers:
+      - 0x0017880100f5e483_light_zigbee2mqtt
+
+
+- platform: "mqtt"
+  name: wz_main
+  state_topic: "lights/wz_main"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  schema: "json"
+  command_topic: "lights/wz_main/set"
+  device:
+    identifiers:
+      - 0x00178801104feb28_light_zigbee2mqtt
+
+
+
+switch:
+
+  - platform: "mqtt"
+    name: Vitrine
+    state_topic: "lights/Vitrine"
+    availability_topic: "lights/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "lights/Vitrine/set"
+    device: 
+      identifiers: 
+        - zigbee2mqtt_0x8418260000098205
+    
+  - platform: "mqtt"
+    name: Stehlampe
+    state_topic: "lights/Stehlampe"
+    availability_topic: "lights/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "lights/Stehlampe/set"
+    device: 
+      identifiers: 
+        - 0x84182600000b48ea_switch_zigbee2mqtt
+  
+  
+ #  - platform: "mqtt"
+ #    name: Kommode
+ #    state_topic: "lights/Kommode"
+ #    availability_topic: "lights/bridge/state"
+ #    payload_off: "OFF"
+ #    payload_on: "ON"
+ #    value_template: "{{ value_json.state }}"
+ #    command_topic: "lights/Kommode/set"
+ #    device: 
+ #      identifiers: 
+ #        - 0x84182600000b1856_switch_zigbee2mqtt
+    
+  
+  - platform: "mqtt"
+    name: Couch
+    state_topic: "lights/Couch"
+    availability_topic: "lights/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "lights/Couch/set"
+    device:
+      identifiers:
+        - 0x841826000009d051_zigbee2mqtt
+
+
+
+group:
+  livingroom:
+    name: Wohnzimmer
+    view: true
+    entities:
+      - light.einhorn_mq
+      - light.wz_main
+      - switch.vitrine
+      - switch.stehlampe
+      - light.kommode
+      - switch.couch
+      

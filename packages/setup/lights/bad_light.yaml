@@ -1,0 +1,43 @@
+
+light:
+- platform: "mqtt"
+  name: bad_ambiance
+  state_topic: "lights/bad_ambiance"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  schema: "json"
+  command_topic: "lights/bad_ambiance/set"
+  device:
+    identifiers:
+      - 0x00178801026fc152_light_zigbee2mqtt
+
+
+- platform: "mqtt"
+  name: badkuche
+  state_topic: "lights/badkuche"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  xy: true
+  schema: "json"
+  command_topic: "lights/badkuche/set"
+  device:
+    identifiers:
+      - 0x00178801011da4e6_light_zigbee2mqtt
+
+
+
+
+
+group:
+  bath:
+    name: Bad
+    view: true
+    entities:
+      - light.badkuche
+      - light.bad_ambiance
+      - light.bad_yeelight
+
+
+

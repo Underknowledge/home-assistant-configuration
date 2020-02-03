@@ -1,0 +1,16 @@
+alias: 'Telegram bot deban'
+hide_entity: true
+initial_state: on
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/unban'
+action:
+
+  - service: shell_command.unban
+  - service: homeassistant.restart
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: "Entbannt!, Es ist {{now().strftime('%H:%M:%S %Y-%m-%d')}}  Message von {{ trigger.event.data['user_id'] }} "

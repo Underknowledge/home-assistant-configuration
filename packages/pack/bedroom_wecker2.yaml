@@ -1,0 +1,528 @@
+
+##########################################################
+# Input Boolean
+##########################################################
+#input_boolean:
+#  alarmalldays:
+#    name: Everyday
+#    icon: mdi:calendar
+#
+input_boolean:
+  wecker_heizen:
+    initial: off
+  wecker_wochenende:
+
+#  binary_sensor.workday_sensor
+
+
+##########################################################
+# Automation
+##########################################################
+automation:
+
+  - alias: 'wake_me_up_disabe_weekend'
+    initial_state: off
+    trigger:
+    - platform: time
+      at: '17:25:00'
+    - platform: time
+      at: '17:45:00'
+    condition:
+    - condition: time
+      weekday:
+      - sun
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.wecker_wochenende
+
+
+  - alias: 'Wake Me Up1'
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.alarm_time1.state }}'
+    condition:
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+        - condition: state
+          entity_id: 'input_boolean.wecker_wochenende'
+          state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.wakeup1
+
+  - alias: 'Wake Me Up2_music3min before'
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.alarm_time2_minus3min.state }}'
+    condition:
+
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+        - condition: state
+          entity_id: 'input_boolean.wecker_wochenende'
+          state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.wakup_music
+
+
+  - alias: 'Wake Me Up2'
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.alarm_time2.state }}'
+    condition:
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+        - condition: state
+          entity_id: 'input_boolean.wecker_wochenende'
+          state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.wakeup2
+
+  - alias: 'Wake Me Up3'
+    initial_state: off
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.time.state == states.sensor.alarm_time3.state }}'
+    condition:
+    - condition: or
+      conditions:
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+        - condition: state
+          entity_id: 'input_boolean.wecker_wochenende'
+          state: 'on'
+    action:
+      - service: script.turn_on
+        entity_id: script.wakeup3
+
+
+
+  - alias: sz_cube_shake
+    hide_entity: true
+    initial_state: 'on'
+    trigger:
+      platform: mqtt
+      topic: 'lights/sz_cube_nachttisch'
+    condition:
+      - condition: template
+        value_template: "{{ 'shake' == trigger.payload_json.action }}"
+  #    - condition: template
+  #      value_template: "{{ (trigger.payload_json.angle)  > 32  }}"
+#      - condition: template
+#        value_template: "{{ states.sensor.cube.state == 'rotate_right' }}"
+#      - condition: template
+#        value_template: "{{ state_attr('sensor.cube', 'angle') > 32 }}"
+    action:
+    - event: event_dash_sleepy
+
+
+  - alias: sz_cube
+    hide_entity: true
+    initial_state: 'on'
+    trigger:
+      platform: mqtt
+      topic: 'lights/sz_cube_nachttisch'
+    condition:
+      - condition: template
+        value_template: "{{ 'rotate_right' == trigger.payload_json.action }}"
+  #    - condition: template
+  #      value_template: "{{ (trigger.payload_json.angle)  > 32  }}"
+#      - condition: template
+#        value_template: "{{ states.sensor.cube.state == 'rotate_right' }}"
+#      - condition: template
+#        value_template: "{{ state_attr('sensor.cube', 'angle') > 32 }}"
+    action:
+#    - service: script.turn_on
+#      entity_id: script.ersatzbutton
+    - event: event_dash_sleepy
+
+
+  - alias: Dashevent_sleepy_bett_lights_on
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      - platform: event
+        event_type: event_dash_sleepy
+
+    condition:
+      - condition: state
+        entity_id: 'group.schlafzimmer'
+        state: 'on'
+
+      - condition: time
+        after: '04:00:00'
+        before: '19:00:00'
+
+    action:
+    - service: script.turn_on
+      entity_id: script.dash_snooze_lights
+
+
+
+  - alias: Dashevent_sleepy_bett_lights_off
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      - platform: event
+        event_type: event_dash_sleepy
+    condition:
+      - condition: state
+        entity_id: 'group.schlafzimmer'
+        state: 'off'
+      - condition: time
+        after: '20:00:00'
+        before: '03:00:00'
+
+#    condition:
+#      condition: and
+#      conditions:
+#        - condition: state
+#          entity_id: 'group.schlafzimmer'
+#          state: 'off'
+    action:
+#    - service: script.turn_on
+#      entity_id: script.dash_snooze_lights
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.alarmhour1
+        value: "{{ (( as_timestamp(now()) + (27720))|timestamp_custom('%H', true)) }}" # (7,7 std)
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.alarmminutes1
+        value: "{{ (( as_timestamp(now()) + (27720))|timestamp_custom('%M', true)) }}"
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.alarmhour2
+        value: "{{ (( as_timestamp(now()) + (28800))|timestamp_custom('%H', true)) }}" # (8 std)
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.alarmminutes2
+        value: "{{ (( as_timestamp(now()) + (28800))|timestamp_custom('%M', true)) }}"
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.alarmhour3
+        value: "{{ (( as_timestamp(now()) + (29880))|timestamp_custom('%H', true)) }}" # (8,3 std)
+    - service: input_number.set_value
+      data_template:
+        entity_id: input_number.alarmminutes3
+        value: "{{ (( as_timestamp(now()) + (29880))|timestamp_custom('%M', true)) }}"
+    - service: automation.turn_on
+      entity_id: automation.wake_me_up1
+    - service: automation.turn_on
+      entity_id: automation.wake_me_up2
+    - service: automation.turn_on
+      entity_id: automation.wake_me_up3
+#    - service: input_boolean.turn_on
+#      entity_id: input_boolean.wecker_heizen
+
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.zu_bett
+        time: "{{ states('sensor.time') }}:00"
+#
+#
+  - alias: aaa_test_datet
+    initial_state: 'on'
+    hide_entity: true
+    trigger:
+      - platform: event
+        event_type: event_test datetime_time
+    action:
+    - service: input_datetime.set_datetime
+      data_template:
+        entity_id: input_datetime.zu_bett
+        time: "{{ states('sensor.time') }}:00"
+
+
+##########################################################
+# Sensor
+##########################################################
+sensor:
+  - platform: template
+    sensors:
+      alarm_time1:
+        friendly_name: 'Time1'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour1") | int, states("input_number.alarmminutes1") | int) }}'
+
+  - platform: template
+    sensors:
+      alarm_time2:
+        friendly_name: 'Time2'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour2") | int, states("input_number.alarmminutes2") | int) }}'
+
+  - platform: template
+    sensors:
+      alarm_time2_minus3min:
+        friendly_name: 'alarm_time2_minus3min'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour2") | int, states("input_number.alarmminutes2") | int -3 ) }}'
+
+  - platform: template
+    sensors:
+      alarm_time3:
+        friendly_name: 'Time3'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour3") | int, states("input_number.alarmminutes3") | int) }}'
+##########################################################
+# Input Number                                          ##
+##########################################################
+
+input_number:
+  alarmhour1:
+    name: Hour
+    icon: mdi:timer
+    initial: 6
+    min: 3
+    max: 14
+    step: 1
+  alarmminutes1:
+    name: Minutes
+    icon: mdi:timer
+    initial: 44
+    min: 0
+    max: 59
+    step: 1
+########################
+  alarmhour2:
+    name: Hour
+    icon: mdi:timer
+    initial: 6
+    min: 3
+    max: 14
+    step: 1
+  alarmminutes2:
+    name: Minutes
+    icon: mdi:timer
+    initial: 48
+    min: 0
+    max: 59
+    step: 1
+####################
+  alarmhour3:
+    name: Hour
+    icon: mdi:timer
+    initial: 6
+    min: 3
+    max: 14
+    step: 1
+  alarmminutes3:
+    name: Minutes
+    icon: mdi:timer
+    initial: 53
+    min: 0
+    max: 59
+    step: 1
+
+
+
+
+##########################################################
+# Script
+##########################################################
+
+
+input_datetime:
+  zu_bett:
+    name: Zu Bett gegangen
+    has_date: false
+    has_time: true
+
+
+
+
+script:
+
+  ersatzbutton:
+    sequence:
+    - event: event_dash_sleepy
+
+#      event_data:
+#        name: event_dash_sleepy
+#        message: is waking up
+#        entity_id: device_tracker.paulus
+#        domain: light
+
+
+
+
+  do_nothing:
+    alias: nichts
+    sequence:
+    - delay: '00:00:03'
+
+
+  wakup_music:
+    alias: wakup_music
+    sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.mini
+        volume_level: 0.05
+
+    - delay: '00:00:02'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.gmusic_player_playlist
+        option: "Runde Sache"
+        #  "Runde Sache"  ".-. a mal wieder?"
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.gmusic_player_speakers
+        option: "mini"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.mini
+        volume_level: 0.05
+    - delay: '00:00:01'
+    - service: media_player.toggle
+      entity_id: media_player.gmusic_player
+
+
+
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.mini
+        volume_level: 0.1
+
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.mini
+        volume_level: 0.2
+
+    - delay: '00:00:30'
+
+
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.gmusic_player_speakers
+        option: "bad"
+
+
+  dash_snooze_lights:
+    alias: dash_snooze_lights
+    sequence:
+    - service: scene.turn_on
+      entity_id: scene.sz_aus
+
+    - delay:
+        minutes: 4
+    - alias: ''
+      data:
+        brightness: '200'
+        entity_id: light.nachttisch
+        transition: 60
+      service: light.turn_on
+    - data:
+        brightness: '254'
+        color_temp: 330
+        entity_id: light.sz_lightstrip
+        transition: 60
+      service: light.turn_on
+
+  wakeup1:
+    alias: Aufwachen1 2min
+    sequence:
+    - data:
+        brightness: '238'
+        color_temp: 362
+        entity_id: light.sz_lightstrip_plus
+        transition: 200
+      service: light.turn_on
+
+    - service: climate.set_temperature
+      data_template:
+        entity_id: climate.heizung
+        temperature: >-
+          {% if is_state("input_boolean.wecker_heizen", "on") %}
+          23
+          {% else %}
+          9999
+          {% endif %}
+
+
+
+  wakeup2:
+    alias: Aufwachen2 1 min
+    sequence:
+    - data:
+        brightness: '254'
+        transition: 90
+        color_temp: 430
+        entity_id: light.sz_lightstrip_plus
+      service: light.turn_on
+    - data:
+        brightness: '180'
+        transition: 60
+        entity_id: light.nachttisch
+      service: light.turn_on
+#    - delay: '00:00:35'
+#    - service: script.turn_on
+#      data_template:
+#        entity_id: >-
+#          {% if is_state("input_boolean.wecker_heizen", "on") %}
+#          script.wakup_music
+#          {% else %}
+#          script.do_nothing
+#          {% endif %}
+
+
+  wakeup3:
+    alias: Aufwachen3 15 sec
+    sequence:
+    - data:
+        brightness: '238'
+        color_temp: 362
+        transition: 15
+        entity_id: group.schlafzimmer
+      service: light.turn_on
+
+
+
+
+##########################################################
+# Group
+##########################################################
+group:
+  alarmclock:
+    name: Alarm
+    entities:
+      - group.alarmclock1
+      - group.alarmclock2
+      - group.alarmclock3
+
+  alarmclock1:
+    name: Wake Me Up1
+    entities:
+      - automation.wake_me_up1
+      - sensor.alarm_time1
+      - input_number.alarmhour1
+      - input_number.alarmminutes1
+  alarmclock2:
+    name: Wake Me Up2
+    entities:
+      - automation.wake_me_up2
+      - sensor.alarm_time2
+      - input_number.alarmhour2
+      - input_number.alarmminutes2
+  alarmclock3:
+    name: Wake Me Up3
+    entities:
+      - automation.wake_me_up3
+      - sensor.alarm_time3
+      - input_number.alarmhour3
+      - input_number.alarmminutes3

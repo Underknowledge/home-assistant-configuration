@@ -1,0 +1,14 @@
+alias: Telegram - Guest mode toggle
+initial_state: on
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/guests'
+action:
+  - service: input_boolean.toggle
+    entity_id: input_boolean.boolean_guest_mode
+  - service: telegram_bot.send_message
+    data_template:
+      target: "{{ trigger.event.data.user_id }}"
+      message: "Guest mode has been turned {{ states('input_boolean.boolean_guest_mode') }}."

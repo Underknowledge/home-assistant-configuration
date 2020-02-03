@@ -1,0 +1,40 @@
+homeassistant:
+  customize:
+    input_boolean.boolean_evening_time:
+      friendly_name: Abends
+
+
+  ########################################################################################
+ ####                                                                                  ####
+#####                               Mode      Abend                                     #####
+ ####                                                                                  ####
+  ########################################################################################
+
+input_boolean:
+  boolean_evening_time:
+    initial: off
+
+input_number:
+  evening_time_brightness_value:
+    name: Evening Mode Brightness
+    min: 0
+    max: 255
+    step: 1
+  evening_time_color_temp_value:
+    name: Evening Mode Color Temp
+    min: 154
+    max: 500
+    step: 1
+  evening_time_transition_value:
+    name: Evening Mode Transition
+    min: 1
+    max: 10
+    step: 1
+
+group:
+  input_number_evening_time:
+    name: evening time
+    entities:
+      - input_number.evening_time_brightness_value
+      - input_number.evening_time_color_temp_value
+      - input_number.evening_time_transition_value

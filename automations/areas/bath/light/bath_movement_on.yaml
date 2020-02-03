@@ -1,0 +1,30 @@
+alias: bath_movement_on
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_bad
+    to: 'on'
+
+
+condition:
+  - condition: state
+    entity_id: sensor.bad_mode_state
+    state: 'Bad normal'
+  - condition: state
+    entity_id: light.bad_ambiance
+    state: 'off'
+
+action:
+- service: scene.turn_on
+  data_template:
+#    entity_id: "scene.bad_ambiance_{{states('sensor.house_mode_state')|default(tag) }}"
+    entity_id: "scene.bad_move_{{states('sensor.house_mode_state')|default(tag) }}"
+- wait_template: "{{ is_state('binary_sensor.motion_kueche', 'off') }}"
+  timeout: '00:00:01'
+  continue_on_timeout: 'false'
+- service: light.turn_on
+  data_template:
+    entity_id: light.badkuche
+    brightness: "{{ states('input_number.' + states('sensor.house_mode_state_eng') + '_time_brightness_value') |int }}"
+    color_temp:  "{{ states('input_number.' + states('sensor.house_mode_state_eng') + '_time_color_temp_value') |int }}"
+    transition: "{{ states('input_number.' + states('sensor.house_mode_state_eng') + '_time_transition_value') |int }}"

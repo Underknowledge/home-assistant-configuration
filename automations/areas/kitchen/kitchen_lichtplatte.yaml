@@ -1,0 +1,9 @@
+alias: single_mint_kueche_an
+initial_state: on
+trigger:
+  platform: state
+  entity_id: binary_sensor.on_double_click
+  to: 'on'
+action:
+- service: switch.toggle
+  entity_id: switch.kueche_panel_relay

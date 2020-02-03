@@ -1,0 +1,41 @@
+
+
+alias: house_state_morning_time_on
+initial_state: 'on'
+trigger:
+    platform: state
+    entity_id: binary_sensor.motion_kueche
+    to: "on"
+#        seconds: 00
+#      - platform: template
+#        value_template: '{{ states.sensor.time.state == "05:31" }}'
+condition:
+  - condition: time
+    after: '04:30:00'
+    before: '07:49:00'
+  - condition: state
+    entity_id: input_boolean.boolean_morning_time
+    state: 'off'
+action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.boolean_morning_time, input_boolean.boolean_day_time, input_boolean.boolean_evening_time, input_boolean.boolean_night_time
+#      - delay: '00:00:02'
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.boolean_morning_time
+
+
+
+# condition:
+#   condition: and
+#   conditions:
+#     - condition: time
+#       after: '04:30:00'
+#       before: '07:49:00'
+#     - condition: state
+#       entity_id: input_boolean.boolean_morning_time
+#       state: off'
+#     - condition: state
+#       entity_id: input_boolean.boolean_guest_mode
+#       state: 'off'

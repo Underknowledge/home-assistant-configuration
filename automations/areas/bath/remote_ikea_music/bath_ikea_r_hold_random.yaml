@@ -1,0 +1,22 @@
+# depends on /packages/room_bad/dash_bad.yaml
+    # brightness_down_hold
+    # brightness_down_release
+---
+alias: bath_ikea_arrow_right_hold
+initial_state: 'on'
+trigger:
+
+- platform: mqtt
+  topic: 'lights/ikea_musik'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'arrow_right_hold' == trigger.payload_json.action }}"
+action:
+- service: script.turn_on
+  data:
+    entity_id: script.music_shower_random
+    
+
+

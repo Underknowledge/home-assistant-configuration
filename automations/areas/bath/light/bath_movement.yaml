@@ -1,0 +1,38 @@
+alias: bath_movement_off
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_bad
+    to: 'off'
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: light.bad_ambiance
+    to: 'on'
+    for:
+      minutes: 45
+condition:
+  - condition: state
+    entity_id: sensor.bad_mode_state
+    state: 'Bad normal'
+  - condition: state
+    entity_id: binary_sensor.motion_bad
+    state: 'off'
+action:
+- service: light.turn_off
+  entity_id: light.bad_yeelight
+- delay: '00:00:03'
+
+- wait_template: "{{ is_state('binary_sensor.motion_bad', 'off') }}"
+  timeout: '00:00:01'
+  continue_on_timeout: 'false'
+
+- service: light.turn_off
+  entity_id: light.bad_ambiance
+
+- wait_template: "{{ is_state('binary_sensor.motion_kueche', 'off') }}"
+  timeout: '00:00:01'
+  continue_on_timeout: 'false'
+
+- service: light.turn_off
+  entity_id: light.badkuche

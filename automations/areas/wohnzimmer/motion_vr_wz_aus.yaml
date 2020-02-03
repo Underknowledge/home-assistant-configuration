@@ -1,0 +1,15 @@
+alias: motion_vr_wz_aus
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_vr_wz
+    to: 'off'
+    for:
+      minutes: 10
+condition:
+  - condition: state
+    entity_id: input_boolean.boolean_movie_mode
+    state: 'off'
+action:
+- service: scene.turn_on
+  entity_id: scene.vr_aus

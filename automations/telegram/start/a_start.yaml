@@ -1,0 +1,25 @@
+alias: 'Telegram bot start'
+initial_state: on
+hide_entity: true
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/start'
+action:
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: 'Commands incoming!'
+      keyboard:
+          - '/shop'
+#          - '/cool, /warm'
+          - '/tuerassistent, /tuer'
+          - '/alarm, /media, /menu'
+
+ #              - '/alarm, /vid, /shop'
+ #              - '/siren, /guests, /menu'
+ #              - '/cool, /warm'
+ #              - '/tuerassistent, /tuer, /tv_off, /tv_on'
+ #              - '/lights'
+      show_alert: true

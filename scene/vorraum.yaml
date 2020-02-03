@@ -1,0 +1,113 @@
+
+- name: vr_welcome
+  entities:
+
+    light.vorraum_white:
+      state: on
+      brightness: 254
+#      transition: 0
+#    light.vorraum_2:
+#      state: on
+#      brightness: 254
+#      transition: 5
+    light.kommode:
+      state: on
+    light.vorraum_lightstrip_mq:
+      state: on
+      brightness: 254
+      xy_color: [0.581,0.393]
+#      transition: 10
+
+
+
+- name: vr_hell
+  entities:
+
+    light.vorraum_white:
+      state: on
+      brightness: 255
+#      transition: 1
+#    light.vorraum_2:
+#      state: on
+#      brightness: 254
+#      transition: 5
+    light.kommode:
+      state: on
+    light.vorraum_lightstrip_mq:
+      state: on
+      brightness: 254
+      xy_color: [0.322,0.328]
+#      transition: 1
+
+#########################################################
+###########################################################
+#########################################################
+
+
+- name: vr_morgens
+  entities:
+    light.vorraum_white:
+      state: on
+      brightness: 254
+    light.kommode:
+      state: on
+
+      
+    light.vorraum_lightstrip_mq:
+      state: off
+      transition: 1
+
+
+- name: vr_tag
+  entities:
+    light.vorraum_white:
+      state: on
+      transition: 2
+      brightness: 254
+    light.kommode:
+      state: on
+    light.vorraum_lightstrip_mq:
+      state: off
+
+
+- name: vr_abend
+  entities:
+    light.vorraum_white:
+      state: on
+      brightness: 254
+    light.kommode:
+      state: on
+#    light.vorraum_lightstrip_mq:
+#      state: off
+
+
+
+
+- name: vr_nacht
+  entities:
+    light.vorraum_lightstrip_mq:
+      state: on
+      brightness: 20
+      xy_color: [0.581,0.393]
+      transition: 5
+
+
+
+- name: vr_aus
+  entities:
+    light.vorraum_white:
+      state: off
+    light.kommode:
+      state: off
+    light.vorraum_lightstrip_mq:
+      state: off
+
+
+
+
+- name: vr_aus_ausserkommode
+  entities:
+    light.vorraum_white:
+      state: off
+    light.vorraum_lightstrip_mq:
+      state: off

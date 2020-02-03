@@ -1,0 +1,321 @@
+
+    ################################################
+    ## customize
+    ################################################
+
+homeassistant:
+  customize:
+    input_text.media_extractor:
+      icon: mdi:textbox
+
+    ################################################
+    ## Input Text
+    ################################################
+
+
+input_text:
+  media_extractor:
+    name: 'Cast me  '
+    initial: ' '
+
+
+    ################################################
+    ## Input select
+    ################################################
+
+
+input_select:
+  media_extractor:
+    name: Type
+    options:
+      - video
+      - VIDEO
+      - CHANNEL
+      - PLAYLIST MUSIC
+      - EPISODE
+      - MUSIC
+      - TVSHOW
+    initial: VIDEO
+
+
+
+  youtubechannel:
+    name: Channel
+    options:
+      - Wähle einen Kanal
+      - kanzlei_wbs
+      - lefloid
+      - manda
+      - franck_nijhof
+      - mailab
+      - sempervideo
+      - kurzgesagt_in_a_nutshell
+      - dinge_erklart_kurzgesagt
+      - laut_gedacht
+      - drzzs
+      - burnsha
+    initial: Wähle einen Kanal
+
+sensor:
+  - platform: template
+    sensors:
+      ytchannel:
+        value_template: "sensor.{{ states('input_select.youtubechannel') }}"
+        entity_id: input_select.youtubechannel
+
+
+
+
+input_boolean:
+  random_ted_video:
+    name: "Random TED video"
+    initial: off
+
+
+
+
+
+    ################################################
+    ## Automation
+    ################################################
+
+
+automation:
+
+
+# TED
+  - alias:  Media_extractor
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.random_ted_video
+        to: 'on'
+      - platform: state
+        entity_id: media_player.chromecast_wz
+        to: 'idle'
+    condition:
+      - condition: state
+        entity_id: switch.tv_relay
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.random_ted_video
+        state: 'on'
+      - condition: state
+        entity_id: media_player.chromecast_wz
+        state: 'idle'
+    action:
+    - data:
+        entity_id: media_player.chromecast_wz
+        media_content_id: https://mityurl.com/y/TEDT/r
+        media_content_type: video
+      service: media_extractor.play_media
+    - delay: "00:00:20"
+
+
+#  random_ted_video_tv_off:
+#    alias: Random TED Video TV OFF
+#    sequence:
+#    - data:
+#        entity_id: media_player.chromecast_wz
+#      service: media_player.media_stop
+
+
+
+
+
+#      - service: switch.turn_on
+#        entity_id: switch.tv_relay
+#        
+#      - wait_template: "{{ is_state('media_player.chromecast_wz', 'off') }}"
+#        timeout: '00:00:46'
+#        continue_on_timeout: 'true'
+
+
+
+
+
+
+  - alias:  Media_extractor input SELECT_kaltstart
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.youtubechannel
+    condition:
+      - condition: state
+        entity_id: switch.tv_relay
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.tv_relay
+      - wait_template: "{{ is_state('media_player.chromecast_wz', 'off') }}"
+        timeout: '00:00:46'
+        continue_on_timeout: 'true'
+      - service: media_extractor.play_media
+        entity_id: media_player.chromecast_wz
+        data_template:
+          media_content_id: "{{ state_attr(states('sensor.ytchannel'), 'url') }}"
+          media_content_type: video/youtube
+
+
+  - alias:  Media_extractor input SELECT
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.youtubechannel
+    condition:
+      - condition: state
+        entity_id: switch.tv_relay
+        state: 'on'
+    action:
+      - service: media_extractor.play_media
+        entity_id: media_player.chromecast_wz
+        data_template:
+          media_content_id: "{{ state_attr(states('sensor.ytchannel'), 'url') }}"
+          media_content_type: video/youtube
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  - alias:  Media_extractor input TEXT
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_text.media_extractor
+
+    action:
+      - service: media_extractor.play_media
+        entity_id: media_player.chromecast_wz
+        data_template:
+          media_content_id: "{{ states('input_text.media_extractor') }}"
+          media_content_type: "{{ states('input_select.media_extractor') }}"
+      - delay: '00:00:02'
+      - service: automation.turn_off
+        entity_id: automation.media_extractor_input_text
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.media_extractor
+          value: " "
+      - delay: '00:00:01'
+      - service: automation.turn_on
+        entity_id: automation.media_extractor_input_text
+
+
+
+
+
+
+
+
+  - alias:  Media_extractor input TEXT SELECT_kaltstart
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_text.media_extractor
+    condition:
+      - condition: state
+        entity_id: switch.tv_relay
+        state: 'off'
+    action:
+
+      - service: switch.turn_on
+        entity_id: switch.tv_relay
+      - wait_template: "{{ is_state('media_player.chromecast_wz', 'off') }}"
+        timeout: '00:00:45'
+        continue_on_timeout: 'true'
+
+      - service: media_extractor.play_media
+        entity_id: media_player.chromecast_wz
+        data_template:
+          media_content_id: "{{ states('input_text.media_extractor') }}"
+          media_content_type: "{{ states('input_select.media_extractor') }}"
+      - delay: '00:00:02'
+      - service: automation.turn_off
+        entity_id: automation.media_extractor_input_text
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.media_extractor
+          value: " "
+      - delay: '00:00:01'
+      - service: automation.turn_on
+        entity_id: automation.media_extractor_input_text
+
+
+
+input_number:
+  cc_wz:
+    name: Hour
+    icon: mdi:timer
+    initial: 30
+    min: 10
+    max: 200
+    step: 5
+
+
+
+
+script:
+  cc_wz_back:
+    sequence:
+      - condition: template
+        value_template: '{{ "media_position" in states.media_player.chromecast_wz.attributes }}'
+      - service: media_player.media_seek
+        entity_id: media_player.chromecast_wz
+        data_template:
+          seek_position: >
+            {% set pos = states.media_player.chromecast_wz.attributes.media_position %}
+            {% set elapsed = now().timestamp() - states.media_player.chromecast_wz.last_updated.timestamp() %}
+            {% set newpos = pos - (states("input_number.cc_wz") | int ) + (elapsed if is_state("media_player.chromecast_wz", "playing") else 0) %}
+            {{ (newpos, 0)|max }}
+  cc_wz_forward:
+    sequence:
+      - condition: template
+        value_template: '{{ "media_position" in states.media_player.chromecast_wz.attributes }}'
+      - service: media_player.media_seek
+        entity_id: media_player.chromecast_wz
+        data_template:
+          seek_position: >
+            {% set pos = states.media_player.chromecast_wz.attributes.media_position %}
+            {% set elapsed = now().timestamp() - states.media_player.chromecast_wz.last_updated.timestamp() %}
+            {% set newpos = pos + (states("input_number.cc_wz") | int ) + (elapsed if is_state("media_player.chromecast_wz", "playing") else 0) %}
+            {{ (newpos, 0)|max }}
+
+  media_extractor_tagesschau:
+    sequence:
+    - service: media_extractor.play_media
+      entity_id: media_player.chromecast_wz
+      data:
+        media_content_id: "http://www.tagesschau.de/100sekunden/index.html"
+        media_content_type: video
+
+
+  chilled_cow_study:
+    sequence:
+    - service: switch.turn_on
+      entity_id: switch.tv_relay
+    - wait_template: "{{ is_state('media_player.chromecast_wz', 'off') or is_state('media_player.chromecast_wz', 'playing') or is_state('media_player.chromecast_wz', 'idle') }}"
+      timeout: '00:00:45'
+      continue_on_timeout: 'true'
+    - delay: '00:00:02'
+    - service: media_extractor.play_media
+      entity_id: media_player.chromecast_wz
+      data:
+        media_content_id: https://youtu.be/hHW1oY26kxQ
+        media_content_type: VIDEO

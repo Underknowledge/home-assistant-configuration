@@ -1,0 +1,17 @@
+alias: Telegram - Reply with Menu
+initial_state: on
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: '/menu'
+action:
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: 'Menue Menue'
+      keyboard:
+          - '/ping, /unban'
+          - '/guests' #/lights
+          - '/start, /alarm, /media'
+      show_alert: true

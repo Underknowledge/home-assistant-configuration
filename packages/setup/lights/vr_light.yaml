@@ -1,0 +1,78 @@
+
+light:
+
+- platform: "mqtt"
+  name: Vorraum White
+  state_topic: "lights/Vorraum White"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  schema: "json"
+  command_topic: "lights/Vorraum White/set"
+  device:
+    identifiers:
+      - 0x001788011046bce8_light_zigbee2mqtt
+
+
+- platform: "mqtt"
+  name: innr
+  state_topic: "lights/innr"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  schema: "json"
+  command_topic: "lights/innr/set"
+  device:
+    identifiers:
+      - 0x00158d000195f5a4_light_zigbee2mqtt
+
+
+- platform: "mqtt"
+  name: hue_ambiance
+  state_topic: "lights/hue_ambiance"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  xy: true
+  schema: "json"
+  command_topic: "lights/hue_ambiance/set"
+  device:
+    identifiers:
+      - 0x00178801020677fc_light_zigbee2mqtt
+
+
+- platform: group
+  name: Kommode
+  entities:
+    - light.hue_ambiance
+    - light.innr
+
+switch:
+
+  - platform: "mqtt"
+    name: Kommode
+    state_topic: "lights/Kommode"
+    availability_topic: "lights/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "lights/Kommode/set"
+    device: 
+      identifiers: 
+        - 0x84182600000b1856_switch_zigbee2mqtt
+    
+
+
+
+
+
+
+
+# kommode missing
+
+group:
+  hall:
+    name: Vorraum
+    view: true
+    entities:
+      - light.vorraum_white
+#      - light.kommode
+      - light.kommode

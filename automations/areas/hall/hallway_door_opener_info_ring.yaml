@@ -1,0 +1,11 @@
+alias: klingel_telegram esphome
+initial_state: 'on'
+trigger:
+  - platform: state
+    entity_id: binary_sensor.intercom_klingel
+    to: 'on'
+action:
+- data:
+    message: "Neu ESPHOME 1kOhm"
+    title: "Dindong!"
+  service: notify.w

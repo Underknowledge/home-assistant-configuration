@@ -1,0 +1,17 @@
+alias: telegram_say
+initial_state: on
+trigger:
+  platform: event
+  event_type: telegram_command
+  event_data:
+    command: /say
+action:
+  - service: media_player.alexa_tts
+    data_template:
+      entity_id: media_player.echo_dot
+      message: "{{ ' '.join(trigger.event.data.args) }}"
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+#          message: " a message saying: {{ ' '.join(trigger.event.data.args) }}"
+      message: "{{ ' '.join(trigger.event.data.args) }}"

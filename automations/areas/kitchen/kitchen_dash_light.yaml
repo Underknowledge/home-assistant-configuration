@@ -1,0 +1,9 @@
+alias: Dashevent_gel
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: event
+    event_type: event_dash_gel
+action:
+- service: scene.turn_on
+  entity_id: scene.kochen

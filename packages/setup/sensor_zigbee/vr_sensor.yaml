@@ -1,0 +1,106 @@
+
+
+binary_sensor:
+
+  # - platform: "mqtt"
+  #   name: schloss
+  #   state_topic: "lights/schloss"
+  #   availability_topic: "lights/bridge/state"
+  #   payload_on: false
+  #   payload_off: true
+  #   value_template: "{{ value_json.contact }}"
+  #   device_class: "door"
+  #   device:
+  #     identifiers:
+  #       - 0x00158d00027a5836_sensor_zigbee2mqtt
+  
+  
+  - platform: "mqtt"
+    name: mija_door
+    state_topic: "lights/mija_door"
+    availability_topic: "lights/bridge/state"
+    payload_on: false
+    payload_off: true
+    value_template: "{{ value_json.contact }}"
+    device_class: "door"
+    device:
+      identifiers:
+        - 0x00158d00027af34c_sensor_zigbee2mqtt
+
+
+  - platform: "mqtt"
+    name: motion_vr_1
+    state_topic: "lights/motion_vr_1"
+    availability_topic: "lights/bridge/state"
+    payload_on: true
+    payload_off: false
+    value_template: "{{ value_json.occupancy }}"
+    device_class: "motion"
+
+  - platform: "mqtt"
+    name: motion_vr_2
+    state_topic: "lights/motion_vr_2"
+    availability_topic: "lights/bridge/state"
+    payload_on: true
+    payload_off: false
+    value_template: "{{ value_json.occupancy }}"
+    device_class: "motion"
+
+
+  - platform: template
+    sensors:
+      motion_vr:
+        friendly_name: "motion_vr"
+        device_class: motion
+        value_template: >-
+            {{ is_state('binary_sensor.motion_vr_1', 'on') or is_state('binary_sensor.motion_vr_2', 'on') }}
+
+  - platform: template
+    sensors:
+      motion_vr_wz:
+        friendly_name: "VR und WZ"
+        device_class: motion
+        value_template: >-
+            {{ is_state('binary_sensor.motion_vr', 'on') or is_state('binary_sensor.motion_wz', 'on') }}
+#        value_template: >-
+#            {{ is_state('binary_sensor.motion_vr', 'on') or is_state('binary_sensor.motion_wz', 'on') }}
+
+  - platform: template
+    sensors:
+      motion_vr_wc:
+        friendly_name: "VR und WC"
+        device_class: motion
+        value_template: >-
+            {{ is_state('binary_sensor.motion_vr', 'on') or is_state('binary_sensor.motion_klo', 'on') }}
+
+
+sensor:
+
+
+  - platform: "mqtt"
+    name: motion_vr_1_battery
+    state_topic: "lights/motion_vr_1"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+  - platform: "mqtt"
+    name: motion_vr_2_battery
+    state_topic: "lights/motion_vr_2"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+
+  - platform: "mqtt"
+    name: mija_door_battery
+    state_topic: "lights/mija_door"
+    availability_topic: "lights/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+    device:
+      identifiers:
+        - 0x00158d00027af34c_sensor__zigbee2mqtt

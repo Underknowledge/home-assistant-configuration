@@ -1,0 +1,5 @@
+# https://github.com/walthowd/ha-alexa-tts
+notify:
+  - platform: command_line
+    name: 'Echo Dot sh'
+    command: "/config/shell_scripts/alexa_wrapper.sh -d 'Echo Dot'"

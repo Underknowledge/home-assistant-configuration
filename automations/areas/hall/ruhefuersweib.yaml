@@ -1,0 +1,27 @@
+
+
+#  automation.ruhe_fur_das_weib
+###                    new name mybe! 
+alias: Ruhe für das Weib
+initial_state: off
+trigger:
+  platform: state
+  entity_id: binary_sensor.mija_door
+  from: 'off'
+  to: 'on'
+action:
+- service: switch.turn_off
+  entity_id: input_boolean.gmaac_power
+- service: media_player.media_pause
+  entity_id: media_player.echo_dot
+- service: media_player.media_pause
+  entity_id: media_player.alle
+- service: media_player.media_pause
+  entity_id: media_player.firetv_adb
+  
+- service: media_player.media_pause
+  entity_id: media_player.bad
+- service: media_player.media_pause
+  entity_id: media_player.kuche
+- service: media_player.media_pause
+  entity_id: media_player.wohnzimmer

@@ -1,0 +1,48 @@
+alias: kitchen_flood 
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/flood_kitchen'
+condition:
+- condition: template
+  value_template: "{{ true == trigger.payload_json.water_leak }}"
+action:
+- service: light.toggle
+  entity_id: light.wz_main
+- service: notify.alexa_tts
+  data:
+    target: 
+      - media_player.echo_dot
+    data:
+      #type: tts
+      type: announce
+      #method: all
+    message:  "ALARM.. Die küche steht unter Wasser "
+- service: notify.sms_p
+  data:
+    message: "!ALERT! - Die küche steht unter Wasser!"
+- service: notify.sms_r
+  data:
+    message: "!ALERT! - Die küche steht unter Wasser!"
+- delay: '00:00:03'
+- service: notify.alexa_tts
+  data:
+    target: 
+      - media_player.echo_dot
+    data:
+      #type: tts
+      type: announce
+      #method: all
+    message:  "Alarm.. Die küche steht unter Alarm"
+- service: light.toggle
+  entity_id: light.wz_main
+- delay: '00:00:03'
+- service: light.toggle
+  entity_id: light.wz_main
+- delay: '00:00:03'
+- service: light.toggle
+  entity_id: light.wz_main
+
+# 'lights/flood_kitchen', 
+# payload '
+# {"water_leak":true,"linkquality":47,"battery":100,"voltage":3015}'

@@ -1,0 +1,14 @@
+alias: bedroom_pc_cube_testslide
+hide_entity: true
+initial_state: 'on'
+trigger:
+  - platform: mqtt
+    topic: 'lights/sz_cube_pc'
+condition:
+  - condition: template
+    value_template: "{{ 'slide' == trigger.payload_json.action }}"
+  - condition: template
+    value_template: "{{ 0 == trigger.payload_json.side }}"
+action:
+  - service: light.toggle
+    entity_id: light.nachttisch

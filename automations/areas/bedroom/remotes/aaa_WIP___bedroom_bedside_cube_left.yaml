@@ -1,0 +1,16 @@
+
+alias: sz_cube_left
+hide_entity: true
+initial_state: 'on'
+trigger:
+- platform: mqtt
+  topic: 'zigbee2mqtt/sz_cube_nachttisch'
+- platform: mqtt
+  topic: 'lights/sz_cube_nachttisch'
+condition:
+  - condition: template
+    value_template: "{{ 'rotate_left' == trigger.payload_json.action }}"
+action:
+- event: event_bett_qube_left
+# dynamic??? 
+# based on value difrent event

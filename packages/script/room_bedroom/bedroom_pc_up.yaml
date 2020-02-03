@@ -1,0 +1,22 @@
+
+
+script:
+
+  dash_pc_hochfahren:
+    alias: pc_hochfahren
+    sequence:
+    - data:
+        entity_id: switch.pc_relay
+      service: switch.turn_on
+    - data:
+        brightness: '254'
+        color_temp: 330
+        entity_id: light.sz_lightstrip_plus
+        transition: 10
+      service: light.turn_on
+    - data:
+        entity_id: switch.schreibtisch
+      service: switch.turn_on
+#    - data:
+#        entity_id: light.schreibtisch_bulb
+#      service: light.turn_on

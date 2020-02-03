@@ -1,0 +1,15 @@
+alias: kueche_gosund_licht
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: state
+    entity_id: binary_sensor.on_click
+    from: 'off'
+    to: 'on'
+condition:
+- condition: state
+  entity_id: 'light.kuchenlicht'
+  state: 'off'
+action:
+- service: scene.turn_on
+  entity_id: scene.kochen

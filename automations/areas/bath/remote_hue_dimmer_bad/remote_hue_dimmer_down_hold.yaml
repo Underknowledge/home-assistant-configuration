@@ -1,0 +1,14 @@
+alias: V DOWN-hold
+hide_entity: true
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/dimmer_bad'
+condition:
+  condition: template
+  value_template: "{{ 'down-hold' == trigger.payload_json.action }}"
+action:
+  - service: scene.turn_on
+    entity_id: scene.baden
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.boolean_zaehneputzen

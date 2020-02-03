@@ -1,0 +1,11 @@
+alias: livingroom_cube_flip180
+initial_state: 'on'
+trigger:
+  platform: mqtt
+  topic: 'lights/tv_cube'
+condition:
+  condition: template
+  value_template: "{{ trigger.payload_json.action in ['flip180'] }}"
+action:
+  - service: switch.toggle
+    entity_id: switch.tv_relay

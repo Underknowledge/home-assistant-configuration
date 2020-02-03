@@ -1,0 +1,37 @@
+
+alias: livingroom_tv_turn_off_notify
+initial_state: on
+trigger:
+  - platform: time_pattern
+    minutes: 1
+  - platform: time_pattern
+    minutes: 31
+  - platform: time_pattern
+    minutes: 16
+  - platform: time_pattern 
+    minutes: 46
+  #      - platform: time_pattern
+  #        minutes: "/1"
+condition:
+- condition: state
+  entity_id: 'switch.tv_relay'
+  state: 'on'
+- condition: time
+  after: '21:45:00'
+  before: '02:00:00'
+action:
+- service: notify.firetv
+  data_template:
+    title: "{{states('sensor.time')}}"
+    message: "Zeit fürs bett?"
+#        data:
+#          fontsize: large
+#          position: right
+#          duration: 5
+#          transparency: 0%
+#          color: red
+#          interrupt: 1
+#
+#    - data:
+#        entity_id: switch.schreibtisch
+#      service: light.turn_off

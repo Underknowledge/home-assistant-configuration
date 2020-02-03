@@ -1,0 +1,74 @@
+light:
+  
+
+- platform: mqtt
+  name: "schreibtisch Bulb"
+  state_topic: "stat/sonoff2/POWER"
+  command_topic: "cmnd/sonoff2/POWER"
+  availability_topic: "tele/sonoff2/LWT"
+  qos: 0
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: true
+
+
+
+- platform: "mqtt"
+  name: Nachttisch
+  state_topic: "lights/Nachttisch"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  schema: "json"
+  command_topic: "lights/Nachttisch/set"
+  device:
+    identifiers:
+      - 0x0017880100f5dd0e_light_zigbee2mqtt
+
+
+
+ # - platform: "mqtt"
+ #   name: SZ_Innr
+ #   state_topic: "lights/SZ_Innr"
+ #   availability_topic: "lights/bridge/state"
+ #   brightness: true
+ #   schema: "json"
+ #   command_topic: "lights/SZ_Innr/set"
+ #   device:
+ #     identifiers:
+ #       - 0x00158d000195f5a4_light_zigbee2mqtt
+
+
+
+
+- platform: "mqtt"
+  name: SZ Lightstrip plus
+  state_topic: "lights/SZ Lightstrip plus"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  xy: true
+  schema: "json"
+  command_topic: "lights/SZ Lightstrip plus/set"
+  device:
+    identifiers:
+      - 0x00178801011bb2e0_light_zigbee2mqtt
+
+
+
+group:
+  bedroom:
+    name: Schlafzimmer
+    view: true
+    entities:
+      - light.schreibtisch_bulb
+      - light.nachttisch
+#      - light.sz_innr
+      - light.sz_lightstrip_plus
+      - light.sz_yeelight
+
+
+
+
+

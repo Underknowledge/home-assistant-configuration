@@ -1,0 +1,13 @@
+alias: livingroom_cube_tabenter
+initial_state: 'on'
+trigger:
+  platform: mqtt
+  topic: 'lights/tv_cube'
+condition:
+  condition: template
+  value_template: "{{ trigger.payload_json.action in ['tap'] }}"
+action:
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.firetv_adb
+      command: "ENTER"

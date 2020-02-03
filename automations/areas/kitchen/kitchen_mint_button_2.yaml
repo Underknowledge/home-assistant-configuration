@@ -1,0 +1,20 @@
+
+alias: kitchen entrance light 2
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/xiaomibutton_k'
+condition:
+  condition: or
+  conditions:
+    - condition: template
+      value_template: "{{ 'double' == trigger.payload_json.click }}"
+    - condition: template
+      value_template: "{{ 'long' == trigger.payload_json.click }}"
+action:
+- service: scene.turn_on
+  data_template:
+    entity_id: >-
+      {%- set scene_map = {'double':'scene.kochen',
+                             'long':'scene.kueche_abend'} -%}
+      {{ scene_map[trigger.payload_json.click] }}

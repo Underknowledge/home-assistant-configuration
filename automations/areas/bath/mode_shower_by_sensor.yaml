@@ -1,0 +1,80 @@
+alias:  Bath Automate shower mode
+initial_state: 'on'
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.bad_d1_mini_humidity
+    above: 59
+action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.boolean_shower_mode
+  - delay: '00:30:00'
+  - wait_template: "{{ is_state('binary_sensor.motion_bad', 'off') }}"
+    continue_on_timeout: 'false'
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.boolean_shower_mode
+
+
+
+
+
+
+
+
+
+
+
+
+#  - alias: "bad_schalter_templateo"
+#    initial_state: 'on'
+#    hide_entity: true
+#    trigger:
+#    - platform: mqtt
+#      topic: 'lights/bad_schalter'
+#    condition:
+#      condition: or
+#      conditions:
+#        - condition: template
+#          value_template: "{{ false == trigger.payload_json.contact }}"
+#    action:
+#    - service: scene.turn_on
+#      entity_id: scene.bad_aus
+#
+#
+#
+#  - alias: "bad_schalter_templatei"
+#    initial_state: 'on'
+#    hide_entity: true
+#    trigger:
+#    - platform: mqtt
+#      topic: 'lights/bad_schalter'
+#    condition:
+#      condition: or
+#      conditions:
+#        - condition: template
+#          value_template: "{{ true == trigger.payload_json.contact }}"
+#    action:
+#    - service: scene.turn_on
+#      entity_id: scene.bad_an
+
+
+
+#    - alias: "bad_schalter_light_switch_on"
+#    initial_state: 'off'
+#    trigger:
+#      - platform: state
+#        entity_id: binary_sensor.bad_schalter
+#        to: 'on'
+#    action:
+#    - service: scene.turn_on
+#      entity_id: scene.bad_an
+#
+#
+#  - alias: "bad_schalter_light_switch_off"
+#    initial_state: 'off'
+#    trigger:
+#      - platform: state
+#        entity_id: binary_sensor.bad_schalter
+#        to: 'off'
+#    action:
+#    - service: scene.turn_on
+#      entity_id: scene.bad_aus

@@ -1,0 +1,39 @@
+
+- name: sz_aufwachen1
+  entities:
+    switch.schalte_drucker:
+      state: off
+    light.nachttisch:
+      state: on
+      brightness: 10
+      transition: 180
+    switch.schreibtisch:
+      state: off
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 40
+      color_temp: 362
+      transition: 180
+    light.sz_yeelight:
+      state: off
+#      transition: 3
+
+
+- name: sz_aufwachen2
+  entities:
+    switch.schalte_drucker:
+      state: off
+    light.nachttisch:
+      state: on
+      brightness: 180
+      transition: 60
+    switch.schreibtisch:
+      state: off
+    light.sz_lightstrip_plus:
+      state: on
+      brightness: 230
+      color_temp: 330
+      transition: 90
+    light.sz_yeelight:
+      state: off
+#      transition: 3

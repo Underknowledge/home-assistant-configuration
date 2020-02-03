@@ -1,0 +1,22 @@
+alias: alexa_Volume_morning_30
+initial_state: 'on'
+hide_entity: true
+trigger:
+  - platform: time
+    at: '06:31'
+condition:
+- condition: state
+  entity_id: media_player.echo_dot
+  state: 'idle'
+- condition: state
+  entity_id: media_player.echo_dot
+  state: 'standby'
+action:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.echo_dot
+      media_content_id: "Blank (Silent Track)"
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.echo_dot
+      volume_level: '0.3'

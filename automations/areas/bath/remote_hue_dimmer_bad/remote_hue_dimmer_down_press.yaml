@@ -1,0 +1,12 @@
+alias: V DOWN
+hide_entity: true
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/dimmer_bad'
+condition:
+  condition: template
+  value_template: "{{ 'down-press' == trigger.payload_json.action }}"
+action:
+- service: scene.turn_on
+  entity_id: scene.bad_dimmer_down

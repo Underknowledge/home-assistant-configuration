@@ -1,0 +1,27 @@
+notify:
+  - platform: nfandroidtv
+    name: FireTV
+    host: 10.0.3.45
+    fontsize: 'large'
+    position: 'bottom-right'
+    duration: 4
+    transparency: '50%'
+    color: 'grey'
+    interrupt: 0
+
+media_player:
+  # a device that does require ADB authentication
+#  - platform: firetv
+#    name: FireTV_ADB
+#    host: 10.0.0.22
+#    adbkey: "/home/homeassistant/.homeassistant/android_fire_tv/adbkey"
+#    get_sources: true
+
+  # a device that does require ADB authentication
+  - platform: androidtv
+    name: FireTV_ADB
+    host: 10.0.3.45
+    adbkey: "/config/.adb/android_fire_tv/adbkey"
+    get_sources: true
+
+

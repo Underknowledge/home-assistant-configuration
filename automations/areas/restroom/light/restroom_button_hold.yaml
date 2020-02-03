@@ -1,0 +1,26 @@
+alias: restroom_yellow_single_licht_an_aus
+initial_state: on
+trigger:
+  platform: mqtt
+  topic: 'lights/xiaomi_button_a9'
+condition:
+- condition: template
+  value_template: "{{ 'hold' == trigger.payload_json.click }}"
+action:
+- service: light.turn_on
+  data:
+    entity_id: light.restroom_lights
+    brightness: 15
+    xy_color: [0.581,0.393]
+    transition: 1
+
+
+
+### click
+#single
+#double
+#triple
+#quadruple
+#many
+#long
+#long_release
