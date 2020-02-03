@@ -10,3 +10,7 @@ Used most of the time [packages](https://www.home-assistant.io/docs/configuratio
 be sure to hit the GitHub :star2: 
 
 
+<h1 align="center">
+  <a name="lovelace" href="http://www.vCloudInfo.com/tag/iot"><img src="https://raw.githubusercontent.com/Underknowledge/home-assistant-configuration/master/lovelace/dashboard.jpg" alt="Smart Home" width="900"></a>
+  <br>
+</h1>
