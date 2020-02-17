@@ -5,6 +5,7 @@
 !*.yaml
 !.gitignore
 !*.md
+!*.j2
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
