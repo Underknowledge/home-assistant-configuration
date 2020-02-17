@@ -1,3 +1,6 @@
+# Home Assistant 
+![Project Maintenance][maintenance-shield]
+[![GitHub Activity][commits-shield]][commits]
 
 ## About
 
