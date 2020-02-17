@@ -1,7 +1,7 @@
 # Home Assistant 
-![Project Maintenance][https://img.shields.io/maintenance/yes/2020.svg]
-[![GitHub Activity][commits-shield]][commits]
 
+[![Discord][discord-shield]][discord]
+[![Community Forum][forum-shield]][forum]
 
 ## About
 
