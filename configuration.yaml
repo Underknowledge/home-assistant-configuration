@@ -9,14 +9,15 @@ homeassistant:
     - /config/shell_scripts/
 
 default_config:
+mobile_app:
 
 lovelace:
   mode: yaml
 
 logger:
   default: critical
-  logs:
-    homeassistant.core: debug
+#  logs:
+#    homeassistant.core: debug
 
 
 

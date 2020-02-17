@@ -1,7 +1,7 @@
 
 ## About
 
-Its getting time to share my Home Assistant configuration, I gone a little crazy over the last year.
+Its getting time to share my Home Assistant configuration. When you ask my wife, I gone a little crazy over the last year.
 
 I run Hass.io on a around 4 year old i5 desktop pc wich is actually prittey beefy. The plan is to get a  [Openstack](https://docs.openstack.org/) running, but well... it bites back :P 
 

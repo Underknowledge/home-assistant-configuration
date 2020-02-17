@@ -1,0 +1,169 @@
+
+sensor:
+  - platform: command_line
+    name: shoppinglist
+    command:  cat /config/.shopping_list.json  | jq -c '.[] | select( .complete == false ) ' | jq .name | sed s/\"//g | tee /config/ffmpeg/shop.txt | cut -c -20 | head -c 249 
+#    scan_interval: 60
+
+
+automation:
+- alias: Telegram - Shopping liste
+  initial_state: on
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: '/shop'
+  action:
+  - service: homeassistant.update_entity
+    entity_id: sensor.shoppinglist
+  
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: !secret shoppinglist_url
+  
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: >
+        {{ [
+        "Yes Sir!",
+        "ok",
+        "k",
+        "a pleasure"
+        ] | random }}    
+      keyboard: |
+        {% set list1 = states("sensor.shoppinglist").split('\n') %}
+        - '/start'
+
+        - '/D {{list1[0]}}, /D {{list1[1]}}, /D {{list1[2]}}' 
+        
+        - '/D {{list1[4]}}, /D {{list1[3]}}, /D {{list1[5]}}'
+
+#alias: 'Telegram bot start'
+#initial_state: on
+#hide_entity: true
+#trigger:
+#  platform: event
+#  event_type: telegram_command
+#  event_data:
+#    command: '/start2'
+#action:
+#  - service: telegram_bot.send_message
+#    data_template:
+#      target: '{{ trigger.event.data.user_id }}'
+#      message: 'Commands incoming!'
+#      keyboard:
+#          - '/shop'
+#          - '/tuerassistent, /tuer'
+#          - '/alarm, /media, /menu'
+
+
+
+  - service: telegram_bot.send_document
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      file: /config/ffmpeg/shop.txt
+      message: '{{ states("sensor.shoppinglist") }}'
+
+          # {% set list1 = states("sensor.shoppinglist").split('\n') %}
+          # {% for result in list1 %}
+          #   - '/D {{result}}'
+          # {% endfor %}
+        
+        # - '/start'
+        # - '/shop'
+        # - '/tuerassistent, /tuer'
+        # - '/alarm, /media, /menu'
+        # - 'News: /news, Weather: /weather'
+
+
+- alias: telegram_delete
+  initial_state: on
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: /D
+  action:
+    - service: shopping_list.complete_item
+      data_template:
+        name: "{{ ''.join(trigger.event.data.args) }}"
+  
+    - service: telegram_bot.send_message
+      data_template:
+        target: '{{ trigger.event.data.user_id }}'
+        message: "{{ ''.join(trigger.event.data.args) }}"
+
+
+# https://www.home-assistant.io/integrations/telegram_chatbot/#service-telegram_botsend_document
+# cat /config/.shopping_list.json  | jq -c '.[] | select( .complete == false ) ' | jq .name | sed s/\"//g | cut -c 15 | head -c 249 | tee /config/ffmpeg/shop.txt
+
+
+        # {% set list1 = states("sensor.shoppinglist").split('\n') %}
+        # {% for result in list1 %}
+        # /D {{result}}
+        
+        # {% endfor %}
+        # /start
+
+
+# shopping_list.complete_item
+
+#     # maybe a template for a keyboard 
+
+    
+#       keyboard:
+#           - '/shop'
+# #          - '/cool, /warm'
+#           - '/tuerassistent, /tuer'
+#           - '/alarm, /media, /menu'
+
+#  #              - '/alarm, /vid, /shop'
+#  #              - '/siren, /guests, /menu'
+#  #              - '/cool, /warm'
+#  #              - '/tuerassistent, /tuer, /tv_off, /tv_on'
+#  #              - '/lights'
+#       show_alert: true
+
+
+
+
+
+
+# curl -k -X POST -H “Content-Type: application/json” -H "Authorization: Bearer [token] http://[HA_IP]:8123/api/services/shopping_list/complete_item -d ‘{“name”:“beer”}’
+
+
+
+
+
+
+
+
+
+
+
+
+#{{ states("sensor.shoppinglist") }}
+
+
+#{% set list1 = states("sensor.shoppinglist").split('\n') %}
+#{{ list1[0] }} 
+#- {{  (list1) }} 
+
+
+
+script:
+  dim85:
+    sequence:
+      - service: light.turn_on
+        data_template:
+          entity_id: > 
+            {% set domain = 'light' %} 
+            {% set state = 'on' %} 
+            {{ states[domain] | selectattr('state','eq', state) | map(attribute='entity_id') | list | join(', ') }}
+          brightness: >
+                      {%- set brightness = state_attr('light.einhorn_mq', 'brightness') | int %}
+                      {{ (brightness / 100 * 85) | int if (brightness / 100 * 85) >= 11 else 0 | int }}
+          transition: 5

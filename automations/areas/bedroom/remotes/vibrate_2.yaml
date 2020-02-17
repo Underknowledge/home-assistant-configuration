@@ -1,3 +1,4 @@
+# CLEANME
 alias: sz_vibration_all
 hide_entity: true
 initial_state: 'on'
@@ -5,6 +6,8 @@ trigger:
 - platform: mqtt
   topic: 'lights/vibration_sensor'
 condition:
+  - condition: template
+    value_template: "{{ 'vibration' == trigger.payload_json.action }}"
   - condition: template
     value_template: "{{ is_state('group.bedroom', 'off') }}"
   - condition: time

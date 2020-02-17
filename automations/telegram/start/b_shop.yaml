@@ -1,3 +1,4 @@
+# CLEANME
 alias: Telegram - Shopping liste
 initial_state: on
 trigger:
@@ -6,7 +7,55 @@ trigger:
   event_data:
     command: '/shop'
 action:
-  service: telegram_bot.send_message
+- service: homeassistant.update_entity
+  entity_id: sensor.shoppinglist
+
+- service: telegram_bot.send_message
   data_template:
     target: '{{ trigger.event.data.user_id }}'
     message: !secret shoppinglist_url
+
+- service: telegram_bot.send_document
+  data_template:
+    target: '{{ trigger.event.data.user_id }}'
+    file: /config/ffmpeg/shop.txt
+
+
+- service: telegram_bot.send_message
+  data_template:
+    target: '{{ trigger.event.data.user_id }}'
+    message: '{{ states("sensor.shoppinglist") }}'
+
+
+
+#     # maybe a template for a keyboard 
+
+    
+#       keyboard:
+#           - '/shop'
+# #          - '/cool, /warm'
+#           - '/tuerassistent, /tuer'
+#           - '/alarm, /media, /menu'
+
+#  #              - '/alarm, /vid, /shop'
+#  #              - '/siren, /guests, /menu'
+#  #              - '/cool, /warm'
+#  #              - '/tuerassistent, /tuer, /tv_off, /tv_on'
+#  #              - '/lights'
+#       show_alert: true
+
+
+
+
+
+
+# {{ states("sensor.shoppinglist") }}
+
+
+# {% set items = states("sensor.shoppinglist") %}
+# {% for shop in items %}
+#  - {{ (item) }}
+#  {{ shop.split("\n") }}
+
+
+# {%- endfor %}

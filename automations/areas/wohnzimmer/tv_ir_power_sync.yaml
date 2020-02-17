@@ -3,12 +3,12 @@ alias: livingroom_tv_IR_
 initial_state: 'on'
 hide_entity: true
 trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.tv_running
-  - platform: state
-    entity_id:
-      - sensor.ir
+- platform: state
+  entity_id:
+    - binary_sensor.tv_running
+- platform: state
+  entity_id:
+    - sensor.ir
 action:
 #- service: switch.turn_on
 #  entity_id: switch.tv_relay, switch.gosund_11_relay
@@ -22,3 +22,22 @@ action:
     entity_id: switch.gosund_11_relay
 
 
+
+
+# alias: 'Share state test'
+# trigger:
+#   - platform: state
+#     entity_id: 
+#       - switch.tv_relay
+#       - switch.gosund_11_relay
+# action:
+#   - service_template: "homeassistant.turn_{{ trigger.to_state.state | lower}}"
+#     data_template:
+#       entity_id: >-
+#         {% set entities = ["light", "switch"] %}
+#         {{ entities |reject("equalto", trigger.entity_id)|list }}
+
+#         # Invalid config for [automation]: 
+#         # Entity ID switch.tv_relay, 
+#         # is an invalid entity id for dictionary value @ data['trigger'][0]['entity_id']. Got None. (See ?, line ?). 
+#         # {% set entities = ["light", "switch"] %}

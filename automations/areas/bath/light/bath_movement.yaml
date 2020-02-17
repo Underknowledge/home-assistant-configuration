@@ -5,12 +5,17 @@ trigger:
     entity_id: binary_sensor.motion_bad
     to: 'off'
     for:
-      minutes: 10
+      minutes:  "{{ [(states('input_number.bath_movement')|int), (states('input_number.kitchen_movement')|int)]|max  }}"
   - platform: state
     entity_id: light.bad_ambiance
     to: 'on'
     for:
       minutes: 45
+  - platform: state
+    entity_id: light.bad_yeelight
+    to: 'on'
+    for:
+      minutes: 20
 condition:
   - condition: state
     entity_id: sensor.bad_mode_state

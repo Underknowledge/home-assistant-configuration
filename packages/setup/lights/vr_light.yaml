@@ -39,11 +39,22 @@ light:
       - 0x00178801020677fc_light_zigbee2mqtt
 
 
+- platform: "mqtt"
+  name: candle_color
+  state_topic: "lights/candle_color"
+  availability_topic: "lights/bridge/state"
+  brightness: true
+  color_temp: true
+  xy: true
+  schema: "json"
+  command_topic: "lights/candle_color/set"
+
 - platform: group
   name: Kommode
   entities:
     - light.hue_ambiance
     - light.innr
+    - light.candle_color
 
 switch:
 

@@ -72,11 +72,6 @@ input_number:
 #####################################################################
 automation:
 
-
-
-
-
-
   - alias: alexa_lautstarke_set
     initial_state: 'on'
     trigger:
@@ -150,7 +145,7 @@ automation:
           entity_id: input_text.alexa_tts
           value: ''
 
-
+script:
   alexa_joke:
     alias: 'joke test'
     sequence:
@@ -189,4 +184,3 @@ automation:
 #        }} minutes if you take {{ states.sensor.waze_travel_time.attributes.route
 #        }}. Have a nice day.'
 #    service: media_player.alexa_tts
-ros

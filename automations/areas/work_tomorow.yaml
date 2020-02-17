@@ -1,0 +1,112 @@
+# CLEANME
+alias: tomorow_workday
+initial_state: off
+trigger:
+  - platform: time
+    at: '21:40:00'
+
+# binary_sensor.workday_tomorrow
+condition:
+  - condition: state
+    entity_id: 'binary_sensor.workday_tomorrow'
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.tv_running
+    state: 'on'
+action:
+
+- service: notify.firetv
+  data_template:
+    title: "{{states('sensor.time')}}"
+    message: "Morgen Arbeit.."
+
+- delay: '00:03:00'
+- service: light.turn_on
+  data_template:
+    entity_id: > 
+      {% set domain = 'light' %} 
+      {% set state = 'on' %} 
+      {{ states[domain] | selectattr('state','eq', state) | map(attribute='entity_id') | list | join(', ') }}
+    brightness: >
+                {%- set brightness = state_attr('light.einhorn_mq', 'brightness') | int %}
+                {{ (brightness / 100 * 85) | int if (brightness / 100 * 85) >= 11 else 0 | int }}
+    transition: 2
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+
+
+- delay: '00:05:05'
+- service: light.turn_on
+  data_template:
+    entity_id: > 
+      {% set domain = 'light' %} 
+      {% set state = 'on' %} 
+      {{ states[domain] | selectattr('state','eq', state) | map(attribute='entity_id') | list | join(', ') }}
+    brightness: >
+                {%- set brightness = state_attr('light.einhorn_mq', 'brightness') | int %}
+                {{ (brightness / 100 * 85) | int if (brightness / 100 * 85) >= 11 else 0 | int }}
+    transition: 2
+
+
+- delay: '00:05:05'
+- service: light.turn_on
+  data_template:
+    entity_id: > 
+      {% set domain = 'light' %} 
+      {% set state = 'on' %} 
+      {{ states[domain] | selectattr('state','eq', state) | map(attribute='entity_id') | list | join(', ') }}
+    brightness: >
+                {%- set brightness = state_attr('light.einhorn_mq', 'brightness') | int %}
+                {{ (brightness / 100 * 85) | int if (brightness / 100 * 85) >= 11 else 0 | int }}
+    transition: 2
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+
+
+- delay: '00:01:05'
+- service: light.turn_on
+  data_template:
+    entity_id: > 
+      {% set domain = 'light' %} 
+      {% set state = 'on' %} 
+      {{ states[domain] | selectattr('state','eq', state) | map(attribute='entity_id') | list | join(', ') }}
+    brightness: >
+                {%- set brightness = state_attr('light.einhorn_mq', 'brightness') | int %}
+                {{ (brightness / 100 * 85) | int if (brightness / 100 * 85) >= 11 else 0 | int }}
+    transition: 2
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+
+- delay: '00:01:05'
+
+
+- service: notify.firetv
+  data_template:
+    title: "{{states('sensor.time')}}"
+    message: "20 minuten später"
+
+
+- service: notify.firetv
+  data_template:
+    title: "{{states('sensor.time')}}"
+    message: "Noch 15 Minuten"
+
+
+- delay: '00:02:00'
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+- delay: '00:02:00'
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+- delay: '00:02:05'
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+- delay: '00:02:05'
+- service: switch.turn_off
+  entity_id: switch.sende_sende_lauterleiser
+- delay: '00:02:05'
+- service: switch.turn_off
+  entity_id: switch.tv_relay
+
+
+

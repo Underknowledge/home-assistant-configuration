@@ -1,0 +1,9 @@
+# looks like a proper config, but media extractor chant handle it... 
+script:
+  wz_chromecast_bob_ross:
+    sequence:
+    - service: media_extractor.play_media
+      entity_id: media_player.chromecast_wz
+      data:
+        media_content_id: "https://www.twitch.tv/bobross"
+        media_content_type: video/youtube
