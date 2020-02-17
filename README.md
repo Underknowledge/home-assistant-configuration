@@ -2,8 +2,7 @@
 
 [![Discord][discord-shield]][discord]
 [![Community Forum][forum-shield]][forum]
-[![GitHub Activity][commits-shield]][commits]
-
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Underknowledge/home-assistant-configuration?style=plastic)
 
 ## About
 
@@ -16,11 +15,6 @@ Used most of the time [packages](https://www.home-assistant.io/docs/configuratio
 be sure to hit the GitHub :star2: 
 
 
-<h1 align="center">
-  <a name="lovelace" href="http://www.vCloudInfo.com/tag/iot"><img src="https://raw.githubusercontent.com/Underknowledge/home-assistant-configuration/master/lovelace/dashboard.jpg" alt="Smart Home" width="900"></a>
-  <br>
-</h1>
-
 
 ![Home Assistant Frontend](lovelace/dashboard.jpg)
 
@@ -31,6 +25,9 @@ be sure to hit the GitHub :star2:
 [armhf-shield]: https://img.shields.io/badge/armhf-no-red.svg
 [armv7-shield]: https://img.shields.io/badge/armv7-no-red.svg
 [commits-shield]: https://img.shields.io/github/commit-activity/y/Underknowledge/home-assistant-configuration?style=plastic
+
+
+
 
 [commits]: https://github.com/Underknowledge/home-assistant-configuration/commits/master
 [contributors]: https://github.com/hassio-addons/addon-vscode/graphs/contributors
