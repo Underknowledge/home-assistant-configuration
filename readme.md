@@ -1,5 +1,5 @@
 # Home Assistant 
-![Project Maintenance][maintenance-shield]
+![Project Maintenance][https://img.shields.io/maintenance/yes/2020.svg]
 [![GitHub Activity][commits-shield]][commits]
 
 ## About
