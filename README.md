@@ -22,6 +22,8 @@ be sure to hit the GitHub :star2:
 </h1>
 
 
+![Home Assistant Frontend](lovelace/dashboard.jpg)
+
 
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
@@ -30,7 +32,7 @@ be sure to hit the GitHub :star2:
 [armv7-shield]: https://img.shields.io/badge/armv7-no-red.svg
 [commits-shield]: https://img.shields.io/github/commit-activity/y/Underknowledge/home-assistant-configuration?style=plastic
 
-[commits]: https://github.com/hassio-addons/addon-vscode/commits/master
+[commits]: https://github.com/Underknowledge/home-assistant-configuration/commits/master
 [contributors]: https://github.com/hassio-addons/addon-vscode/graphs/contributors
 [discord-ha]: https://discord.gg/c5DvZ4e
 [discord-shield]: https://img.shields.io/discord/478094546522079232.svg
